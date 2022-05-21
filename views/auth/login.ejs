@@ -1,0 +1,20 @@
+<%- include('../includes/head.ejs') %>
+
+<div class="container">
+  <div class="auth card rounded p14">
+    <h5 class="bl m-b">Login</h5>
+    <form action="/login" method="post">
+      <div class="form-input">
+        <label for="">Email</label>
+        <input type="email" name="email" id="" required />
+      </div>
+      <div class="form-input">
+        <label for="">Password</label>
+        <input type="password" name="password" id="" required />
+      </div>
+      <button type="submit" class="btn-small m-t">Login</button>
+    </form>
+  </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>

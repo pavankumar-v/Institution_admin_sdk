@@ -1,0 +1,75 @@
+<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
+<div class="wrapper">
+  <div class="main-content">
+    <%- include('./constants/loader.ejs') %>
+    <div class="main-data">
+      <h1 class="main-title">Mark <%= title %></h1>
+
+      <div class="display-flex main-data-items">
+        <input
+          type="text"
+          name="date"
+          class="datepicker input-control"
+          style="width: 30%"
+        />
+        <!-- <span class="material-icons-outlined p" id="datepicker"
+          >calendar_month</span
+        > -->
+        <select name="branch" id="branch">
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="ISE">ISE</option>
+          <option value="MECH">MECH</option>
+          <option value="CIV">CIV</option>
+          <option value="ARC">ARC</option>
+          <option value="EEE">EEE</option>
+        </select>
+        <select name="sem" id="sem">
+          <option value="1">sem 1</option>
+          <option value="2">sem 2</option>
+          <option value="3">sem 3</option>
+          <option value="4">sem 4</option>
+          <option value="5">sem 6</option>
+          <option value="6">sem 6</option>
+          <option value="7">sem 7</option>
+          <option value="8">sem 8</option>
+        </select>
+        <select name="subject" id="subject"></select>
+      </div>
+      <div class="card p14 br1">
+        <h6>Attendance List</h6>
+        <div class="table">
+          <table>
+            <tr>
+              <th>USN</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Time</th>
+              <th>Attendance</th>
+            </tr>
+            <% var students = users; if(students.length> 0) { %> <% for(let
+            student of students) { %>
+            <tr>
+              <td class="display-flex b upper">
+                <img src="<%= student.avatar %>" class="avatar" alt="avatar" />
+                <%= student.usn %>
+              </td>
+              <td><%= student.fullName %></td>
+              <td><%= student.sem %></td>
+              <td><%= student.section %></td>
+              <td>
+                <button class="btn bg__success">Present</button>
+                <button class="btn bg__danger">Delete</button>
+              </td>
+            </tr>
+
+            <%}%> <%} else { %>
+            <h2>No users</h2>
+            <% } %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('./includes/footer.ejs') %>

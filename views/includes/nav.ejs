@@ -1,0 +1,84 @@
+<div class="wrapper">
+  <nav class="navbar">
+    <div class="navbar__items">
+      <div class="hamburger">
+        <span class="material-icons-outlined">menu_open</span>
+      </div>
+      <div class="navbar__menu">
+        <div class="logo">
+          <img src="img/logo.png" alt="" /><span><%= title %></span>
+        </div>
+        <ul class="navbar__items">
+          <li>
+            <a href="/signout">
+              <span class="material-icons-outlined"> power_settings_new </span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="material-icons-outlined"> notifications </span>
+            </a>
+          </li>
+          <li class="profile">
+            <span>J</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <ul class="sidebar__items" id="sidebar-items">
+      <li
+        class="sidebar__item <%= title === 'dashboard' ? 'active' : '' %>"
+        id="dashboard"
+        onclick="location.href='/dashboard'"
+      >
+        <span class="material-icons-outlined">space_dashboard</span>
+        <span class="sidebar__title">Dashboard</span>
+      </li>
+
+      <li
+        class="sidebar__item <%= title === 'classes' ? 'active' : '' %>"
+        id="classes"
+        onclick="location.href='/classes'"
+      >
+        <span class="material-icons-outlined">class</span>
+        <span class="sidebar__title">Classes</span>
+      </li>
+
+      <li
+        class="sidebar__item <%= title === 'attendance' ? 'active' : '' %>"
+        id="attendance"
+        onclick="location.href='/attendance'"
+      >
+        <span class="material-icons-outlined">event_note</span>
+        <span class="sidebar__title">Attendance</span>
+      </li>
+      <li
+        class="sidebar__item <%= title === 'notifications' ? 'active' : '' %>"
+        id="notifications"
+        onclick="location.href='/notifications'"
+      >
+        <span class="material-icons-outlined">forum</span>
+        <span class="sidebar__title">Notifications</span>
+      </li>
+      <li
+        class="sidebar__item <%= title === 'subjects' ? 'active' : '' %>"
+        id="subjects"
+        onclick="location.href='/subjects'"
+      >
+        <span class="material-icons-outlined">sticky_note_2</span>
+        <span class="sidebar__title">Subjects</span>
+      </li>
+      <li
+        class="sidebar__item <%= title === 'users' ? 'active' : '' %>"
+        id="users"
+        onclick="location.href='/users'"
+      >
+        <span class="material-icons-outlined">group</span>
+        <span class="sidebar__title">Users</span>
+      </li>
+    </ul>
+  </div>
+</div>

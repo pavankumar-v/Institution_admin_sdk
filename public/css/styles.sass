@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
+
+// colors
+$primaryColor: #038aff
+$primaryContainerColor: #0078e0
+$onPrimary: #fff
+$secondaryColor: #f9911c
+$onSecondary: #fff
+$behind: #eee
+$PrimaryBackgroundColor: #ECEFF1
+$secondaryBackgroundColor: #fafafa
+$hoverBg: #eee
+$iconBase: #595959
+$base: #fff
+$black: #000
+$borderColor: #D8D8D8
+$success: #2ECC71
+$danger: #F64747
+
+// border
+$border: 1px solid $borderColor
+
+// box shadow
+$boxShadow: 0 2px 3px rgba(black, 0.1)
+
+// border radius
+$borderRadius1: 12px
+
+// trasition
+$transition: all 0.3s ease
+
+// font mixin
+@mixin headline1
+    font-size: 96px
+    letter-spacing: -1.5px
+    font-weight: 300
+@mixin headline2
+    font-size: 60px
+    letter-spacing: -0.5px
+    font-weight: 300
+@mixin headline3
+    font-size: 48px
+    letter-spacing: 0px
+    font-weight: 400
+@mixin headline4
+    font-size: 34px
+    letter-spacing: 0.25px
+    font-weight: 400
+@mixin headline5
+    font-size: 24px
+    letter-spacing: 0px
+    font-weight: 400
+@mixin headline5
+    font-size: 20px
+    letter-spacing: 0.15px
+    font-weight: 500
+@mixin subtitle1
+    font-size: 16px
+    letter-spacing: 0.15px
+    font-weight: 400
+@mixin subtitle2
+    font-size: 14px
+    letter-spacing: 0.1px
+    font-weight: 500
+@mixin body1
+    font-size: 16px
+    letter-spacing: 0.5px
+    font-weight: 400
+@mixin body2
+    font-size: 14px
+    letter-spacing: 0.25px
+    font-weight: 400
+@mixin button
+    font-size: 14px
+    letter-spacing: 1.25px
+    font-weight: 500
+@mixin caption
+    font-size: 12px
+    letter-spacing: 0.4px
+    font-weight: 400
+@mixin overline
+    font-size: 10px
+    letter-spacing: 1.5px
+    font-weight: 400
+    text-transform: uppercase
+
+// util mixin
+@mixin flex
+    display: flex
+    justify-content: center
+    align-items: center
+
+.display-flex
+    @include flex
+    justify-content: center
+    justify-items: start
+    align-items: center
+
+.p
+    padding: 8px
+
+.p14
+    padding: 14px
+
+h1,h2,h3,h4,h5,h6
+    margin: 0
+
+// universal
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+    font-family: 'Montserrat', sans-serif
+    color: #333
+
+body
+    background: $secondaryBackgroundColor
+
+ul
+    list-style: none
+
+.m
+    margin: 14px
+.m-t
+    margin-top: 14px
+.m-b
+    margin-bottom: 14px
+.m-r
+    margin-right: 14px
+.m-l
+    margin-left: 14px
+
+// colors
+.clr-pri
+    color: $primaryColor
+
+.clr-sec
+    color: $secondaryColor
+
+.material-icons-outlined
+    color: $iconBase
+    font-size: 22px
+
+.avatar
+    width: 34px
+    height: 34px
+    border-radius: 50px
+
+.upper
+    text-transform: uppercase
+
+.br1
+    border-radius: $borderRadius1
+
+.bl
+    font-weight: bold
+
+.btn-small
+    background: $primaryColor
+
+    &:hover
+        cursor: pointer
+        background: $primaryContainerColor
+
+.btn
+    background: $primaryColor
+    border: none
+    // padding: 10px
+    border-radius: $borderRadius1 - 10
+    color: #fff
+    @include button
+    text-transform: uppercase
+    // box-shadow: 0 2px 3px 0 rgba(black,0.4 )
+    &:hover
+        cursor: pointer
+        background: $primaryContainerColor
+
+.bg__success
+    background-color: $success
+
+.bg__danger
+    background-color: $danger
+
+.card.auth
+    background: white
+    max-width: 360px
+    margin: 100px auto 16px
+    padding: 32px 24px 16px
+    border-radius: 3px
+
+.card
+    background: white
+    border-radius: 6px
+    border-top: 16px solid #ffa100
+
+// .rounded
+//     border-radius: $borderRadius1
+
+// INPUT STYLES
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
+    box-sizing: border-box
+    background: #fff
+    border-radius: 8px
+    padding: 10px
+    border-bottom: none
+    border: $border
+    color: $primaryColor
+
+    &:focus:not([readonly])
+        border-bottom: 0px
+        border: 1px solid $primaryColor
+
+// input[type=email]:not(.browser-default):focus:not([readonly])
+//     border: 1px solid $primaryColor
+
+select
+    display: block
+    width: 30%
+    border-radius: $borderRadius1
+    margin: auto
+    border: $border
+
+//LOADER
+.loader
+    position: absolute
+    top: 50%
+    left: 45%
+    border: 10px solid $behind
+    border-top: 10px solid $primaryColor
+    border-radius: 50%
+    width: 80px
+    height: 80px
+    animation: spin 2s linear infinite
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
+
+// WRAPPER
+// NAVBAR
+.wrapper .navbar
+    background: $base
+    width: 100%
+    height: 60px
+    border-bottom: $border
+    position: fixed
+    top: 0
+    left: 0
+    box-shadow: 0 0 0
+    z-index: 1
+
+    &__items
+        @include flex
+
+        .hamburger
+            width: 65px
+            height: 60px
+            @include flex
+            margin: auto
+
+            span
+                padding: 10px
+                border-radius: 50px
+                &:hover
+                    background: $behind
+                    cursor: pointer
+                &:active
+                    border: 1px solid $black
+                    background: $behind
+
+    &__menu
+        width: 100%
+        height: 100%
+        padding: 0 20px
+        @include flex
+        justify-content: space-between
+
+        .logo
+            @include flex
+
+            img
+                width: 40px
+                border-radius: 12px
+                box-shadow: $boxShadow
+
+            span
+                @include headline4
+                text-transform: capitalize
+                font-weight: bold
+                margin-left: 24px
+                color: $black
+        ul
+            @include flex
+    &__items
+        li a
+            &:hover
+                background: none
+        ul li span
+            width: 38px
+            height: 38px
+            background: $behind
+            border-radius: 14px
+            @include flex
+
+        .profile span
+            font-size: 18px
+            color: $base
+            font-weight: 600
+            background: $secondaryColor
+            border-radius: 12px
+            margin-left: 24px
+
+// SIDEBAR
+.wrapper .sidebar
+    position: fixed
+    top: 60px
+    left: 0
+    background: $base
+    width: 60px
+    height: 100vh
+    border-right: $border
+    transition: $transition
+    z-index: 1
+
+    ul
+        padding: 10px
+        margin: 8px
+        @include flex
+        flex-direction: column
+
+        .sidebar__item
+            @include flex
+            justify-content: start
+            padding: 12px
+            background: $base
+            border-radius: 16px
+            transition: $transition
+
+            &:hover
+                background: $behind
+                cursor: pointer
+
+        .active
+            color: $black
+            $bg: rgba($primaryColor,0.1)
+            background: $bg
+            span
+                color: $black
+
+            &:hover
+                background: $bg
+                cursor: pointer
+
+        li .sidebar__title
+            display: none
+            @include subtitle2
+            letter-spacing: 0.5px
+            margin-left: 32px
+
+// wrapper colapse
+.wrapper.collapse .sidebar
+    width: 200px
+
+    ul
+        margin: 8px 0
+        padding: 10px 0
+
+        li
+            margin-left: 0
+            width: 100%
+
+        .sidebar__title
+            display: block
+        .active
+            border-top-left-radius: 0
+            border-bottom-left-radius: 0
+            border-top-right-radius: 100px
+            border-bottom-right-radius: 100px
+
+// main content
+.wrapper .main
+    &-content
+        // width: calc( 100% - 50px );
+        margin-top: 40px
+        margin-left: 40px
+        padding: 15px
+        transition: $transition
+        z-index: -1
+
+    &-data
+        // background: rgba(red, 0.5)
+        margin-bottom: 10px
+        padding: 15px
+        @include body1
+
+        &-items
+            justify-content: center
+            width: 75%
+            justify-self: center
+
+        .material-icons-outlined
+            color: $black
+            border-radius: 12px
+            &:hover
+                background: $behind
+                cursor: pointer
+
+    &-title
+        @include headline4
+        text-transform: capitalize
+
+// collapse
+.wrapper.collapse .main
+    // width: calc( 100% - 10px)
+    &-content
+        margin-left: 200px

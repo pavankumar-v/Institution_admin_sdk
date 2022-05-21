@@ -1,0 +1,15 @@
+<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
+<div class="wrapper">
+  <div class="main-content">
+    <%- include('./constants/loader.ejs') %>
+    <div class="main-data">
+      <h1 class="main-title"><%= title %></h1>
+      <% if(users.length > 0) { %> <% for(let user of users) { %>
+      <p><%= user.fullName %> <%= user.usn %></p>
+      <%}%> <%} else { %>
+      <h2>No users</h2>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('./includes/footer.ejs') %>
