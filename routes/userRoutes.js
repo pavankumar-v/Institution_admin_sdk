@@ -4,6 +4,8 @@ import {
   getIndexPage,
   getDashboard,
   getClass,
+  getUsers,
+  blockUser,
   // getAttendance,
 } from "../controllers/userController.js";
 
@@ -22,6 +24,8 @@ const router = express.Router();
 router.get("/", getDashboard);
 router.get("/dashboard", getDashboard);
 router.get("/classes", getClass);
+router.get("/users", getUsers);
+router.post("/blockuser", blockUser);
 // router.get("/attendance", getAttendance);
 
 export default router;

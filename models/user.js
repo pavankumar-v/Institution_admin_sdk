@@ -1,7 +1,7 @@
 import { db } from "../database/firebase-admin.js";
 
 class User {
-  constructor(id, fullName, usn, branch, sem, section, avatar) {
+  constructor(id, fullName, usn, branch, sem, section, avatar, isActive) {
     this.id = id;
     this.fullName = fullName;
     this.usn = usn;
@@ -9,6 +9,7 @@ class User {
     this.sem = sem;
     this.section = section;
     this.avatar = avatar;
+    this.isActive = isActive;
   }
 
   static async fetchAll() {
@@ -21,7 +22,8 @@ class User {
         doc.data().branch,
         doc.data().sem,
         doc.data().section,
-        doc.data().avatar
+        doc.data().avatar,
+        doc.data().isActive
       );
 
       return user;
@@ -43,6 +45,31 @@ class User {
       return doc.data();
     });
     return users;
+  }
+  static async blockUser(uid, str) {
+    var res;
+    if (str == "1") {
+      await db
+        .collection("users")
+        .doc(uid)
+        .update({
+          isActive: false,
+        })
+        .then(() => {
+          res = 0;
+        });
+    } else {
+      await db
+        .collection("users")
+        .doc(uid)
+        .update({
+          isActive: true,
+        })
+        .then(() => {
+          res = 1;
+        });
+    }
+    return res;
   }
 }
 

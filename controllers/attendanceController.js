@@ -8,9 +8,14 @@ export const getAttendance = async (req, res) => {
     const subjects = await Subject.fetchAll();
     const users = await User.fetchAll();
     subjects.forEach((subject) => {
-      console.log(subject.attendance["2022-05-04"]);
+      console.log(subject.id);
     });
-    res.status(200).render("attendance", { title: "attendance", users: users });
+
+    res.status(200).render("attendance", {
+      title: "attendance",
+      users: users,
+      subject: subjects,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

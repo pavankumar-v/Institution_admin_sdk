@@ -26,3 +26,22 @@ export const getClass = async (req, res) => {
     res.status(400).render("class", { title: "ERROR IN DASHBOARD", users: [] });
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.fetchAll();
+    res.status(200).render("users", { title: "users", users: users });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const blockUser = async (req, res) => {
+  try {
+    const data = req.body;
+    const result = await User.blockUser(data.uid, data.active);
+    res.send({ response: result });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

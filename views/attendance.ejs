@@ -4,27 +4,27 @@
     <%- include('./constants/loader.ejs') %>
     <div class="main-data">
       <h1 class="main-title">Mark <%= title %></h1>
-
+      <br />
       <div class="display-flex main-data-items">
         <input
           type="text"
           name="date"
-          class="datepicker input-control"
           style="width: 30%"
+          class="datepicker input-control"
         />
         <!-- <span class="material-icons-outlined p" id="datepicker"
           >calendar_month</span
         > -->
-        <select name="branch" id="branch">
+        <select name="branch" id="branch" class="m-l">
           <option value="CSE">CSE</option>
           <option value="ECE">ECE</option>
-          <option value="ISE">ISE</option>
+          <option value="ISE" selected>ISE</option>
           <option value="MECH">MECH</option>
           <option value="CIV">CIV</option>
           <option value="ARC">ARC</option>
           <option value="EEE">EEE</option>
         </select>
-        <select name="sem" id="sem">
+        <select name="sem" id="sem" class="m-l">
           <option value="1">sem 1</option>
           <option value="2">sem 2</option>
           <option value="3">sem 3</option>
@@ -34,8 +34,11 @@
           <option value="7">sem 7</option>
           <option value="8">sem 8</option>
         </select>
-        <select name="subject" id="subject"></select>
+        <select name="subject" id="subject" class="m-l">
+          <option value="value" selected>subject</option>
+        </select>
       </div>
+      <br />
       <div class="card p14 br1">
         <h6>Attendance List</h6>
         <div class="table">
@@ -50,9 +53,9 @@
             <% var students = users; if(students.length> 0) { %> <% for(let
             student of students) { %>
             <tr>
-              <td class="display-flex b upper">
+              <td class="display-flex b upper" style="justify-content: start">
                 <img src="<%= student.avatar %>" class="avatar" alt="avatar" />
-                <%= student.usn %>
+                <h6 class="bl m-l"><%= student.usn %></h6>
               </td>
               <td><%= student.fullName %></td>
               <td><%= student.sem %></td>

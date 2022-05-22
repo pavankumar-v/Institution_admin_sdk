@@ -1,0 +1,84 @@
+<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
+<div class="wrapper">
+  <div class="main-content">
+    <%- include('./constants/loader.ejs') %>
+    <div class="main-data">
+      <h1 class="main-title"><%= title %></h1>
+      <br />
+      <div class="card p14 br1">
+        <h6>Users List</h6>
+        <div class="table" id="userTable">
+          <table>
+            <tr>
+              <th>USN</th>
+              <th>Name</th>
+              <th>Branch</th>
+              <th>Sem</th>
+              <th>Section</th>
+              <th>Action</th>
+            </tr>
+            <% var students = users; if(students.length> 0) { %> <% for(let
+            student of students) { %>
+            <tr>
+              <td class="display-flex b upper" style="justify-content: start">
+                <img src="<%= student.avatar %>" class="avatar" alt="avatar" />
+                <h6 class="bl m-l"><%= student.usn %></h6>
+              </td>
+              <td><%= student.fullName %></td>
+              <td><%= student.branch %></td>
+              <td><%= student.sem %></td>
+              <td><%= student.section %></td>
+              <td>
+                <div id="blockUser">
+                  <input
+                    type="hidden"
+                    name="uid"
+                    id="uid"
+                    value="<%= student.id %>"
+                  />
+                  <input
+                    type="hidden"
+                    name="active"
+                    value="<%= student.isActive ? '1' : '0' %>"
+                  />
+                  <button
+                    type="submit"
+                    class="btn-small <%= student.isActive ? 'bg__danger' : 'bg__success' %>"
+                    id="blockUserBtn"
+                    style="width: 100%"
+                  >
+                    <div class="btn-loader"></div>
+                    <%= student.isActive ? 'Block temporarily' : 'Un Block' %>
+                  </button>
+                  <!-- <% if(student.isActive) {%>
+                  <input type="hidden" name="active" value="1" />
+                  <button
+                    type="submit"
+                    class="btn-small bg__danger"
+                    id="uidBtn"
+                  >
+                    Block Temporarly
+                  </button>
+                  <% } else {%>
+                  <input type="hidden" name="active" value="0" />
+                  <button
+                    type="submit"
+                    class="btn-small bg__success"
+                    id="uidBtn"
+                  >
+                    Un Block
+                  </button>
+                  <% } %> -->
+                </div>
+              </td>
+            </tr>
+            <%}%> <%} else { %>
+            <h2>No users</h2>
+            <% } %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('./includes/footer.ejs') %>
+</div>

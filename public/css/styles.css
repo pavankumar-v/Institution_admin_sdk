@@ -10,7 +10,6 @@
       -ms-flex-align: center;
           align-items: center;
   justify-content: center;
-  justify-items: start;
   align-items: center;
 }
 
@@ -145,11 +144,12 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 10px;
   border-bottom: none;
   border: 1px solid #D8D8D8;
   color: #038aff;
+  margin: 0;
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
@@ -169,34 +169,48 @@ select {
   position: absolute;
   top: 50%;
   left: 45%;
-  border: 10px solid #eee;
-  border-top: 10px solid #038aff;
-  border-radius: 50%;
+  display: inline-block;
   width: 80px;
   height: 80px;
-  -webkit-animation: spin 2s linear infinite;
-          animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+  border: 3px solid #eee;
+  border-radius: 50%;
+  border-top-color: #038aff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  100% {
+  to {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.btn-loader {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #bcbcbc;
+  border-radius: 50%;
+  border-top-color: #eee;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
   }
 }
 
@@ -465,12 +479,10 @@ select {
 }
 
 .wrapper .main-data-items {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 75%;
-  -ms-grid-column-align: center;
-      justify-self: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 60%;
 }
 
 .wrapper .main-data .material-icons-outlined {
