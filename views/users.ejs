@@ -43,32 +43,16 @@
                   />
                   <button
                     type="submit"
-                    class="btn-small <%= student.isActive ? 'bg__danger' : 'bg__success' %>"
+                    class="btnn-small display-flex <%= student.isActive ? 'bg__danger' : 'bg__success' %>"
                     id="blockUserBtn"
                     style="width: 100%"
                   >
-                    <div class="btn-loader"></div>
-                    <%= student.isActive ? 'Block temporarily' : 'Un Block' %>
+                    <div
+                      class="btn-loader"
+                      style="justify-content: center"
+                    ></div>
+                    <%= student.isActive ? 'Block' : 'Un Block' %>
                   </button>
-                  <!-- <% if(student.isActive) {%>
-                  <input type="hidden" name="active" value="1" />
-                  <button
-                    type="submit"
-                    class="btn-small bg__danger"
-                    id="uidBtn"
-                  >
-                    Block Temporarly
-                  </button>
-                  <% } else {%>
-                  <input type="hidden" name="active" value="0" />
-                  <button
-                    type="submit"
-                    class="btn-small bg__success"
-                    id="uidBtn"
-                  >
-                    Un Block
-                  </button>
-                  <% } %> -->
                 </div>
               </td>
             </tr>

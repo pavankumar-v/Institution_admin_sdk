@@ -1,24 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
 
 // colors
-$primaryColor: #038aff
-$primaryContainerColor: #0078e0
-$onPrimary: #fff
-$secondaryColor: #f9911c
-$onSecondary: #fff
-$behind: #eee
-$PrimaryBackgroundColor: #ECEFF1
-$secondaryBackgroundColor: #fafafa
-$hoverBg: #eee
-$iconBase: #595959
-$base: #fff
-$black: #000
-$borderColor: #D8D8D8
-$success: #2ECC71
-$danger: #F64747
+$primary: #386A20
+$onPrimary: #FFFFFF
+$primaryContainer: #B8F397
+$onPrimaryContainer: #042100
+$secondary: #55624C
+$onSecondary: #FFFFFF
+$secondaryContainer: #D9E7CB
+$onSecondaryContainer: #131F0D
+$ternary: #386667
+$onTernary: #FFFFFF
+$ternaryContainer: #BBEBEB
+$onTernaryContainer: #002021
+$error: #BA1B1B
+$onError: #FFFFFF
+$errorContainer: #FFDAD4
+$onErrorContainer: #410001
+$background: #FDFDF6
+$onBackground: #1A1C18
+$surface: #FDFDF6
+$onSurface: #1A1C18
+$surfaceVarient: #DFE4D6
+$onSurfaceVarient: #43493E
+$outline: #74796E
 
 // border
-$border: 1px solid $borderColor
+$border: 1px solid $outline
 
 // box shadow
 $boxShadow: 0 2px 3px rgba(black, 0.1)
@@ -73,7 +81,7 @@ $transition: all 0.3s ease
 @mixin button
     font-size: 14px
     letter-spacing: 1.25px
-    font-weight: 500
+    font-weight: normal
 @mixin caption
     font-size: 12px
     letter-spacing: 0.4px
@@ -109,11 +117,11 @@ h1,h2,h3,h4,h5,h6
     box-sizing: border-box
     margin: 0
     padding: 0
-    font-family: 'Montserrat', sans-serif
-    color: #333
+    font-family: 'Roboto', sans-serif
+    color: $onBackground
 
 body
-    background: $secondaryBackgroundColor
+    background: $background
 
 ul
     list-style: none
@@ -129,15 +137,18 @@ ul
 .m-l
     margin-left: 14px
 
+.justify-s
+    justify-content: start
+
 // colors
 .clr-pri
-    color: $primaryColor
+    color: $primary
 
 .clr-sec
-    color: $secondaryColor
+    color: $secondary
 
 .material-icons-outlined
-    color: $iconBase
+    color: $onSurfaceVarient
     font-size: 22px
 
 .avatar
@@ -155,42 +166,66 @@ ul
     font-weight: bold
 
 .btn-small
-    background: $primaryColor
+    background: $primary
 
     &:hover
         cursor: pointer
-        background: $primaryContainerColor
+        background: $primaryContainer
 
-.btn
-    background: $primaryColor
-    border: none
-    // padding: 10px
-    border-radius: $borderRadius1 - 10
-    color: #fff
+.btnn, .btnn-small
     @include button
-    text-transform: uppercase
-    // box-shadow: 0 2px 3px 0 rgba(black,0.4 )
-    &:hover
+    border: none
+    padding: 16px
+    background: $primary
+    color: $onPrimary
+    text-align: center
+    text-transform: capitalize
+    border-radius: 14px
+    box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
+
+.btnn
+    &-small
+        padding: 8px
+        border-radius: 8px
+
+    &:hover, &-small:hover
         cursor: pointer
-        background: $primaryContainerColor
+        color: $onPrimary
+        background: rgba($primary,0.8)
 
 .bg__success
-    background-color: $success
+    color: $onPrimary
+    background: $primary
+    &:hover
+        color: $onPrimary
+        background: rgba($primary,0.8)
+    &:focus
+        color: $onPrimary
+        background: rgba($primary,0.9)
 
 .bg__danger
-    background-color: $danger
+    background: $error
+    color: $onError
+    &:hover
+        color: $errorContainer
+        background: $onErrorContainer
+    &:focus
+        color: $errorContainer
+        background: $onErrorContainer
 
-.card.auth
-    background: white
-    max-width: 360px
-    margin: 100px auto 16px
-    padding: 32px 24px 16px
-    border-radius: 3px
+// .btn-small:focus
+//     background: #30A160
 
 .card
     background: white
-    border-radius: 6px
-    border-top: 16px solid #ffa100
+    border-radius: 18px
+    border: 1.5px solid $outline
+    box-shadow: none
+
+.card.auth
+    max-width: 360px
+    margin: 100px auto 16px
+    padding: 32px 24px 16px
 
 // .rounded
 //     border-radius: $borderRadius1
@@ -198,17 +233,18 @@ ul
 // INPUT STYLES
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
     box-sizing: border-box
-    background: #fff
+    background: $surface
     border-radius: 12px
     padding: 10px
     border-bottom: none
     border: $border
-    color: $primaryColor
+    color: $onSurfaceVarient
     margin: 0
 
     &:focus:not([readonly])
-        border-bottom: 0px
-        border: 1px solid $primaryColor
+        background: $surfaceVarient
+        border: 1px solid $border
+        box-shadow: none
 
 // input[type=email]:not(.browser-default):focus:not([readonly])
 //     border: 1px solid $primaryColor
@@ -220,24 +256,6 @@ select
     margin: auto
     border: $border
 
-//LOADER
-// .loader
-//     position: absolute
-//     top: 50%
-//     left: 45%
-//     border: 10px solid $behind
-//     border-top: 10px solid $primaryColor
-//     border-radius: 50%
-//     width: 80px
-//     height: 80px
-//     animation: spin 2s linear infinite
-
-// @keyframes spin
-//     0%
-//         transform: rotate(0deg)
-//     100%
-//         transform: rotate(360deg)
-
 .loader
     position: absolute
     top: 50%
@@ -245,9 +263,9 @@ select
     display: inline-block
     width: 80px
     height: 80px
-    border: 3px solid $behind
+    border: 3px solid $secondaryContainer
     border-radius: 50%
-    border-top-color: $primaryColor
+    border-top-color: $primary
     animation: spin 1s ease-in-out infinite
     -webkit-animation: spin 1s ease-in-out infinite
 
@@ -261,9 +279,9 @@ select
     display: inline-block
     width: 20px
     height: 20px
-    border: 3px solid #bcbcbc
+    border: 3px solid $surface
     border-radius: 50%
-    border-top-color: $behind
+    border-top-color: $primary
     animation: spin 1s ease-in-out infinite
     -webkit-animation: spin 1s ease-in-out infinite
 
@@ -275,7 +293,7 @@ select
 // WRAPPER
 // NAVBAR
 .wrapper .navbar
-    background: $base
+    background: $background
     width: 100%
     height: 60px
     border-bottom: $border
@@ -298,11 +316,11 @@ select
                 padding: 10px
                 border-radius: 50px
                 &:hover
-                    background: $behind
+                    background: $secondaryContainer
                     cursor: pointer
-                &:active
-                    border: 1px solid $black
-                    background: $behind
+                &:focus
+                    border: 1px solid $onBackground
+                    background: $secondaryContainer
 
     &__menu
         width: 100%
@@ -324,7 +342,7 @@ select
                 text-transform: capitalize
                 font-weight: bold
                 margin-left: 24px
-                color: $black
+                color: $onBackground
         ul
             @include flex
     &__items
@@ -334,15 +352,15 @@ select
         ul li span
             width: 38px
             height: 38px
-            background: $behind
+            background: $secondaryContainer
             border-radius: 14px
             @include flex
 
         .profile span
             font-size: 18px
-            color: $base
+            color: $onTernaryContainer
             font-weight: 600
-            background: $secondaryColor
+            background: $ternaryContainer
             border-radius: 12px
             margin-left: 24px
 
@@ -351,7 +369,7 @@ select
     position: fixed
     top: 60px
     left: 0
-    background: $base
+    background: $background
     width: 60px
     height: 100vh
     border-right: $border
@@ -368,23 +386,22 @@ select
             @include flex
             justify-content: start
             padding: 12px
-            background: $base
+            background: $background
             border-radius: 16px
             transition: $transition
 
             &:hover
-                background: $behind
+                background: $secondaryContainer
                 cursor: pointer
 
         .active
-            color: $black
-            $bg: rgba($primaryColor,0.1)
-            background: $bg
+            color: $onBackground
+            background: $primaryContainer
             span
-                color: $black
+                color: $onPrimaryContainer
 
             &:hover
-                background: $bg
+                background: $secondaryContainer
                 cursor: pointer
 
         li .sidebar__title
@@ -434,10 +451,10 @@ select
             width: 60%
 
         .material-icons-outlined
-            color: $black
+            color: $onBackground
             border-radius: 12px
             &:hover
-                background: $behind
+                background: $surface
                 cursor: pointer
 
     &-title
