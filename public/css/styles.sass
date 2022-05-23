@@ -2,7 +2,7 @@
 
 // colors
 $primary: #386A20
-$onPrimary: #FFFFFF
+$onPrimary: #ffffff
 $primaryContainer: #B8F397
 $onPrimaryContainer: #042100
 $secondary: #55624C
@@ -80,8 +80,8 @@ $transition: all 0.3s ease
     font-weight: 400
 @mixin button
     font-size: 14px
-    letter-spacing: 1.25px
-    font-weight: normal
+    letter-spacing: 0.1px
+    font-weight: 500
 @mixin caption
     font-size: 12px
     letter-spacing: 0.4px
@@ -175,7 +175,6 @@ ul
 .btnn, .btnn-small
     @include button
     border: none
-    padding: 16px
     background: $primary
     color: $onPrimary
     text-align: center
@@ -184,8 +183,9 @@ ul
     box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
 
 .btnn
+    padding: 16px 30px
     &-small
-        padding: 8px
+        padding: 10px 24px
         border-radius: 8px
 
     &:hover, &-small:hover
@@ -226,6 +226,9 @@ ul
     max-width: 360px
     margin: 100px auto 16px
     padding: 32px 24px 16px
+
+    a
+        text-decoration: underline
 
 // .rounded
 //     border-radius: $borderRadius1

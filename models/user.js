@@ -32,9 +32,6 @@ class User {
   }
 
   async fetchSpecific() {
-    console.log(this.section);
-    console.log(this.sem);
-    console.log(this.branch);
     const snapshot = await db
       .collection("users")
       .where("branch", "==", this.branch)

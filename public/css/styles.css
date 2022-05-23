@@ -110,12 +110,11 @@ ul {
 
 .btnn, .btnn-small {
   font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: normal;
+  letter-spacing: 0.1px;
+  font-weight: 500;
   border: none;
-  padding: 16px;
   background: #386A20;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   text-transform: capitalize;
   border-radius: 14px;
@@ -123,29 +122,33 @@ ul {
           box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0px rgba(0, 0, 0, 0.3);
 }
 
+.btnn {
+  padding: 16px 30px;
+}
+
 .btnn-small {
-  padding: 8px;
+  padding: 10px 24px;
   border-radius: 8px;
 }
 
 .btnn:hover, .btnn-small:hover {
   cursor: pointer;
-  color: #FFFFFF;
+  color: #ffffff;
   background: rgba(56, 106, 32, 0.8);
 }
 
 .bg__success {
-  color: #FFFFFF;
+  color: #ffffff;
   background: #386A20;
 }
 
 .bg__success:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   background: rgba(56, 106, 32, 0.8);
 }
 
 .bg__success:focus {
-  color: #FFFFFF;
+  color: #ffffff;
   background: rgba(56, 106, 32, 0.9);
 }
 
@@ -176,6 +179,10 @@ ul {
   max-width: 360px;
   margin: 100px auto 16px;
   padding: 32px 24px 16px;
+}
+
+.card.auth a {
+  text-decoration: underline;
 }
 
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
