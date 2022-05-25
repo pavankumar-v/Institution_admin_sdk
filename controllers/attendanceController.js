@@ -6,7 +6,7 @@ import { auth } from "../database/firebase.js";
 export const getAttendance = async (req, res) => {
   try {
     const subjects = await Subject.fetchAll();
-    // const users = await User.fetchAll();
+    const users = await User.fetchAll();
     // subjects.forEach((subject) => {
     //   console.log(subject.id);
     // });

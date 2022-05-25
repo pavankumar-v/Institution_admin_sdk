@@ -5,8 +5,8 @@
         <span tabindex="1" class="material-icons-outlined">menu_open</span>
       </div>
       <div class="navbar__menu">
-        <div class="logo">
-          <img src="img/logo.png" alt="" /><span><%= title %></span>
+        <div class="logo" tabindex="1">
+          <img src="img/logo.png" alt="" /><span> Intstitution Management</span>
         </div>
         <ul class="navbar__items">
           <li>
@@ -78,6 +78,14 @@
       >
         <span class="material-icons-outlined">group</span>
         <span class="sidebar__title">Users</span>
+      </li>
+      <li
+        class="sidebar__item <%= title === 'staff control' ? 'active' : '' %>"
+        id="users"
+        onclick="location.href='/staffcontrol'"
+      >
+        <span class="material-icons-outlined">admin_panel_settings</span>
+        <span class="sidebar__title">Staff control</span>
       </li>
     </ul>
   </div>

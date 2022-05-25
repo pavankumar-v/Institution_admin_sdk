@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
-
+//@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,500;1,700&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400&display=swap')
 // colors
 $primary: #386A20
 $onPrimary: #ffffff
@@ -17,14 +19,16 @@ $error: #BA1B1B
 $onError: #FFFFFF
 $errorContainer: #FFDAD4
 $onErrorContainer: #410001
-$background: #FDFDF6
+// $background: #FDFDF6
+$background: #fff
 $onBackground: #1A1C18
 $surface: #FDFDF6
 $onSurface: #1A1C18
 $surfaceVarient: #DFE4D6
 $onSurfaceVarient: #43493E
 $outline: #74796E
-
+$hoverColor: rgb(227,227,227)
+$insetShadow: inset 0 0 0 2px ($background)
 // border
 $border: 1px solid $outline
 
@@ -112,12 +116,19 @@ $transition: all 0.3s ease
 h1,h2,h3,h4,h5,h6
     margin: 0
 
+h1
+    font-size: 64px
+    font-weight: 400
+    line-height: 72px
+
+hr
+    border: 1px solid $hoverColor
 // universal
 *
     box-sizing: border-box
     margin: 0
     padding: 0
-    font-family: 'Roboto', sans-serif
+    font-family: 'Poppins', sans-serif
     color: $onBackground
 
 body
@@ -130,6 +141,12 @@ ul
     margin: 14px
 .m-t
     margin-top: 14px
+.m-t2
+    margin-top: 22px
+.m-t3
+    margin-top: 32px
+.m-t4
+    margin-top: 38px
 .m-b
     margin-bottom: 14px
 .m-r
@@ -148,8 +165,8 @@ ul
     color: $secondary
 
 .material-icons-outlined
-    color: $onSurfaceVarient
-    font-size: 22px
+    color: #000
+    font-size: 24px
 
 .avatar
     width: 34px
@@ -165,6 +182,12 @@ ul
 .bl
     font-weight: bold
 
+.description
+    font-size: 24px
+    font-weight: 400
+    line-height: 32px
+    margin-top: 16px
+
 .btn-small
     background: $primary
 
@@ -175,11 +198,11 @@ ul
 .btnn, .btnn-small
     @include button
     border: none
-    background: $primary
+    background: rgba($primary,0.9)
     color: $onPrimary
     text-align: center
     text-transform: capitalize
-    border-radius: 14px
+    border-radius: 16px
     box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
 
 .btnn
@@ -187,21 +210,55 @@ ul
     &-small
         padding: 10px 24px
         border-radius: 8px
+        &:focus
+            background: $primary
+            box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
 
     &:hover, &-small:hover
         cursor: pointer
         color: $onPrimary
-        background: rgba($primary,0.8)
-
-.bg__success
-    color: $onPrimary
-    background: $primary
-    &:hover
-        color: $onPrimary
-        background: rgba($primary,0.8)
+        box-shadow: 0px 6px 10px 4px rgba(#000,0.15), 0px 2px 3px 0px rgba(#000, 0.3)
+        background: $primary
     &:focus
-        color: $onPrimary
-        background: rgba($primary,0.9)
+        background: $primary
+        box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
+
+.bg-ternary
+    background: $ternaryContainer
+    color: $onTernaryContainer
+
+.tab-btn
+    display: inline-flex
+    align-items: center
+    padding: 0px 24px
+    margin: 0 32px 0 0
+    border: none
+    @include button
+    font-size: 16px
+    line-height: 44px
+    border-radius: 32px
+    background: none
+    cursor: pointer
+    vertical-align: middle
+
+    &.active
+        background: rgba($ternaryContainer,0.8)
+        color: $onTernaryContainer
+        &:hover
+            background: $ternaryContainer
+        &:focus
+            border: 2px solid #000
+            box-shadow: $insetShadow
+
+    span
+        margin-right: 8px
+        &:hover
+            background-color: none
+
+    &:hover
+        background: $hoverColor
+    &:focus
+        background: $ternaryContainer
 
 .bg__danger
     background: $error
@@ -212,9 +269,6 @@ ul
     &:focus
         color: $errorContainer
         background: $onErrorContainer
-
-// .btn-small:focus
-//     background: #30A160
 
 .card
     background: white
@@ -230,13 +284,21 @@ ul
     a
         text-decoration: underline
 
+.tabs
+    display: flex
+    justify-content: space-around
+    width: 100%
+    margin: 24px 0px
+    height: auto
+    padding: 24px 0px
+    border-bottom: 1px solid $hoverColor
 // .rounded
 //     border-radius: $borderRadius1
 
 // INPUT STYLES
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
     box-sizing: border-box
-    background: $surface
+    background: rgba($surfaceVarient, 0.3)
     border-radius: 12px
     padding: 10px
     border-bottom: none
@@ -245,8 +307,8 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     margin: 0
 
     &:focus:not([readonly])
-        background: $surfaceVarient
-        border: 1px solid $border
+        border: 1px solid $outline
+        background: rgba($surfaceVarient, 0.6)
         box-shadow: none
 
 // input[type=email]:not(.browser-default):focus:not([readonly])
@@ -254,9 +316,8 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
 
 select
     display: block
-    width: 30%
+    width: auto
     border-radius: $borderRadius1
-    margin: auto
     border: $border
 
 .loader
@@ -293,6 +354,7 @@ select
 
 @-webkit-keyframes spin
   to { -webkit-transform: rotate(360deg); }
+
 // WRAPPER
 // NAVBAR
 .wrapper .navbar
@@ -319,11 +381,15 @@ select
                 padding: 10px
                 border-radius: 50px
                 &:hover
-                    background: $secondaryContainer
+                    background: $hoverColor
                     cursor: pointer
                 &:focus
-                    border: 1px solid $onBackground
-                    background: $secondaryContainer
+                    border: 2px solid #000
+                    background: none
+                    box-shadow: $insetShadow
+                    &:hover
+                        background: $hoverColor
+                        cursor: pointer
 
     &__menu
         width: 100%
@@ -334,18 +400,28 @@ select
 
         .logo
             @include flex
+            height: 46px
+            padding: 0 16px
+            border-radius: 32px
+            cursor: pointer
 
             img
-                width: 40px
-                border-radius: 12px
+                width: 30px
+                border-radius: 10px
+                border: 1px solid #000
                 box-shadow: $boxShadow
 
             span
-                @include headline4
+                @include subtitle1
                 text-transform: capitalize
                 font-weight: bold
-                margin-left: 24px
+                margin-left: 14px
                 color: $onBackground
+            &:hover
+                background: $hoverColor
+            &:focus
+                border: 2px solid #000
+                box-shadow: $insetShadow
         ul
             @include flex
     &__items
@@ -355,7 +431,7 @@ select
         ul li span
             width: 38px
             height: 38px
-            background: $secondaryContainer
+            background: $hoverColor
             border-radius: 14px
             @include flex
 
@@ -394,23 +470,23 @@ select
             transition: $transition
 
             &:hover
-                background: $secondaryContainer
+                background: $hoverColor
                 cursor: pointer
 
         .active
-            color: $onBackground
-            background: $primaryContainer
+            color: $onTernaryContainer
+            background: $ternaryContainer
             span
-                color: $onPrimaryContainer
+                color: $onTernaryContainer
 
             &:hover
-                background: $secondaryContainer
+                background: $ternaryContainer
                 cursor: pointer
 
         li .sidebar__title
             display: none
-            @include subtitle2
-            letter-spacing: 0.5px
+            @include button
+            text-transform: capitalize
             margin-left: 32px
 
 // wrapper colapse
@@ -439,7 +515,7 @@ select
         // width: calc( 100% - 50px );
         margin-top: 40px
         margin-left: 40px
-        padding: 15px
+        padding: 15px 0px 15px 15px
         transition: $transition
         z-index: -1
 
@@ -461,7 +537,7 @@ select
                 cursor: pointer
 
     &-title
-        @include headline4
+        // @include headline4
         text-transform: capitalize
 
 // collapse

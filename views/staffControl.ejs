@@ -1,0 +1,106 @@
+<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
+<div class="wrapper">
+  <div class="main-content">
+    <%- include('./constants/loader.ejs') %>
+    <div class="main-data">
+      <h1 class="main-title">Teachers</h1>
+      <div class="description">Control saff memeber and provide privilage</div>
+      <div class="tabs">
+        <button class="tab-btn active">
+          <span class="material-icons-outlined">group_add</span> Add staff
+        </button>
+        <button class="tab-btn">
+          <span class="material-icons-outlined">manage_accounts</span> Saff
+        </button>
+      </div>
+      <div class="df">
+        <div class="row">
+          <div class="form-input col s6">
+            <label for="">Email</label>
+            <input type="email" name="email" id="" required />
+          </div>
+          <div class="form-input col s6">
+            <label for="">Password</label>
+            <input
+              type="password"
+              name="password"
+              value="12345678"
+              id=""
+              required
+              readonly
+            />
+          </div>
+          <div class="form-input col s12">
+            <label for="fullName">Full Name</label>
+            <input type="text" name="fullName" id="fullName" />
+          </div>
+          <div class="col">
+            <label for="branch">Department</label>
+            <select name="branch" id="branch" class="">
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="ISE">ISE</option>
+              <option value="MECH">MECH</option>
+              <option value="CIV">CIV</option>
+              <option value="ARC">ARC</option>
+              <option value="EEE">EEE</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="designation">Designation</label>
+            <select name="designation" id="designation" class="">
+              <option value="professor">Professor</option>
+              <option value="assistant Professor">Assistant Professor</option>
+              <option value="hod">HOD</option>
+            </select>
+          </div>
+          <div class="checkbox col s12 m-t">
+            <label for="form-sem">Assign sem</label>
+            <form id="form-sem">
+              <label>
+                <input type="checkbox" class="filled-in" value="1" />
+                <span>Sem 1</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="2" />
+                <span>sem 2</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="3" />
+                <span>sem 3</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="4" />
+                <span>sem 4</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="5" />
+                <span>sem 5</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="6" />
+                <span>sem 6</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="7" />
+                <span>sem 7</span>
+              </label>
+              <label>
+                <input type="checkbox" class="filled-in" value="8" />
+                <span>sem 8</span>
+              </label>
+            </form>
+          </div>
+          <div class="col">
+            <label for="branch">Subject</label>
+            <select name="branch" id="branch" class="">
+              <option value="" disabled selected>Select Subject</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btnn m-t s12">Create Staff</button>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('./includes/footer.ejs') %>

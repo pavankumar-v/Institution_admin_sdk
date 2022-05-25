@@ -1,12 +1,11 @@
 import express from "express";
 
 import {
-  getIndexPage,
   getDashboard,
   getClass,
   getUsers,
   blockUser,
-  // getAttendance,
+  staffControl,
 } from "../controllers/userController.js";
 
 import { auth } from "../database/firebase.js";
@@ -26,6 +25,6 @@ router.get("/dashboard", getDashboard);
 router.get("/classes", getClass);
 router.get("/users", getUsers);
 router.post("/blockuser", blockUser);
-// router.get("/attendance", getAttendance);
+router.get("/staffcontrol", staffControl);
 
 export default router;

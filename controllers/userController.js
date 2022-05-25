@@ -1,5 +1,6 @@
 import { db } from "../database/firebase-admin.js";
 import User from "../models/user.js";
+import StaffUser from "../models/staffUser.js";
 import { auth } from "../database/firebase.js";
 
 export const getIndexPage = async (req, res) => {
@@ -29,6 +30,14 @@ export const getClass = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
+    const staff = await StaffUser.fetchUser("RXnSNdihGAsxEsx637OS");
+    const path = staff.data().subjectAssigned[0]._path.segments;
+    var str = "";
+    path.forEach((ele) => {
+      str += "/" + ele;
+    });
+
+    console.log(staff.data().subjectAssigned[0]);
     const users = await User.fetchAll();
     res.status(200).render("users", { title: "users", users: users });
   } catch (error) {
@@ -43,5 +52,13 @@ export const blockUser = async (req, res) => {
     res.send({ response: result });
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const staffControl = async (req, res) => {
+  try {
+    res.status(200).render("staffControl", { title: "staff control" });
+  } catch (error) {
+    res.staff(400).json({ message: error.message });
   }
 };
