@@ -1,5 +1,8 @@
 import { auth } from "../database/firebase.js";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 export const signInPage = (req, res) => {
   try {
@@ -26,6 +29,27 @@ export const signInUser = async (req, res) => {
       });
   } catch (error) {
     res.json({ message: error.message });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+    // console.log(req.body);
+    sendPasswordResetEmail(auth, email)
+      .then((re) => {
+        res.send({
+          response: 1,
+          data: "Password reset mail successfully sent",
+        });
+      })
+      .catch((err) => {
+        // console.log(err.message);
+        res.send({ response: 0, err: err.message });
+      });
+  } catch (error) {
+    // console.log(error.message);
+    res.send({ response: 0, err: error.message });
   }
 };
 

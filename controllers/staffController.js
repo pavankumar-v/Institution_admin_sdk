@@ -27,7 +27,8 @@ function generatePassword() {
 export const staffControl = async (req, res) => {
   try {
     // console.log(auth.currentUser);
-    res.status(200).render("staffControl", { title: "staff control" });
+    const staffs = [];
+    res.status(200).render("staffControl", { title: "staff control", staffs });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

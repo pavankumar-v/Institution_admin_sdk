@@ -13,7 +13,7 @@
           <span class="material-icons-outlined">manage_accounts</span> Saff
         </button>
       </div>
-      <div class="df">
+      <div class="tab1" id="tab1">
         <form class="" id="staffAuth">
           <div class="form-input col s6">
             <label for="">Email</label>
@@ -90,6 +90,40 @@
             Create Staff
           </button>
         </form>
+      </div>
+      <div class="tab2" id="tab3">
+        <div class="card p14 br1">
+          <h6>Users List</h6>
+          <div class="table" id="userTable">
+            <table>
+              <tr>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Designation</th>
+                <th>Sem</th>
+                <th>Action</th>
+              </tr>
+              <% if(staffs.length> 0) { %> <% for(let student of staffs) { %>
+              <tr>
+                <td class="display-flex b upper" style="justify-content: start">
+                  <img
+                    src="<%= student.avatar %>"
+                    class="avatar"
+                    alt="avatar"
+                  />
+                  <h6 class="bl m-l"><%= staff.usn %></h6>
+                </td>
+                <td><%= staff.fullName %></td>
+                <td><%= staff.department %></td>
+                <td><%= staff.designation %></td>
+                <td></td>
+              </tr>
+              <%}%> <%} else { %>
+              <h2>No staff</h2>
+              <% } %>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
