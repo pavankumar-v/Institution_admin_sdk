@@ -54,11 +54,3 @@ export const blockUser = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
-export const staffControl = async (req, res) => {
-  try {
-    res.status(200).render("staffControl", { title: "staff control" });
-  } catch (error) {
-    res.staff(400).json({ message: error.message });
-  }
-};

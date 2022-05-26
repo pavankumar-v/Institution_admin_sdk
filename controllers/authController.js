@@ -1,5 +1,5 @@
 import { auth } from "../database/firebase.js";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const signInPage = (req, res) => {
   try {

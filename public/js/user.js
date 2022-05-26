@@ -1,5 +1,8 @@
 $(document).ready(function () {
-  $("#userTable table tr td #blockUser").on("click", function (e) {
+  $("#userTable table tr td #blockUser").on("click", toggelUserActivity);
+
+  toggelUserActivity();
+  function toggelUserActivity() {
     e.preventDefault();
     var button = $(this).find("#blockUserBtn");
     var loader = $(this).find(".btn-loader").css("display", "block");
@@ -42,15 +45,11 @@ $(document).ready(function () {
           classes: "rounded",
         });
         if (active.val() == 1) {
-          // button.removeClass("bg__success");
-          // button.addClass("bg__danger");
           button.append("Block");
         } else {
-          // button.removeClass("bg__danger");
-          // button.addClass("bg__success");
           button.append("Un Block");
         }
       },
     });
-  });
+  }
 });

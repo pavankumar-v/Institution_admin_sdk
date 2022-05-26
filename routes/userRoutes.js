@@ -5,7 +5,6 @@ import {
   getClass,
   getUsers,
   blockUser,
-  staffControl,
 } from "../controllers/userController.js";
 
 import { auth } from "../database/firebase.js";
@@ -25,6 +24,5 @@ router.get("/dashboard", getDashboard);
 router.get("/classes", getClass);
 router.get("/users", getUsers);
 router.post("/blockuser", blockUser);
-router.get("/staffcontrol", staffControl);
 
 export default router;
