@@ -6,6 +6,9 @@
       <!-- login -->
       <form action="/login" method="post" id="login">
         <div class="form-input">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        </div>
+        <div class="form-input">
           <label for="">Email</label>
           <input type="email" name="email" id="" required />
         </div>

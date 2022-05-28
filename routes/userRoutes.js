@@ -1,11 +1,13 @@
 import express from "express";
 import { onAuthStateChanged } from "firebase/auth";
+
 import {
   getDashboard,
   getClass,
   getUsers,
   blockUser,
 } from "../controllers/userController.js";
+import { AdminAuth } from "../database/firebase-admin.js";
 
 import { auth } from "../database/firebase.js";
 
@@ -13,18 +15,15 @@ const router = express.Router();
 
 router.all("*", (req, res, next) => {
   console.log("all");
-  onAuthStateChanged(auth, function (user) {
-    if (user) {
+  const sessionCookie = req.cookies.session || "";
+  const userCookie = req.cookies.user;
+  console.log(userCookie.user.email);
+  AdminAuth.verifySessionCookie(sessionCookie, true)
+    .then(() => {
+      console.log(auth.currentUser);
       next();
-    } else {
-      res.redirect("/login");
-    }
-  });
-  // if (auth.currentUser) {
-  //   next();
-  // } else {
-  //   res.redirect("/login");
-  // }
+    })
+    .catch((err) => res.redirect("/login"));
 });
 router.get("/", getDashboard);
 router.get("/dashboard", getDashboard);

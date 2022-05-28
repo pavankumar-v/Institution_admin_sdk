@@ -1,4 +1,6 @@
 import { auth } from "../database/firebase.js";
+import { AdminAuth } from "../database/firebase-admin.js";
+
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -6,7 +8,10 @@ import {
 
 export const signInPage = (req, res) => {
   try {
-    res.render("auth/login", { title: "login" });
+    res.render("auth/login", {
+      title: "login",
+      csrfToken: req.csrfToken(),
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -17,12 +22,30 @@ export const signInUser = async (req, res) => {
     const data = req.body;
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((user) => {
-        // const userCred = new AuthUser(user.uid, user.email);
-        if (user) {
-          res.redirect("/dashboard");
-        } else {
-          res.redirect("/login");
-        }
+        user.user
+          .getIdToken()
+          .then((idToken) => {
+            // res.setHeader("CSRF-Token", Cookies.get("XSRF-TOKEN"));
+            console.log(idToken);
+            const expiresIn = 60 * 60 * 24 * 5 * 1000;
+            // Cookies.get("XSRF-TOKEN");
+            AdminAuth.createSessionCookie(idToken, { expiresIn })
+              .then((sessionCookie) => {
+                const options = { maxAge: expiresIn, httpOnly: true };
+                res.cookie("session", sessionCookie, options);
+                res.cookie("user", user, options);
+                res.end(JSON.stringify({ status: "success" }));
+              })
+              .catch((err) => console.log("error ", err.message));
+          })
+          .catch((err) => {
+            res.redirect("/login");
+          });
+        // if (user) {
+        //   res.redirect("/dashboard");
+        // } else {
+        //   res.redirect("/login");
+        // }
       })
       .catch((err) => {
         res.json({ message: err.message });
@@ -55,6 +78,7 @@ export const resetPassword = async (req, res) => {
 
 export const signoutUSer = async (req, res) => {
   try {
+    res.clearCookie("session");
     auth
       .signOut()
       .then((data) => {
