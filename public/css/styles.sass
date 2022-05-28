@@ -19,7 +19,7 @@ $error: #BA1B1B
 $onError: #FFFFFF
 $errorContainer: #FFDAD4
 $onErrorContainer: #410001
-// $background: #FDFDF6
+$background2: #FDFDF6
 $background: #fff
 $onBackground: #1A1C18
 $surface: #FDFDF6
@@ -34,6 +34,7 @@ $border: 1px solid $outline
 
 // box shadow
 $boxShadow: 0 2px 3px rgba(black, 0.1)
+$card-elevation: 0 3px 3px 0px rgba(#000, 0.15), 0 1px 3px 0 rgba(#000, 0.3)
 
 // border radius
 $borderRadius1: 12px
@@ -139,6 +140,8 @@ ul
 
 .m
     margin: 14px
+.m2
+    margin: 22px
 .m-t
     margin-top: 14px
 .m-t2
@@ -151,8 +154,12 @@ ul
     margin-bottom: 14px
 .m-r
     margin-right: 14px
+.m-r2
+    margin-right: 22px
 .m-l
     margin-left: 14px
+.m-l2
+    margin-left: 22px
 
 .justify-s
     justify-content: start
@@ -258,8 +265,6 @@ ul
 
     span
         margin-right: 8px
-        &:hover
-            background-color: none
 
     &:hover
         background: $hoverColor
@@ -281,6 +286,29 @@ ul
     border-radius: 18px
     border: 1.5px solid $outline
     box-shadow: none
+    transition: $transition
+
+    &.card-list
+        // background: $background
+        border-radius: 8px
+        border: none
+        box-shadow: 0
+        &.elevation
+            box-shadow: $card-elevation
+
+.card-content
+    flex-flow: row wrap
+    justify-content: space-between
+
+    div
+        text-align: left
+
+.content-expand
+    display: none
+    padding: 18px
+
+    // justify-content: space-between
+    // justify-items: start
 
 .card.auth
     max-width: 360px
@@ -294,8 +322,8 @@ ul
     display: flex
     justify-content: space-around
     width: 100%
-    margin: 24px 0px
-    height: auto
+    margin: 16px 0px
+    height: 100px
     padding: 24px 0px
     border-bottom: 1px solid $hoverColor
 // .rounded

@@ -10,6 +10,20 @@ $(document).ready(function () {
   calculate();
 
   $("#checkbox").delegate("input:checkbox", "click", calculate);
+  $("#tab1-btn").on("click", function (e) {
+    e.preventDefault();
+    $(this).addClass("active");
+    $("#tab1").css("display", "block");
+    $("#tab2").css("display", "none");
+    $("#tab2-btn").removeClass("active");
+  });
+  $("#tab2-btn").on("click", function (e) {
+    e.preventDefault();
+    $(this).addClass("active");
+    $("#tab1").css("display", "none");
+    $("#tab2").css("display", "block");
+    $("#tab1-btn").removeClass("active");
+  });
 
   $("#staffAuth").on("submit", addStaff);
 

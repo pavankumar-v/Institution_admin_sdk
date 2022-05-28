@@ -1,131 +1,140 @@
-<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
-<div class="wrapper">
-  <div class="main-content">
-    <%- include('./constants/loader.ejs') %>
-    <div class="main-data">
-      <h1 class="main-title">Teachers</h1>
-      <div class="description">Control saff memeber and provide privilage</div>
-      <div class="tabs">
-        <button class="tab-btn active">
-          <span class="material-icons-outlined">group_add</span> Add staff
-        </button>
-        <button class="tab-btn">
-          <span class="material-icons-outlined">manage_accounts</span> Saff
-        </button>
-      </div>
-      <div class="tab1" id="tab1">
-        <form class="" id="staffAuth">
-          <div class="form-input col s6">
-            <label for="">Email</label>
-            <input type="email" name="email" id="" required />
+<%- include('./includes/head.ejs') %>
+  <%- include('./includes/nav.ejs') %>
+    <div class="wrapper">
+      <div class="main-content">
+        <%- include('./constants/loader.ejs') %>
+          <div class="main-data">
+            <h1 class="main-title">Teachers</h1>
+            <div class="description">Control saff memeber and provide privilage</div>
+            <div class="tabs">
+              <button class="tab-btn " id="tab1-btn">
+                <span class="material-icons-outlined">group_add</span> Add staff
+              </button>
+              <button class="tab-btn active" id="tab2-btn">
+                <span class="material-icons-outlined">manage_accounts</span> Saff
+              </button>
+            </div>
+            <!-- FORM -->
+            <div class="tab1" id="tab1" style="display: none;">
+              <form class="" id="staffAuth">
+                <div class="form-input col s6">
+                  <label for="">Email</label>
+                  <input type="email" name="email" id="" required />
+                </div>
+                <div class="form-input col s12">
+                  <label for="fullName">Full Name</label>
+                  <input type="text" name="fullName" id="fullName" />
+                </div>
+                <div class="col">
+                  <label for="department">Department</label>
+                  <select name="department" id="department" class="" required>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="ISE">ISE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIV">CIV</option>
+                    <option value="ARC">ARC</option>
+                    <option value="EEE">EEE</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="designation">Designation</label>
+                  <select name="designation" id="designation" class="" required>
+                    <option value="professor">Professor</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                    <option value="hod">HOD</option>
+                  </select>
+                </div>
+                <div class="checkbox col s12 m-t" id="checkbox">
+                  <label for="form-sem">Assign sem</label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="1" />
+                    <span>Sem 1</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="2" />
+                    <span>sem 2</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="3" />
+                    <span>sem 3</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="4" />
+                    <span>sem 4</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="5" />
+                    <span>sem 5</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="6" />
+                    <span>sem 6</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="7" />
+                    <span>sem 7</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" class="filled-in" value="8" />
+                    <span>sem 8</span>
+                  </label>
+                </div>
+                <p class="m-t">click on password reset while logging.</p>
+                <button type="submit" class="btnn m-t" id="createStaffAuth">
+                  <div class="btn-loader" style="justify-content: center"></div>
+                  Create Staff
+                </button>
+              </form>
+            </div>
+
+            <!-- tab 2 -->
+            <div class="div tab2" id="tab2">
+              <div class="m-l2 m-r2 display-flex card-content">
+                <h6>Name</h6>
+                <h6>Department</h6>
+                <h6>Designation</h6>
+                <h6>Sem Assigned</h6>
+                <h6>Action</h6>
+              </div>
+              <%if(staffs.length> 0) { %> <% for(let staff of staffs) { %>
+                  <div class="card card-list elevation">
+                    <div class="display-flex card-content">
+                      <div class="display-flex b upper" style="justify-content: start">
+                        <img src="<%= staff.avatar %>" class="avatar" alt="avatar" />
+                        <h6 class="bl m-l">
+                          <%= staff.fullName %>
+                        </h6>
+                      </div>
+                      <p>
+                        <%= staff.department %>
+                      </p>
+                      <p>
+                        <%= staff.designation %>
+                      </p>
+                      <p>
+                        <%= staff.semAssigned %>
+                      </p>
+                      <p>
+                        <span class="material-icons-outlined" id="expand-more">expand_more</span>
+                      </p>
+                    </div>
+                    <div class="content-expand">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia consequuntur id fuga voluptas!
+                      Vitae eius necessitatibus quibusdam rem et fugit debitis distinctio labore, cum aperiam officiis
+                      magnam maiores nemo aut.
+                    </div>
+                  </div>
+                  <%}%>
+                    <%} else { %>
+                      <h2>No users</h2>
+                      <% } %>
+
+            </div>
+
+
+
           </div>
-          <div class="form-input col s12">
-            <label for="fullName">Full Name</label>
-            <input type="text" name="fullName" id="fullName" />
-          </div>
-          <div class="col">
-            <label for="department">Department</label>
-            <select name="department" id="department" class="" required>
-              <option value="CSE">CSE</option>
-              <option value="ECE">ECE</option>
-              <option value="ISE">ISE</option>
-              <option value="MECH">MECH</option>
-              <option value="CIV">CIV</option>
-              <option value="ARC">ARC</option>
-              <option value="EEE">EEE</option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="designation">Designation</label>
-            <select name="designation" id="designation" class="" required>
-              <option value="professor">Professor</option>
-              <option value="Assistant Professor">Assistant Professor</option>
-              <option value="hod">HOD</option>
-            </select>
-          </div>
-          <div class="checkbox col s12 m-t" id="checkbox">
-            <label for="form-sem">Assign sem</label>
-            <label>
-              <input type="checkbox" class="filled-in" value="1" />
-              <span>Sem 1</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="2" />
-              <span>sem 2</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="3" />
-              <span>sem 3</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="4" />
-              <span>sem 4</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="5" />
-              <span>sem 5</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="6" />
-              <span>sem 6</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="7" />
-              <span>sem 7</span>
-            </label>
-            <label>
-              <input type="checkbox" class="filled-in" value="8" />
-              <span>sem 8</span>
-            </label>
-          </div>
-          <!-- <div class="col">
-            <label for="branch">Subject</label>
-            <select name="branch" id="branch" class="">
-              <option value="" disabled selected>Select Subject</option>
-            </select>
-          </div> -->
-          <p class="m-t">click on password reset while logging.</p>
-          <button type="submit" class="btnn m-t" id="createStaffAuth">
-            <div class="btn-loader" style="justify-content: center"></div>
-            Create Staff
-          </button>
-        </form>
-      </div>
-      <div class="tab2" id="tab3">
-        <div class="card p14 br1">
-          <h6>Users List</h6>
-          <div class="table" id="userTable">
-            <table>
-              <tr>
-                <th>Name</th>
-                <th>Dept</th>
-                <th>Designation</th>
-                <th>Sem</th>
-                <th>Action</th>
-              </tr>
-              <% if(staffs.length> 0) { %> <% for(let student of staffs) { %>
-              <tr>
-                <td class="display-flex b upper" style="justify-content: start">
-                  <img
-                    src="<%= student.avatar %>"
-                    class="avatar"
-                    alt="avatar"
-                  />
-                  <h6 class="bl m-l"><%= staff.usn %></h6>
-                </td>
-                <td><%= staff.fullName %></td>
-                <td><%= staff.department %></td>
-                <td><%= staff.designation %></td>
-                <td></td>
-              </tr>
-              <%}%> <%} else { %>
-              <h2>No staff</h2>
-              <% } %>
-            </table>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</div>
-<%- include('./includes/footer.ejs') %>
+    <%- include('./includes/footer.ejs') %>

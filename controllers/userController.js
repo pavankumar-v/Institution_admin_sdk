@@ -3,6 +3,12 @@ import User from "../models/user.js";
 import StaffUser from "../models/staffUser.js";
 import { auth } from "../database/firebase.js";
 
+const user = async () => {
+  const id = auth.currentUser;
+  const users = await StaffUser.fetchUser(id);
+  return users;
+};
+
 export const getIndexPage = async (req, res) => {
   try {
     res.status(200).redirect("/dashboard");
@@ -13,8 +19,8 @@ export const getIndexPage = async (req, res) => {
 
 export const getDashboard = async (req, res) => {
   try {
-    const users = await User.fetchAll();
-    res.status(200).render("index", { title: "dashboard", users: users });
+    console.log(user);
+    res.status(200).render("index", { title: "dashboard" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -30,14 +36,14 @@ export const getClass = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    const staff = await StaffUser.fetchUser("RXnSNdihGAsxEsx637OS");
-    const path = staff.data().subjectAssigned[0]._path.segments;
-    var str = "";
-    path.forEach((ele) => {
-      str += "/" + ele;
-    });
+    // const staff = await StaffUser.fetchUser("RXnSNdihGAsxEsx637OS");
+    // const path = staff.data().subjectAssigned[0]._path.segments;
+    // var str = "";
+    // path.forEach((ele) => {
+    //   str += "/" + ele;
+    // });
 
-    console.log(staff.data().subjectAssigned[0]);
+    // console.log(staff.data().subjectAssigned[0]);
     const users = await User.fetchAll();
     res.status(200).render("users", { title: "users", users: users });
   } catch (error) {

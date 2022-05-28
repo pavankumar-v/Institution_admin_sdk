@@ -28,4 +28,10 @@ $(document).ready(function () {
     $("#password-reset").css("display", "none");
     $("#login").css("display", "block");
   });
+
+  // expand toggle
+  $("#tab2 #expand-more").on("click", function (e) {
+    const cardList = $(this).parents(".card-list");
+    cardList.children(".content-expand").toggle();
+  });
 });

@@ -56,6 +56,10 @@ ul {
   margin: 14px;
 }
 
+.m2 {
+  margin: 22px;
+}
+
 .m-t {
   margin-top: 14px;
 }
@@ -80,8 +84,16 @@ ul {
   margin-right: 14px;
 }
 
+.m-r2 {
+  margin-right: 22px;
+}
+
 .m-l {
   margin-left: 14px;
+}
+
+.m-l2 {
+  margin-left: 22px;
 }
 
 .justify-s {
@@ -235,10 +247,6 @@ ul {
   margin-right: 8px;
 }
 
-.tab-btn span:hover {
-  background-color: none;
-}
-
 .tab-btn:hover {
   background: #e3e3e3;
 }
@@ -268,6 +276,39 @@ ul {
   border: 1.5px solid #74796E;
   -webkit-box-shadow: none;
           box-shadow: none;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.card.card-list {
+  border-radius: 8px;
+  border: none;
+  -webkit-box-shadow: 0;
+          box-shadow: 0;
+}
+
+.card.card-list.elevation {
+  -webkit-box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-content {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.card-content div {
+  text-align: left;
+}
+
+.content-expand {
+  display: none;
+  padding: 18px;
 }
 
 .card.auth {
@@ -287,8 +328,8 @@ ul {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   width: 100%;
-  margin: 24px 0px;
-  height: auto;
+  margin: 16px 0px;
+  height: 100px;
   padding: 24px 0px;
   border-bottom: 1px solid #e3e3e3;
 }

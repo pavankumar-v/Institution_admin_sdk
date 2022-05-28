@@ -28,6 +28,24 @@ class Staff {
     // });
     return staff;
   }
+
+  static async fetchAll() {
+    const snapshot = await db.collection("staff").get();
+    const staffs = snapshot.docs.map((doc) => {
+      const staff = new Staff(
+        doc.id,
+        doc.data().fullName,
+        doc.data().department,
+        doc.data().designation,
+        doc.data().semAssigned,
+        doc.data().subjectsAssigned,
+        doc.data().avatar
+      );
+      return staff;
+    });
+
+    return staffs;
+  }
 }
 
 export default Staff;

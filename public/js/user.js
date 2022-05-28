@@ -2,7 +2,7 @@ $(document).ready(function () {
   $("#userTable table tr td #blockUser").on("click", toggelUserActivity);
 
   toggelUserActivity();
-  function toggelUserActivity() {
+  function toggelUserActivity(e) {
     e.preventDefault();
     var button = $(this).find("#blockUserBtn");
     var loader = $(this).find(".btn-loader").css("display", "block");
