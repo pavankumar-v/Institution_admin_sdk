@@ -41,11 +41,6 @@ export const signInUser = async (req, res) => {
           .catch((err) => {
             res.redirect("/login");
           });
-        // if (user) {
-        //   res.redirect("/dashboard");
-        // } else {
-        //   res.redirect("/login");
-        // }
       })
       .catch((err) => {
         res.json({ message: err.message });
@@ -67,11 +62,9 @@ export const resetPassword = async (req, res) => {
         });
       })
       .catch((err) => {
-        // console.log(err.message);
         res.send({ response: 0, err: err.message });
       });
   } catch (error) {
-    // console.log(error.message);
     res.send({ response: 0, err: error.message });
   }
 };
@@ -79,6 +72,7 @@ export const resetPassword = async (req, res) => {
 export const signoutUSer = async (req, res) => {
   try {
     res.clearCookie("session");
+    res.clearCookie("user");
     auth
       .signOut()
       .then((data) => {
