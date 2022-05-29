@@ -1,4 +1,4 @@
-import csurf from "csurf";
+// import csurf from "csurf";
 import cookieParser from "cookie-parser";
 import express from "express";
 import bodyParser from "body-parser";
@@ -9,10 +9,11 @@ import authentication from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
+import subjectRoutes from "./routes/subjectRoutes.js";
 import { auth } from "./database/firebase.js";
 
 // INITIALIZE EXPRESS APP
-const csrfMiddleware = csurf({ cookie: true });
+// const csrfMiddleware = csurf({ cookie: true });
 const app = express();
 
 // // register view engine
@@ -21,20 +22,21 @@ app.use(express.static("public"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser());
-app.use(csrfMiddleware);
+// app.use(csrfMiddleware);
 app.use(cors());
 
 app.use(authentication);
 
-app.all("*", (req, res, next) => {
-  const token = req.csrfToken();
-  res.cookie("XSRF-TOKEN", token);
-  next();
-});
+// app.all("*", (req, res, next) => {
+//   const token = req.csrfToken();
+//   res.cookie("XSRF-TOKEN", token);
+//   next();
+// });
 
 app.use(userRoutes);
 app.use(staffRoutes);
 app.use(attendanceRoutes);
+app.use(subjectRoutes);
 
 //404 error
 app.use((req, res) => {

@@ -29,6 +29,24 @@ class Subject {
 
     return subjects;
   }
+  static async fetchByBranchSem(branch, sem) {
+    const snapshot = await db.collection("branch/" + branch + "/" + sem).get();
+    const subjects = snapshot.docs.map((doc) => {
+      const subjectsData = new Subject(
+        doc.id,
+        doc.data().id,
+        doc.data().name,
+        doc.data().description,
+        doc.data().modules,
+        doc.data().notes,
+        doc.data().attendance
+      );
+
+      return subjectsData;
+    });
+
+    return subjects;
+  }
 }
 
 export default Subject;

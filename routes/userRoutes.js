@@ -6,6 +6,7 @@ import {
   getClass,
   getUsers,
   blockUser,
+  getSubject,
 } from "../controllers/userController.js";
 import { AdminAuth } from "../database/firebase-admin.js";
 
@@ -28,6 +29,7 @@ router.all("*", (req, res, next) => {
 router.get("/", getDashboard);
 router.get("/dashboard", getDashboard);
 router.get("/classes", getClass);
+router.get("/subjects", getSubject);
 router.get("/users", getUsers);
 router.post("/blockuser", blockUser);
 

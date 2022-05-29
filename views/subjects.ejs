@@ -1,0 +1,73 @@
+<%- include('./includes/head.ejs') %> <%- include('./includes/nav.ejs') %>
+<div class="wrapper">
+  <div class="main-content">
+    <%- include('./constants/loader.ejs') %>
+    <div class="main-data">
+      <h1 class="main-title"><%= title %></h1>
+      <div class="description">Modify and Add Subjects</div>
+      <br />
+      <hr />
+      <br />
+      <div class="display-flex j-start">
+        <select name="branch" id="branch" class="m-l">
+          <option value="" selected disabled hidden>Choose branch</option>
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="ISE">ISE</option>
+          <option value="MECH">MECH</option>
+          <option value="CIV">CIV</option>
+          <option value="ARC">ARC</option>
+          <option value="EEE">EEE</option>
+        </select>
+        <select name="sem" id="sem" class="m-l" style="display: none">
+          <option value="" selected disabled hidden>Choose sem</option>
+          <option value="1">sem 1</option>
+          <option value="2">sem 2</option>
+          <option value="3">sem 3</option>
+          <option value="4">sem 4</option>
+          <option value="5">sem 5</option>
+          <option value="6">sem 6</option>
+          <option value="7">sem 7</option>
+          <option value="8">sem 8</option>
+        </select>
+      </div>
+      <br />
+
+      <div class="row" id="subject-list">
+        <!-- <div class="display-flex card-header j-start j-space-between">
+          <div class="display-flex">
+            <p class="avatar">A</p>
+
+            <div class="display-flex flex-c m-l">
+              <p class="header">Header</p>
+              <p class="subtitle2">Subtitle</p>
+            </div>
+          </div>
+          <span class="material-icons-outlined">check_circle</span>
+        </div> -->
+        <div class="card elevation col subject-card">
+          <div class="subject-card-content">
+            <div class="card-content">
+              <h6 class="headline5">IOT</h6>
+              <p class="subhead">Internet of things</p>
+              <i class="hint">18CS71</i>
+              <hr />
+              <p class="desc">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis in
+                odio quam saepe soluta quia incidunt omnis accusamus fuga
+                tenetur aut, molestias itaque totam facilis. Minima, quae.
+                Asperiores, rerum perspiciatis.
+              </p>
+              <div class="action display-flex j-end m-t">
+                <button class="btnn-small btnn-rounded">
+                  <span class="material-icons-outlined">expand_more</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('./includes/footer.ejs') %>

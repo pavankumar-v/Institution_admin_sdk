@@ -1,6 +1,7 @@
 import { db, AdminAuth } from "../database/firebase-admin.js";
 import User from "../models/user.js";
 import StaffUser from "../models/staffUser.js";
+import Subject from "../models/subjects.js";
 import { auth } from "../database/firebase.js";
 import { sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import nodemailer from "nodemailer";
@@ -26,9 +27,10 @@ function generatePassword() {
 
 export const staffControl = async (req, res) => {
   try {
-    // console.log(auth.currentUser);
-    // const staffs = [];
     const staffs = await StaffUser.fetchAll();
+    const subjects = await Subject.fetchByBranchSem("cse", "8");
+    console.log(subjects);
+    // console.log(staffs);
     res
       .status(200)
       .render("staffControl", { title: "staff control", staffs: staffs });
@@ -103,5 +105,15 @@ export const createStaffAuth = async (req, res) => {
     }
   } catch (error) {
     res.send({ response: 0, data: error.message });
+  }
+};
+
+export const loadSubjects = async (req, res) => {
+  try {
+    const sem = req.body.semAssigned;
+    console.log(sem);
+    res.send({ response: 1, data: "success" });
+  } catch (error) {
+    res.send({ response: 0, err: "Some Error" });
   }
 };

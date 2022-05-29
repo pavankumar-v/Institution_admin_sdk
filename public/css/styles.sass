@@ -82,6 +82,7 @@ $transition: all 0.3s ease
 @mixin body2
     font-size: 14px
     letter-spacing: 0.25px
+    line-height: 20px
     font-weight: 400
 @mixin button
     font-size: 14px
@@ -97,6 +98,29 @@ $transition: all 0.3s ease
     font-weight: 400
     text-transform: uppercase
 
+.headline5
+    @include headline5
+
+.subhead
+    @include body1
+    opacity: 80%
+    text-transform: capitalize
+    width: 200px
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+.hint
+    @include overline
+.desc
+    display: -webkit-box
+    -webkit-line-clamp: 5
+    -webkit-box-orient: vertical
+    @include body2
+    height: 100px
+    overflow: hidden
+    // text-overflow: ellipsis
+
 // util mixin
 @mixin flex
     display: flex
@@ -107,6 +131,20 @@ $transition: all 0.3s ease
     @include flex
     justify-content: center
     align-items: center
+
+.j-start
+    justify-content: start
+
+.j-end
+    justify-content: end
+
+.j-space-between
+    justify-content: space-between
+
+.flex-c
+    flex-direction: column
+    justify-content: center
+    align-items: start
 
 .p
     padding: 8px
@@ -122,8 +160,21 @@ h1
     font-weight: 400
     line-height: 72px
 
+.header
+    font-size: 16px
+    line-height: 24px
+    letter-spacing: 0.1px
+    font-weight: bold
+
+.subtitle2
+    @include subtitle2
+
 hr
-    border: 1px solid $hoverColor
+    border: none
+    padding: 1px
+    background: $surfaceVarient
+    width: 100%
+    margin: 5px 0px
 // universal
 *
     box-sizing: border-box
@@ -179,6 +230,12 @@ ul
     width: 34px
     height: 34px
     border-radius: 50px
+    background: $primaryContainer
+    color: $onPrimaryContainer
+    text-align: center
+    display: inline-flex
+    justify-content: center
+    align-items: center
 
 .upper
     text-transform: uppercase
@@ -235,6 +292,12 @@ ul
     &:focus
         background: $primary
         box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
+.btnn-rounded
+    padding: 8px 24px
+    border-radius: 50px
+    box-shadow: none
+    &:hover, &:focus
+        box-shadow: none
 
 .bg-ternary
     background: $ternaryContainer
@@ -289,12 +352,12 @@ ul
     transition: $transition
 
     &.card-list
-        // background: $background
+        background: $surface
         border-radius: 8px
         border: none
         box-shadow: 0
-        &.elevation
-            box-shadow: $card-elevation
+.elevation
+    box-shadow: $card-elevation
 
 .card-content
     flex-flow: row wrap
@@ -303,8 +366,35 @@ ul
     div
         text-align: left
 
+.subject-card
+    background: $surface
+    color: $onSurface
+    border-radius: 10px
+    width: 250px
+    overflow: hidden
+
+    .card-header
+        padding: 8px 10px
+
+    .card-content
+        padding: 16px
+
+        hr
+            padding: 0.5px
+
+    &.col
+        padding: 0
+
+    img
+        width: 100%
+
+#expand-more
+    padding: 6px
+    &:hover
+        background: $hoverColor
+
 .content-expand
-    display: none
+    // display: none
     padding: 18px
 
     // justify-content: space-between

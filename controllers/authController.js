@@ -10,7 +10,7 @@ export const signInPage = (req, res) => {
   try {
     res.render("auth/login", {
       title: "login",
-      csrfToken: req.csrfToken(),
+      csrfToken: "",
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

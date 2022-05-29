@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  $(".modal").modal();
   function calculate() {
     var arr = $.map($("input:checkbox:checked"), function (e, i) {
       return +e.value;
@@ -10,6 +11,8 @@ $(document).ready(function () {
   calculate();
 
   $("#checkbox").delegate("input:checkbox", "click", calculate);
+
+  // TAB SWITCH
   $("#tab1-btn").on("click", function (e) {
     e.preventDefault();
     $(this).addClass("active");
@@ -47,6 +50,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/createStaffAuth",
       contentType: "application/json",
+
       data: JSON.stringify({
         email: email.val(),
         fullName: fullName.val(),
@@ -83,4 +87,16 @@ $(document).ready(function () {
       },
     });
   }
+
+  $("#modal .modal-content .display-flex .subjects .btnn").on(
+    "click",
+    function (e) {
+      console.log("invoked");
+      const val = $(this)
+        .parents("#subject-assigned-load")
+        .find("input[type=hidden]")
+        .val();
+      console.log(val);
+    }
+  );
 });

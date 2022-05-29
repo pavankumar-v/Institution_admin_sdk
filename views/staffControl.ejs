@@ -80,6 +80,19 @@
                     <span>sem 8</span>
                   </label>
                 </div>
+                <div id="subjects">
+                  <div class="display-flex flex-c">
+                    <label for="form-sem">Assign Subjects</label>
+                    <label>
+                      <input type="checkbox" class="filled-in" value="1" />
+                      <span>Sem 1</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" class="filled-in" value="2" />
+                      <span>sem 2</span>
+                    </label>
+                  </div>
+                </div>
                 <p class="m-t">click on password reset while logging.</p>
                 <button type="submit" class="btnn m-t" id="createStaffAuth">
                   <div class="btn-loader" style="justify-content: center"></div>
@@ -90,14 +103,7 @@
 
             <!-- tab 2 -->
             <div class="div tab2" id="tab2">
-              <div class="m-l2 m-r2 display-flex card-content">
-                <h6>Name</h6>
-                <h6>Department</h6>
-                <h6>Designation</h6>
-                <h6>Sem Assigned</h6>
-                <h6>Action</h6>
-              </div>
-              <%if(staffs.length> 0) { %> <% for(let staff of staffs) { %>
+              <%if(staffs.length> 0) { %> <% let i=0; for(let staff of staffs) { %>
                   <div class="card card-list elevation">
                     <div class="display-flex card-content">
                       <div class="display-flex b upper" style="justify-content: start">
@@ -120,12 +126,87 @@
                       </p>
                     </div>
                     <div class="content-expand">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia consequuntur id fuga voluptas!
-                      Vitae eius necessitatibus quibusdam rem et fugit debitis distinctio labore, cum aperiam officiis
-                      magnam maiores nemo aut.
+                      <div class="display-flex" style="justify-content: space-between;" id="sem-assigned">
+                        <div id="sem-assigned">
+                          Subjects Assigned : <%= staff.semAssigned %>
+                        </div>
+                        <a class="modal-trigger btnn-small" href="#modal<%= i %>" id="edit-btn">Edit</a>
+
+                      </div>
+                    </div>
+                    <div id="modal<%= i %>" class="modal">
+                      <div class="modal-content">
+                        <h4>Control <%= staff.id %>
+                        </h4>
+                        <div class="display-flex" style="align-items: start; justify-content: space-between;">
+                          <div class="checkbox col s12 m-t display-flex flex-c" id="checkbox">
+                            <label for="form-sem">Assign sem</label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="1" <%=staff.semAssigned.includes(1)
+                                ? "checked" : "" %> />
+                              <span>Sem 1</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="2" <%=staff.semAssigned.includes(2)
+                                ? "checked" : "" %>/>
+                              <span>sem 2</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="3" <%=staff.semAssigned.includes(3)
+                                ? "checked" : "" %> />
+                              <span>sem 3</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="4" <%=staff.semAssigned.includes(4)
+                                ? "checked" : "" %>/>
+                              <span>sem 4</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="5" <%=staff.semAssigned.includes(5)
+                                ? "checked" : "" %> />
+                              <span>sem 5</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="6" <%=staff.semAssigned.includes(6)
+                                ? "checked" : "" %> />
+                              <span>sem 6</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="7" <%=staff.semAssigned.includes(7)
+                                ? "checked" : "" %> />
+                              <span>sem 7</span>
+                            </label>
+                            <label>
+                              <input type="checkbox" class="filled-in" value="8" <%=staff.semAssigned.includes(8)
+                                ? "checked" : "" %> />
+                              <span>sem 8</span>
+                            </label>
+                          </div>
+                          <div class="subjects m-t display-flex flex-c" id="subject-assigned-load">
+                            <label for="subjects ">Subjects Assigned</label>
+                            <input type="hidden" name="subjectsAssigned" value="<%= staff.subjectsAssigned %>">
+                            <!-- <%if(staff.subjectsAssigned.length> 0) {
+                              for(let subject of staff.subjectsAssigned) {
+                              %>
+                              <label>
+                                <input type="checkbox" class="filled-in" value="<%= subject %>" />
+                                <span>
+                                  <%= subject %>
+                                </span>
+                              </label>
+                              <% } } else { %>
+                                <h6>No Subjects Assigned</h6>
+                                <% }%> -->
+                            <button class="btnn btnn-small" id="load-subjects-btn">Load Subjects</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#!" class="modal-close btnn bg__danger">Close</a>
+                      </div>
                     </div>
                   </div>
-                  <%}%>
+                  <% i +=1; }%>
                     <%} else { %>
                       <h2>No users</h2>
                       <% } %>

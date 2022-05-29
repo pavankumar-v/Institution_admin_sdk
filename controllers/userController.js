@@ -1,6 +1,7 @@
 import { db } from "../database/firebase-admin.js";
 import User from "../models/user.js";
 import StaffUser from "../models/staffUser.js";
+import Subject from "../models/subjects.js";
 import { auth } from "../database/firebase.js";
 
 const user = async () => {
@@ -34,6 +35,14 @@ export const getClass = async (req, res) => {
   }
 };
 
+export const getSubject = async (req, res) => {
+  try {
+    res.render("subjects", { title: "subjects" });
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};
+
 export const getUsers = async (req, res) => {
   try {
     // const staff = await StaffUser.fetchUser("RXnSNdihGAsxEsx637OS");
@@ -45,7 +54,11 @@ export const getUsers = async (req, res) => {
 
     // console.log(staff.data().subjectAssigned[0]);
     const users = await User.fetchAll();
-    res.status(200).render("users", { title: "users", users: users });
+    res.status(200).render("users", {
+      title: "users",
+      users: users,
+      csrfToken: "",
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
