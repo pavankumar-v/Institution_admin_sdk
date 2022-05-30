@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
 
-import { loadSubjects } from "../controllers/subjectsController.js";
+import { loadSubjects, addModule } from "../controllers/subjectsController.js";
 
 router.post("/loadSubjects", loadSubjects);
+router.post("/addModule", addModule);
 
 export default router;

@@ -1,4 +1,4 @@
-import { db } from "../database/firebase-admin.js";
+import { db, adminFirestore } from "../database/firebase-admin.js";
 
 class Subject {
   constructor(id, subId, name, description, modules, notes, attendance) {
@@ -46,6 +46,22 @@ class Subject {
     });
 
     return subjects;
+  }
+
+  static async addModule(branch, sem, docId, subjectName) {
+    const subjectRef = db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .doc(docId);
+    subjectRef
+      .update({
+        modules: adminFirestore.FieldValue.arrayUnion(subjectName),
+      })
+      .then((data) => {
+        return 1;
+      })
+      .catch((err) => console.log(err));
+
+    return -1;
   }
 }
 

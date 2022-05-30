@@ -4,8 +4,6 @@ import { auth } from "../database/firebase.js";
 export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
-
     const subjects = await Subject.fetchByBranchSem(
       data.branch != null ? data.branch : "cse",
       data.sem.toString()
@@ -14,5 +12,23 @@ export const loadSubjects = async (req, res) => {
     res.send({ response: 1, subjects: subjects });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const addModule = async (req, res) => {
+  try {
+    const data = req.body;
+    Subject.addModule(data.branch, data.sem, data.uid, data.moduleName)
+      .then(() => {
+        res.send({ response: 1, message: "Module Added" });
+      })
+      .catch((err) => {
+        res.send({
+          response: 0,
+          message: err.message,
+        });
+      });
+  } catch (error) {
+    res.send({ response: 0, message: "Error Module could not be added - 2" });
   }
 };

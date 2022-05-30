@@ -20,6 +20,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
+export const adminFirestore = admin.firestore;
 export const db = admin.firestore();
 export const AdminAuth = admin.auth();
 // admin.auth()

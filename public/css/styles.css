@@ -191,8 +191,28 @@ ul {
   color: #386A20;
 }
 
+.clr-pri-c {
+  color: #042100;
+}
+
 .clr-sec {
   color: #55624C;
+}
+
+.clr-sec {
+  color: #FFFFFF;
+}
+
+.clr-err {
+  color: #BA1B1B;
+}
+
+.bg-ter {
+  background: #BBEBEB;
+}
+
+.bg-pri-c {
+  background: #B8F397;
 }
 
 .material-icons-outlined {
@@ -280,8 +300,18 @@ ul {
 }
 
 .btnn-icon {
-  width: 48px;
-  height: 48px;
+  color: #ffffff;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 52px;
+  height: 52px;
   padding: 12px;
 }
 
@@ -417,10 +447,11 @@ ul {
 }
 
 .subject-card {
+  width: 300px;
+  border: none;
   background: #FDFDF6;
   color: #1A1C18;
   border-radius: 10px;
-  width: 250px;
   overflow: hidden;
 }
 
@@ -445,10 +476,12 @@ ul {
 }
 
 #expand-more {
+  border-radius: 8px;
   padding: 6px;
 }
 
 #expand-more:hover {
+  cursor: pointer;
   background: #e3e3e3;
 }
 
@@ -489,6 +522,21 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
   border: 1px solid #74796E;
   color: #43493E;
   margin: 0;
+}
+
+input:not([type]).input-small, input[type=text]:not(.browser-default).input-small, input[type=password]:not(.browser-default).input-small, input[type=email]:not(.browser-default).input-small, input[type=url]:not(.browser-default).input-small, input[type=time]:not(.browser-default).input-small, input[type=date]:not(.browser-default).input-small, input[type=datetime]:not(.browser-default).input-small, input[type=datetime-local]:not(.browser-default).input-small, input[type=tel]:not(.browser-default).input-small, input[type=number]:not(.browser-default).input-small, input[type=search]:not(.browser-default).input-small, textarea.materialize-textarea.input-small {
+  background: #fff;
+  border-radius: 2px;
+  padding: 5px;
+  width: 60%;
+  height: 18px;
+}
+
+input:not([type]).input-small:focus:not([readonly]), input[type=text]:not(.browser-default).input-small:focus:not([readonly]), input[type=password]:not(.browser-default).input-small:focus:not([readonly]), input[type=email]:not(.browser-default).input-small:focus:not([readonly]), input[type=url]:not(.browser-default).input-small:focus:not([readonly]), input[type=time]:not(.browser-default).input-small:focus:not([readonly]), input[type=date]:not(.browser-default).input-small:focus:not([readonly]), input[type=datetime]:not(.browser-default).input-small:focus:not([readonly]), input[type=datetime-local]:not(.browser-default).input-small:focus:not([readonly]), input[type=tel]:not(.browser-default).input-small:focus:not([readonly]), input[type=number]:not(.browser-default).input-small:focus:not([readonly]), input[type=search]:not(.browser-default).input-small:focus:not([readonly]), textarea.materialize-textarea.input-small:focus:not([readonly]) {
+  border: 1px solid #74796E;
+  background: rgba(223, 228, 214, 0.6);
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
@@ -847,13 +895,11 @@ select {
   width: 60%;
 }
 
-.wrapper .main-data .material-icons-outlined {
-  color: #1A1C18;
+.wrapper .main-data .material-symbols-rounded {
   border-radius: 12px;
 }
 
-.wrapper .main-data .material-icons-outlined:hover {
-  background: #FDFDF6;
+.wrapper .main-data .material-symbols-rounded:hover {
   cursor: pointer;
 }
 

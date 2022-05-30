@@ -218,9 +218,23 @@ ul
 // colors
 .clr-pri
     color: $primary
+.clr-pri-c
+    color: $onPrimaryContainer
 
 .clr-sec
     color: $secondary
+
+.clr-sec
+    color: $onTernary
+
+.clr-err
+    color: $error
+
+.bg-ter
+    background: $ternaryContainer
+
+.bg-pri-c
+    background: $primaryContainer
 
 .material-icons-outlined
     color: #000
@@ -280,8 +294,12 @@ ul
     span
         color: $onPrimary
     &-icon
-        width: 48px
-        height: 48px
+        color: $onPrimary
+        display: inline-flex
+        align-items: center
+        justify-content: center
+        width: 52px
+        height: 52px
         padding: 12px
 
     &:hover, &-small:hover
@@ -292,6 +310,7 @@ ul
     &:focus
         background: $primary
         box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
+
 .btnn-rounded
     padding: 8px 24px
     border-radius: 50px
@@ -367,10 +386,11 @@ ul
         text-align: left
 
 .subject-card
+    width: 300px
+    border: none
     background: $surface
     color: $onSurface
     border-radius: 10px
-    width: 250px
     overflow: hidden
 
     .card-header
@@ -389,8 +409,10 @@ ul
         width: 100%
 
 #expand-more
+    border-radius: 8px
     padding: 6px
     &:hover
+        cursor: pointer
         background: $hoverColor
 
 .content-expand
@@ -429,6 +451,18 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     border: $border
     color: $onSurfaceVarient
     margin: 0
+
+    &.input-small
+        background: $background
+        border-radius: 2px
+        padding: 5px
+        width: 60%
+        height: 18px
+
+        &:focus:not([readonly])
+            border: 1px solid $outline
+            background: rgba($surfaceVarient, 0.6)
+            box-shadow: none
 
     &:focus:not([readonly])
         border: 1px solid $outline
@@ -653,11 +687,9 @@ select
             justify-content: space-evenly
             width: 60%
 
-        .material-icons-outlined
-            color: $onBackground
+        .material-symbols-rounded
             border-radius: 12px
             &:hover
-                background: $surface
                 cursor: pointer
 
     &-title
