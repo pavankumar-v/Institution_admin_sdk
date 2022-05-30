@@ -1,8 +1,4 @@
 $(document).ready(function () {
-  $("#branch").on("change", function () {
-    $("#sem").toggle();
-  });
-
   $("#sem").on("change", getSubjects);
   $("#branch").on("change", getSubjects);
 
@@ -46,7 +42,7 @@ $(document).ready(function () {
                   <span class="material-symbols-rounded"> edit </span>
                 </button>
               </div>
-              <div class="card-expand">
+              <div class="card-expand" style="display: none;">
                 <input type="hidden" name="uid" value="${this.id}" />
                 <div class="display-flex flex-c">
                   <h5 class="display-flex m-b">
@@ -72,8 +68,9 @@ $(document).ready(function () {
                 subjectCards +
                 `
               <p class="display-flex">
+              <input type="hidden" name="moduleName" value="${this.modules[module]}"/>
                           ${this.modules[module]}
-                          <span class="material-symbols-rounded clr-err">
+                          <span class="material-symbols-rounded clr-err" id="delete-module-btn">
                             delete
                           </span>
               `;
@@ -155,13 +152,58 @@ $(document).ready(function () {
         if (res.response == 1) {
           cardExpand.find(".modules").append(`
           <p class="display-flex">
+          <input type="hidden" name="moduleName" value="${moduleName.val()}"/>
                           ${moduleName.val()}
-                          <span class="material-symbols-rounded clr-err">
+                          <span class="material-symbols-rounded clr-err" id="delete-module-btn">
                             delete
                           </span>
                         </p>
           `);
           moduleName.val("");
+        }
+      },
+
+      error: function (res) {
+        console.log(res.message);
+      },
+    });
+  });
+
+  $(document).on("click", "#delete-module-btn", function () {
+    console.log("invoked");
+    const parent = $(this).parent();
+    const branch = $("#branch").val();
+    const sem = $("#sem").val();
+    const docId = $(this)
+      .parentsUntil(".card-expan")
+      .children("input[name=uid]")
+      .val();
+    const moduleName = $(this)
+      .parent()
+      .children("input[name=moduleName]")
+      .val();
+
+    $.ajax({
+      type: "POST",
+      url: "/deleteModule",
+      contentType: "application/json",
+      data: JSON.stringify({
+        branch: branch,
+        sem: sem,
+        uid: docId,
+        moduleName: moduleName,
+      }),
+      success: function (res) {
+        console.log(res.message);
+        if (res.response == 1) {
+          parent.remove();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        } else {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
         }
       },
 

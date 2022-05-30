@@ -63,6 +63,23 @@ class Subject {
 
     return -1;
   }
+
+  static async deleteModule(branch, sem, uid, modulName) {
+    const subjectRef = db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .doc(uid);
+
+    subjectRef
+      .update({
+        modules: adminFirestore.FieldValue.arrayRemove(modulName),
+      })
+      .then(() => {
+        return 1;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
 }
 
 export default Subject;

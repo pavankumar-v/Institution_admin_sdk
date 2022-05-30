@@ -32,3 +32,18 @@ export const addModule = async (req, res) => {
     res.send({ response: 0, message: "Error Module could not be added - 2" });
   }
 };
+
+export const deleteModule = (req, res) => {
+  try {
+    const data = req.body;
+    Subject.deleteModule(data.branch, data.sem, data.uid, data.moduleName)
+      .then(() => {
+        res.send({ response: 1, message: "deleted successfully" });
+      })
+      .catch((err) => {
+        res.send({ response: 0, message: err.message });
+      });
+  } catch (error) {
+    res.send({ response: 0, message: error.message });
+  }
+};

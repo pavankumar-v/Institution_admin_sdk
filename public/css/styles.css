@@ -486,6 +486,7 @@ ul {
 }
 
 .content-expand {
+  display: none;
   padding: 18px;
 }
 
