@@ -121,6 +121,16 @@ $transition: all 0.3s ease
     overflow: hidden
     // text-overflow: ellipsis
 
+.caption
+    @include caption
+
+.file-name
+    text-overflow: ellipsis
+    overflow: hidden
+    width: 100px
+    height: 1.2em
+    white-space: nowrap
+
 // util mixin
 @mixin flex
     display: flex
@@ -215,6 +225,11 @@ ul
 .justify-s
     justify-content: start
 
+.material-symbols-rounded
+    font-size: 22px !important
+
+.icon-small
+    font-size: 16px !important
 // colors
 .clr-pri
     color: $primary
@@ -284,6 +299,9 @@ ul
     box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
 
 .btnn
+    display: inline-flex
+    justify-content: center
+    align-items: center
     padding: 16px 30px
     &-small
         padding: 10px 24px
@@ -293,6 +311,10 @@ ul
             box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
     span
         color: $onPrimary
+    &-small-icon
+        padding: 8px 20px
+        justify-content: space-evenly
+        font-size: 10px
     &-icon
         color: $onPrimary
         display: inline-flex
@@ -301,6 +323,20 @@ ul
         width: 52px
         height: 52px
         padding: 12px
+    &-icon-small
+        border-radius: 10px
+        color: $onPrimary
+        font-size: 10px
+        display: inline-flex
+        align-items: center
+        justify-content: center
+        width: 30px
+        height: 30px
+        padding: 12px
+
+        // &span
+        //     font-variation-settings
+        //         'opsz' : 28px
 
     &:hover, &-small:hover
         cursor: pointer
@@ -419,9 +455,6 @@ ul
     display: none
     padding: 18px
 
-    // justify-content: space-between
-    // justify-items: start
-
 .card.auth
     max-width: 360px
     margin: 100px auto 16px
@@ -438,8 +471,6 @@ ul
     height: 100px
     padding: 24px 0px
     border-bottom: 1px solid $hoverColor
-// .rounded
-//     border-radius: $borderRadius1
 
 // INPUT STYLES
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
@@ -468,9 +499,6 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
         border: 1px solid $outline
         background: rgba($surfaceVarient, 0.6)
         box-shadow: none
-
-// input[type=email]:not(.browser-default):focus:not([readonly])
-//     border: 1px solid $primaryColor
 
 select
     display: block
@@ -670,7 +698,6 @@ select
 // main content
 .wrapper .main
     &-content
-        // width: calc( 100% - 50px );
         margin-top: 40px
         margin-left: 40px
         padding: 15px 0px 15px 15px
@@ -678,7 +705,6 @@ select
         z-index: -1
 
     &-data
-        // background: rgba(red, 0.5)
         margin-bottom: 10px
         padding: 15px
         @include body1
@@ -693,11 +719,9 @@ select
                 cursor: pointer
 
     &-title
-        // @include headline4
         text-transform: capitalize
 
 // collapse
 .wrapper.collapse .main
-    // width: calc( 100% - 10px)
     &-content
         margin-left: 200px

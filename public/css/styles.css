@@ -36,6 +36,20 @@
   overflow: hidden;
 }
 
+.caption {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 400;
+}
+
+.file-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100px;
+  height: 1.2em;
+  white-space: nowrap;
+}
+
 .display-flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -187,6 +201,14 @@ ul {
           justify-content: start;
 }
 
+.material-symbols-rounded {
+  font-size: 22px !important;
+}
+
+.icon-small {
+  font-size: 16px !important;
+}
+
 .clr-pri {
   color: #386A20;
 }
@@ -281,6 +303,15 @@ ul {
 }
 
 .btnn {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 16px 30px;
 }
 
@@ -299,6 +330,14 @@ ul {
   color: #ffffff;
 }
 
+.btnn-small-icon {
+  padding: 8px 20px;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  font-size: 10px;
+}
+
 .btnn-icon {
   color: #ffffff;
   display: -webkit-inline-box;
@@ -312,6 +351,24 @@ ul {
           justify-content: center;
   width: 52px;
   height: 52px;
+  padding: 12px;
+}
+
+.btnn-icon-small {
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 10px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 30px;
+  height: 30px;
   padding: 12px;
 }
 

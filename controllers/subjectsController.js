@@ -1,9 +1,11 @@
 import Subject from "../models/subjects.js";
 import { auth } from "../database/firebase.js";
+import multer from "multer";
 
 export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
+    console.log(data);
     const subjects = await Subject.fetchByBranchSem(
       data.branch != null ? data.branch : "cse",
       data.sem.toString()
@@ -45,5 +47,14 @@ export const deleteModule = (req, res) => {
       });
   } catch (error) {
     res.send({ response: 0, message: error.message });
+  }
+};
+
+export const addNotes = (req, res) => {
+  try {
+    var data = req.files;
+    console.log(data);
+  } catch (error) {
+    console.log(error.message);
   }
 };

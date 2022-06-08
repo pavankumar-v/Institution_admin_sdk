@@ -19,8 +19,11 @@ const serviceAccount = {
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-
+export const storage = admin
+  .storage()
+  .bucket("gs://brindavan-student-app.appspot.com");
 export const adminFirestore = admin.firestore;
 export const db = admin.firestore();
 export const AdminAuth = admin.auth();
+
 // admin.auth()

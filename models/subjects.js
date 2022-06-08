@@ -1,4 +1,6 @@
 import { db, adminFirestore } from "../database/firebase-admin.js";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../database/firebase.js";
 
 class Subject {
   constructor(id, subId, name, description, modules, notes, attendance) {
@@ -78,6 +80,25 @@ class Subject {
       })
       .catch((err) => {
         return err;
+      });
+  }
+
+  static async uploadNotes(branch, sem, docId, file) {
+    var storageRef = storage.ref("notes/" + file.name);
+    var task = uploadBytes(storageRef, file);
+    task
+      .then((snapshot) => {
+        storageRef
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+          })
+          .catch((err) => console.log(err));
+        console.log(snapshot);
+        console.log("file uploaded");
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 }

@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import multer from "multer";
 
 //Routes
 import authentication from "./routes/authRoutes.js";
