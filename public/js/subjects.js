@@ -115,7 +115,6 @@ $(document).ready(function () {
               var myRegexp = /.+(\/|%2F)(.+)\?.+/g;
               var match = myRegexp.exec(this.notes[note]);
               var fileName = match[2].replace(/%20/g, " ");
-              console.log(fileName);
               var subjectCards =
                 subjectCards +
                 `
@@ -145,7 +144,9 @@ $(document).ready(function () {
         }
       },
       error: function (res) {
-        console.log("error");
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   }
@@ -193,12 +194,17 @@ $(document).ready(function () {
   </span>
 </p>
 `);
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
           moduleName.val("");
         }
       },
 
       error: function (res) {
-        console.log(res.message);
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });
@@ -241,7 +247,9 @@ $(document).ready(function () {
       },
 
       error: function (res) {
-        console.log(res.message);
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });
@@ -255,8 +263,6 @@ $(document).ready(function () {
       .children("input[name=uid]")
       .val();
     const fileUrl = parent.children("a").attr("href");
-
-    console.log(docId);
 
     $.ajax({
       type: "POST",
@@ -283,7 +289,9 @@ $(document).ready(function () {
       },
 
       error: function (res) {
-        console.log(res.message);
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });
@@ -314,7 +322,7 @@ $(document).ready(function () {
     const cardExpand = $(this).parents(".card-expand");
     const docId = cardExpand.children("input[name=uid]").val();
     const newName = $(this).children("input[name=fileName]").val();
-    console.log(newName);
+
     var fd = new FormData();
     fd.append("file", file, file.name);
     fd.append("branch", branch);

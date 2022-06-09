@@ -14,6 +14,7 @@ import userRoutes from "./routes/userRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
+import DynamicForm from "./routes/dynamicFormRoutes.js";
 import { auth } from "./database/firebase.js";
 
 // INITIALIZE EXPRESS APP
@@ -41,6 +42,7 @@ app.use(userRoutes);
 app.use(staffRoutes);
 app.use(attendanceRoutes);
 app.use(subjectRoutes);
+app.use(DynamicForm);
 
 //404 error
 app.use((req, res) => {

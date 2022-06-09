@@ -1,0 +1,190 @@
+<%- include('./includes/head.ejs') %>
+    <%- include('./includes/nav.ejs') %>
+        <div class="wrapper">
+            <div class="main-content">
+                <%- include('./constants/loader.ejs') %>
+                    <div class="main-data">
+                        <h1 class="main-title">
+                            <%= title %>
+                        </h1>
+                        <div class="tabs">
+                            <button class="tab-btn active" id="tab2-btn">
+                                <span class="material-icons-outlined">list_alt</span> forms
+                            </button>
+                            <button class="tab-btn " id="tab1-btn">
+                                <span class="material-icons-outlined">note_add</span> create form
+                            </button>
+                        </div>
+                        <div class="div tab2 display-flex j-start a-start" id="tab2">
+                            <div class="container m0">
+                                <%if(forms.length> 0) { %> <% let i=0; for(let form of forms) { const date=new
+                                        Date(form.createdAt); var year=date.getFullYear(); var month=date.getMonth();
+                                        var day=date.getDate(); var cDate=day+"/"+month+"/"+year %>
+                                        <div class="card card-list elevation bg-ter">
+                                            <div class="display-flex card-content">
+                                                <div class="display-flex b upper" style="justify-content: start">
+                                                    <h6 class="bl m-l file-name-exp1 ">
+                                                        <%= form.name %>
+                                                    </h6>
+                                                </div>
+                                                <div class="badge badge-<%= form.isActive ? 'success' : 'danger' %>">
+                                                    <%= form.isActive ? 'open' : 'closed' %>
+                                                </div>
+                                                <p class="file-name">
+                                                    <%= form.sheetName %>
+                                                </p>
+                                                <p class="date-format">
+                                                    <%= timeSince(new Date(form.createdAt)) %> ago
+                                                </p>
+                                                <p>
+                                                    <span class="material-icons-outlined"
+                                                        id="expand-more">expand_more</span>
+                                                </p>
+                                            </div>
+                                            <div class="content-expand">
+                                                <input type="hidden" name="docId" value="<%= form.id %>">
+                                                <div class="display-flex flex-c"
+                                                    style="justify-content: space-between;">
+                                                    <div class="display-flex j-space-between">
+                                                        <div class="switch">
+                                                            <label>
+                                                                close
+                                                                <input type="checkbox" <%=form.isActive ? 'checked' : ''
+                                                                    %>>
+                                                                <span class="lever"></span>
+                                                                active
+                                                            </label>
+                                                        </div>
+                                                        <p contenteditable="true">
+                                                            <%= form.formId %>
+                                                        </p>
+                                                    </div>
+                                                    <h6>Fields</h6>
+                                                    <div class="display-fkex flex-c j-start">
+                                                        <div class="display-flex">
+                                                            <% for(let formField of form.form) { %>
+                                                                <p contenteditable="true">
+                                                                    <%= formField.fieldName %>
+                                                                </p>
+                                                                <select name="type" id="type" class="m-l">
+                                                                    <option value="i" <%=formField.type=="i"
+                                                                        ? 'selected' : '' %>>Integer
+                                                                    </option>
+                                                                    <option value="s" <%=formField.type=="s"
+                                                                        ? 'selected' : '' %>>String
+                                                                    </option>
+                                                                </select>
+                                                                <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btnn btnn-small btnn-small-icon bg__danger">
+                                                        <span class="material-icons-outlined">delete</span>
+                                                        Delete
+
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% i +=1; }%>
+                                            <%} else { %>
+                                                <h2>No Forms
+                                                </h2>
+
+                                                <% } %>
+                            </div>
+
+                            <div class="card w35 my">
+                                <div class="card-content display-flex flex-c">
+                                    <form style="width: 100%;" id="create-form">
+                                        <h5 class="headline5">Create form</h5>
+                                        <div class="form-input">
+                                            <label for="">Form Name</label>
+                                            <input type="text" name="formName" id="" />
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="">Description</label>
+                                            <textarea class="materialize-textarea" id="w3review" name="w3review"
+                                                rows="4" cols="50"></textarea>
+                                        </div>
+                                        <div class="form-input">
+                                            <label for="">Form ID</label>
+                                            <input type="text" name="formId" id="" />
+                                        </div>
+                                        <div class="form-input ">
+                                            <label for="">Sheet Name</label>
+                                            <input type="text" name="sheetName" id="" />
+                                            <span class="hint">case sensitive</span>
+                                        </div>
+
+
+                                        <div class="display-flex flex-c j-start" id="form-fields"
+                                            style="margin-left: auto;">
+                                            <div class="display-flex w100" id="column">
+                                                <div class="form-input">
+                                                    <label for="">Field Name</label>
+                                                    <input type="text" name="fieldName" id="" />
+                                                </div>
+                                                <div class="form-input m-l" style="float: right;">
+                                                    <label for="type">Data type</label>
+                                                    <select name="type" id="type" class="w100">
+                                                        <option value="i">Integer </option>
+                                                        <option value="s">String</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <span
+                                                        class="material-symbols-rounded bg-pri-c .clr-pri-c m-l m-t2 icon-small p-sm"
+                                                        id="form-increment">
+                                                        add
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="switch m-t">
+                                            <label>
+                                                Inactive
+                                                <input type="checkbox" checked>
+                                                <span class="lever"></span>
+                                                Active
+                                            </label>
+                                        </div>
+
+                                        <button class="btnn w100 m-t2">Create</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+            </div>
+        </div>
+        <!-- <button class="btnn btnn-icon floating-btn" id="edit">
+            <span class="material-symbols-rounded"> refresh </span>
+        </button> -->
+        <%- include('./includes/footer.ejs') %>
+
+            <% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000); var
+                interval=Math.floor(seconds / 31536000); if (interval> 1) {
+                return interval + " years";
+                }
+                interval = Math.floor(seconds / 2592000);
+                if (interval > 1) {
+                return interval + " mon's";
+                }
+                interval = Math.floor(seconds / 86400);
+                if (interval > 1) {
+                return interval + " days";
+                }
+                interval = Math.floor(seconds / 3600);
+                if (interval > 1) {
+                return interval + " hrs";
+                }
+                interval = Math.floor(seconds / 60);
+                if (interval > 1) {
+                return interval + " mins";
+                }
+                return Math.floor(seconds) + " sec's";
+                } %>

@@ -103,6 +103,12 @@
           align-items: start;
 }
 
+.a-start {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+
 .p {
   padding: 8px;
 }
@@ -159,6 +165,38 @@ ul {
   list-style: none;
 }
 
+.m0 {
+  margin: 0;
+}
+
+.mx0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.mx {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.my0 {
+  margin-rigt: 0px;
+  margin-left: 0px;
+}
+
+.my {
+  margin-rigt: 10px;
+  margin-left: 10px;
+}
+
+.w35 {
+  width: 35vw;
+}
+
+.w100 {
+  width: 100%;
+}
+
 .m {
   margin: 14px;
 }
@@ -203,6 +241,10 @@ ul {
   margin-left: 22px;
 }
 
+.p-sm {
+  padding: 10px;
+}
+
 .justify-s {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
@@ -237,12 +279,21 @@ ul {
   color: #BA1B1B;
 }
 
+.clr-on-err {
+  color: #BA1B1B;
+}
+
 .bg-ter {
   background: #BBEBEB;
 }
 
 .bg-pri-c {
   background: #B8F397;
+}
+
+.bg-err {
+  color: #FFFFFF;
+  background: #BA1B1B;
 }
 
 .material-icons-outlined {
@@ -408,6 +459,16 @@ ul {
 
 button[disabled] {
   background-color: #d3d3d3cc;
+}
+
+button[disabled]:hover {
+  cursor: not-allowed;
+}
+
+.floating-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .bg-ternary {
@@ -582,6 +643,32 @@ button[disabled] {
   border-bottom: 1px solid #e3e3e3;
 }
 
+.badge {
+  color: #042100;
+  background-color: #cccc;
+  text-transform: lowercase;
+  border: 2px solid #000;
+  padding: 0px 12px;
+  border-radius: 30px;
+}
+
+.badge-success {
+  border: 2px solid #2ECC71;
+  background-color: rgba(46, 204, 113, 0.5);
+}
+
+.badge-danger {
+  border: 2px solid #BA1B1B;
+  background-color: rgba(186, 27, 27, 0.5);
+}
+
+.date-format {
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 400;
+}
+
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -592,6 +679,7 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
   border: 1px solid #74796E;
   color: #43493E;
   margin: 0;
+  width: 100%;
 }
 
 input:not([type]).input-small, input[type=text]:not(.browser-default).input-small, input[type=password]:not(.browser-default).input-small, input[type=email]:not(.browser-default).input-small, input[type=url]:not(.browser-default).input-small, input[type=time]:not(.browser-default).input-small, input[type=date]:not(.browser-default).input-small, input[type=datetime]:not(.browser-default).input-small, input[type=datetime-local]:not(.browser-default).input-small, input[type=tel]:not(.browser-default).input-small, input[type=number]:not(.browser-default).input-small, input[type=search]:not(.browser-default).input-small, textarea.materialize-textarea.input-small {
@@ -614,6 +702,10 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   background: rgba(223, 228, 214, 0.6);
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+.form-input {
+  width: 100%;
 }
 
 select {

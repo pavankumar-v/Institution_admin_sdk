@@ -29,6 +29,8 @@ $onSurfaceVarient: #43493E
 $outline: #74796E
 $hoverColor: rgb(227,227,227)
 $insetShadow: inset 0 0 0 2px ($background)
+$success: #2ECC71
+
 // border
 $border: 1px solid $outline
 
@@ -162,6 +164,9 @@ $transition: all 0.3s ease
     justify-content: center
     align-items: start
 
+.a-start
+    align-items: start
+
 .p
     padding: 8px
 
@@ -205,6 +210,27 @@ body
 ul
     list-style: none
 
+.m0
+    margin: 0
+
+.mx0
+    margin-top: 0px
+    margin-bottom: 0px
+.mx
+    margin-top: 10px
+    margin-bottom: 10px
+.my0
+    margin-rigt: 0px
+    margin-left: 0px
+.my
+    margin-rigt: 10px
+    margin-left: 10px
+
+.w35
+    width: 35vw
+.w100
+    width: 100%
+
 .m
     margin: 14px
 .m2
@@ -227,6 +253,9 @@ ul
     margin-left: 14px
 .m-l2
     margin-left: 22px
+
+.p-sm
+    padding: 10px
 
 .justify-s
     justify-content: start
@@ -251,11 +280,18 @@ ul
 .clr-err
     color: $error
 
+.clr-on-err
+    color: $error
+
 .bg-ter
     background: $ternaryContainer
 
 .bg-pri-c
     background: $primaryContainer
+
+.bg-err
+    color: $onError
+    background: $error
 
 .material-icons-outlined
     color: #000
@@ -362,6 +398,15 @@ ul
 
 button[disabled]
     background-color: #d3d3d3cc
+
+    &:hover
+        cursor: not-allowed
+
+.floating-btn
+    position: absolute
+    margin:
+    bottom: 0
+    right: 0
 
 .bg-ternary
     background: $ternaryContainer
@@ -481,6 +526,25 @@ button[disabled]
     padding: 24px 0px
     border-bottom: 1px solid $hoverColor
 
+.badge
+    color: $onPrimaryContainer
+    background-color: #cccc
+    text-transform: lowercase
+    border: 2px solid #000
+    padding: 0px 12px
+    border-radius: 30px
+
+    &-success
+        border: 2px solid $success
+        background-color: rgba($success ,0.5 )
+    &-danger
+        border: 2px solid $error
+        background-color: rgba( $error, 0.5 )
+
+.date-format
+    font-style: italic
+    @include caption
+
 // INPUT STYLES
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
     box-sizing: border-box
@@ -491,6 +555,7 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     border: $border
     color: $onSurfaceVarient
     margin: 0
+    width: 100%
 
     &.input-small
         background: $background
@@ -508,6 +573,9 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
         border: 1px solid $outline
         background: rgba($surfaceVarient, 0.6)
         box-shadow: none
+
+.form-input
+    width: 100%
 
 select
     display: block
