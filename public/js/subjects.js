@@ -69,7 +69,7 @@ $(document).ready(function () {
             <p class="display-flex">
               <input type="hidden" name="moduleName" value="${this.modules[module]}" />
               ${this.modules[module]}
-              <span class="material-symbols-rounded clr-err" id="delete-module-btn">
+              <span class="material-symbols-rounded clr-err " id="delete-module-btn">
                 delete
               </span>
               `;
@@ -88,37 +88,50 @@ $(document).ready(function () {
               note_add
             </span>
           </h5>
-          <form class="display-flex j-start" id="upload-notes-form" style="width: 300px; display: none;">
-
+          <form class="display-flex flex-c j-start" id="upload-notes-form" enctype="multipart/form-data" style="width: 300px; display: none;">
+          <input type="text" class="input-small m-b" name="fileName" id="fileName" placeholder="file name (optional)" />
+          <div class="display-flex j-start">
             <label for="file-input${index}">
               <span class="btnn btnn-icon-small bg-ter ">
                 <span class="material-symbols-rounded icon-small ">attach_file</span>
               </span>
               </label>
+            
               <input type="file" name="file" enctype="multipart/form-data" id="file-input${index}" value="upload" style="display: none;"  />
             <p class="hint file-name m-l2">No file selected</p>
 
             <button type="submit" class="btnn btnn-small btnn-small-icon m-l" id="upload-file">
-              <span class="material-symbols-rounded icon-small">
-                upload_file
-              </span>
-              upload
+            <div class="btn-loader" style="justify-content: center; display : none;"></div>
+           
+            upload
             </button>
+            </div>
           </form>
 
-          <div class="notes display-flex flex-c j-start m-t">
+          <div class="notes-section display-flex flex-c j-start m-t">
+          `;
+
+            for (note in this.notes) {
+              var myRegexp = /.+(\/|%2F)(.+)\?.+/g;
+              var match = myRegexp.exec(this.notes[note]);
+              var fileName = match[2].replace(/%20/g, " ");
+              console.log(fileName);
+              var subjectCards =
+                subjectCards +
+                `
             <p class="display-flex">
-              <a href="">Linke to another note</a>
-              <span class="material-symbols-rounded clr-err m-l">
+              <a class="file-name-exp1" href="${this.notes[note]}">${fileName}</a>
+              <span class="material-symbols-rounded clr-err m-l" id="notes-delete-btn">
                 delete
               </span>
             </p>
-            <p class="display-flex">
-              <a href="">Link to notes</a>
-              <span class="material-symbols-rounded clr-err m-l">
-                delete
-              </span>
-            </p>
+            `;
+            }
+
+            var subjectCards =
+              subjectCards +
+              `
+            
           </div>
         </div>
       </div>
@@ -216,6 +229,49 @@ $(document).ready(function () {
       success: function (res) {
         if (res.response == 1) {
           parent.remove();
+
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        } else {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+      },
+
+      error: function (res) {
+        console.log(res.message);
+      },
+    });
+  });
+
+  $(document).on("click", "#notes-delete-btn", function () {
+    const parent = $(this).parent();
+    const branch = $("#branch").val();
+    const sem = $("#sem").val();
+    const docId = $(this)
+      .parentsUntil(".card-expan")
+      .children("input[name=uid]")
+      .val();
+    const fileUrl = parent.children("a").attr("href");
+
+    console.log(docId);
+
+    $.ajax({
+      type: "POST",
+      url: "/deletenotes",
+      contentType: "application/json",
+      data: JSON.stringify({
+        branch: branch,
+        sem: sem,
+        docId: docId,
+        notesUrl: fileUrl,
+      }),
+      success: function (res) {
+        if (res.response == 1) {
+          parent.remove();
+
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
           });
@@ -239,70 +295,77 @@ $(document).ready(function () {
   var file;
   $(document).on("change", "#upload-notes-form", function (e) {
     e.preventDefault();
-    file = $(this).children("input[type=file]")[0].files[0];
-    $(this).children(".hint").text(file.name);
-    // console.log(fileName);
+    file = $(this).find("div input[type=file]")[0].files[0];
+    if (file != undefined) {
+      $(this).find("div .hint").text(file.name);
+    }
   });
 
-  // $(document).on("submit", "#upload-notes-form", function (e) {
-  //   e.preventDefault();
-  //   var branch = $("#branch").val();
-  //   var sem = $("#sem").val();
-  //   const cardExpand = $(this).parents(".card-expand");
-  //   const docId = cardExpand.children("input[name=uid]").val();
-  //   const id = $(this).children("input").attr("id");
-  //   var files = $("#file-input0")[0].files[0];
-  //   console.log(file);
-  //   console.log(file.name);
-  //   var fd = new FormData();
-  //   fd.append("file", file, file.name);
-  //   fd.append("branch", branch);
-  //   fd.append("sem", sem);
-  //   fd.append("docId", docId);
-  //   console.log(fd.get("branch"));
-  //   $.ajax({
-  //     method: "POST",
-  //     url: "/addNotes",
-  //     contentType: false,
-  //     data: $(this).serialize(),
-  //     caches: false,
-  //     processData: false,
-  //     success: function (res) {
-  //       console.log(res.message);
-  //     },
-  //     error: function (res) {
-  //       console.log(res.message);
-  //     },
-  //   });
-  // });
-
-  $("#file-upload").on("submit", function (e) {
+  $(document).on("submit", "#upload-notes-form", function (e) {
     e.preventDefault();
-    var name = $(this).children("input[name=name]").val();
-    var file = $(this).children("#file")[0].files[0];
-    var form = document.querySelector("form");
-    // console.log(form);
-    // console.log($(this).html());
-    // var data = new FormData(form);
-    // for (var [key, value] of data.entries()) {
-    //   console.log(key, value);
-    // }
-
-    // console.log(...data);
-
-    // // var data = $("form").serialize();
-    // // console.log(data);
-    // // $.post("/addNotes", data);
+    const btn = $(this).find("div button");
+    const loader = btn.children(".btn-loader");
+    btn.empty();
+    btn.append(loader);
+    btn.attr("disabled", true);
+    loader.toggle();
+    var branch = $("#branch").val();
+    var sem = $("#sem").val();
+    const cardExpand = $(this).parents(".card-expand");
+    const docId = cardExpand.children("input[name=uid]").val();
+    const newName = $(this).children("input[name=fileName]").val();
+    console.log(newName);
+    var fd = new FormData();
+    fd.append("file", file, file.name);
+    fd.append("branch", branch);
+    fd.append("sem", sem);
+    fd.append("newName", newName);
+    fd.append("docId", docId);
     $.ajax({
       method: "POST",
-      type: "POST",
       url: "/addNotes",
-      dataType: "json",
-      data: JSON.stringify({ name: name, file: file }),
-      contentType: "application/json",
+      contentType: false,
+      data: fd,
       caches: false,
       processData: false,
-      success: function (response) {},
+      success: function (res) {
+        if (res.response == 1) {
+          cardExpand.find(".notes-section").append(
+            `
+            <p class="display-flex">
+              <a class="file-name-exp1" href="${res.url}">${res.fileName}</a>
+              <span class="material-symbols-rounded clr-err m-l" id="notes-delete-btn">
+                delete
+              </span>
+            </p>
+            `
+          );
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+          loader.toggle();
+          btn.append("upload");
+          $(this).trigger("reset");
+          btn.attr("disabled", false);
+        } else {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+          loader.toggle();
+          btn.append("upload");
+          $(this).trigger("reset");
+          btn.attr("disabled", false);
+        }
+      },
+      error: function (res) {
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+        loader.toggle();
+        btn.append("upload");
+        $(this).trigger("reset");
+        btn.attr("disabled", false);
+      },
     });
   });
 });

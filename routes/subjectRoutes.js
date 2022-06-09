@@ -1,6 +1,8 @@
 import express from "express";
 import multer from "multer";
 
+const upload = multer({ storage: multer.memoryStorage() });
+
 const router = express.Router();
 
 import {
@@ -8,23 +10,13 @@ import {
   addModule,
   deleteModule,
   addNotes,
+  deleteNotes,
 } from "../controllers/subjectsController.js";
-
-const fileFilter = (req, file, cb) => {
-  cb(null, true);
-};
-
-const storage = multer.memoryStorage();
-
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 10000000000, files: 2 },
-});
 
 router.post("/loadSubjects", loadSubjects);
 router.post("/addModule", addModule);
 router.post("/deleteModule", deleteModule);
-router.post("/addNotes", upload.array("file"), addNotes);
+router.post("/deletenotes", deleteNotes);
+router.post("/addNotes", upload.single("file"), addNotes);
 
 export default router;

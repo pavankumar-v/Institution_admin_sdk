@@ -1,9 +1,12 @@
 // import csurf from "csurf";
 import cookieParser from "cookie-parser";
+import saltedMd5 from "salted-md5";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import multer from "multer";
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 //Routes
 import authentication from "./routes/authRoutes.js";

@@ -1,6 +1,13 @@
 import { db, adminFirestore } from "../database/firebase-admin.js";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../database/firebase.js";
+import path from "path";
+import { url } from "inspector";
 
 class Subject {
   constructor(id, subId, name, description, modules, notes, attendance) {
@@ -83,23 +90,77 @@ class Subject {
       });
   }
 
-  static async uploadNotes(branch, sem, docId, file) {
-    var storageRef = storage.ref("notes/" + file.name);
-    var task = uploadBytes(storageRef, file);
-    task
-      .then((snapshot) => {
-        storageRef
-          .getDownloadURL()
-          .then((url) => {
-            console.log(url);
+  static async uploadNotes(branch, sem, docId, fileName, file) {
+    try {
+      var storageRef = ref(storage, "notes/" + fileName);
+      var task = uploadBytes(storageRef, file.buffer)
+        .then((snapshot) => {
+          const fileUrl = getDownloadURL(storageRef)
+            .then((url) => {
+              db.collection(
+                "branch/" + branch.toLowerCase() + "/" + sem.toString()
+              )
+                .doc(docId)
+                .set(
+                  {
+                    notes: adminFirestore.FieldValue.arrayUnion(url),
+                  },
+                  { merge: true },
+                  (err) => console.log(err)
+                )
+                .then(() => {
+                  console.log("db updated");
+                  return;
+                })
+                .catch((err) => console.log(err.message));
+              return url;
+            })
+            .catch((err) => console.log(err));
+
+          return fileUrl;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // console.log(task);
+
+      return task;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  static async deleteNotesByUrl(branch, sem, docId, fileName, fileUrl) {
+    const deleteRef = ref(storage, "notes/" + fileName);
+
+    const subjectRef = db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .doc(docId);
+
+    const taskDelete = subjectRef
+      .update({
+        notes: adminFirestore.FieldValue.arrayRemove(fileUrl),
+      })
+      .then(() => {
+        const fileDelete = deleteObject(deleteRef)
+          .then(() => {
+            console.log("notes deleted");
+            return 1;
           })
-          .catch((err) => console.log(err));
-        console.log(snapshot);
-        console.log("file uploaded");
+          .catch((err) => {
+            console.log(err.message);
+            return 0;
+          });
+
+        return fileDelete;
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
+        return 0;
       });
+
+    return taskDelete;
   }
 }
 

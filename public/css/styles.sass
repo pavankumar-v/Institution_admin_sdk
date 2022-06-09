@@ -130,6 +130,12 @@ $transition: all 0.3s ease
     width: 100px
     height: 1.2em
     white-space: nowrap
+.file-name-exp1
+    text-overflow: ellipsis
+    overflow: hidden
+    width: 150px
+    height: 1.2em
+    white-space: nowrap
 
 // util mixin
 @mixin flex
@@ -353,6 +359,9 @@ ul
     box-shadow: none
     &:hover, &:focus
         box-shadow: none
+
+button[disabled]
+    background-color: #d3d3d3cc
 
 .bg-ternary
     background: $ternaryContainer

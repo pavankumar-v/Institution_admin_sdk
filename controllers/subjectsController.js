@@ -1,6 +1,5 @@
 import Subject from "../models/subjects.js";
-import { auth } from "../database/firebase.js";
-import multer from "multer";
+import path from "path";
 
 export const loadSubjects = async (req, res) => {
   try {
@@ -50,11 +49,118 @@ export const deleteModule = (req, res) => {
   }
 };
 
-export const addNotes = (req, res) => {
+export const addNotes = async (req, res) => {
   try {
-    var data = req.files;
-    console.log(data);
+    var data = req.body;
+    var file = req.file;
+    const fileName =
+      data.newName != ""
+        ? data.newName + path.extname(file.originalname)
+        : file.originalname;
+    var validate = fileValidate(
+      file,
+      path.extname(file.originalname).toString()
+    );
+
+    console.log(validate);
+    if (validate == 1) {
+      const url = await Subject.uploadNotes(
+        data.branch,
+        data.sem,
+        data.docId,
+        fileName,
+        file
+      );
+
+      if (url) {
+        res.send({
+          response: 1,
+          url: url,
+          fileName: fileName,
+          message: "Notes uploaded successfully",
+        });
+      } else {
+        res.send({ response: 0, message: "Notes ucould not be uploaded" });
+      }
+    } else if (validate == 2) {
+      res.send({ response: 0, message: "File exceeds 30 mb please check" });
+    } else if (validate == 3) {
+      res.send({ response: 0, message: "File type not supported" });
+    } else {
+      res.send({ response: 0, message: "Error uploading file" });
+    }
   } catch (error) {
     console.log(error.message);
   }
 };
+
+export const deleteNotes = async (req, res) => {
+  try {
+    const data = req.body;
+    var myRegexp = /.+(\/|%2F)(.+)\?.+/g;
+    var fileName = myRegexp.exec(data.notesUrl)[2];
+    fileName = fileName.replace(/%20/g, " ");
+
+    const result = await Subject.deleteNotesByUrl(
+      data.branch,
+      data.sem,
+      data.docId,
+      fileName,
+      data.notesUrl
+    );
+    if (result) {
+      res.send({ response: 1, message: "Notes deleted successfully" });
+    } else {
+      res.send({ response: 0, message: "operation failed" });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+function fileValidate(file, fileType) {
+  console.log(fileType);
+  // size validation
+  if (file.size > 31457280) {
+    return 2;
+  }
+
+  if (
+    !(
+      fileType == ".pdf" ||
+      fileType == ".docx" ||
+      fileType == ".doc" ||
+      fileType == ".pptx" ||
+      fileType == ".ppt" ||
+      fileType == ".ppt" ||
+      fileType == ".csv" ||
+      fileType == ".png" ||
+      fileType == ".jpg" ||
+      fileType == ".jpeg"
+    )
+  ) {
+    return 3;
+  }
+
+  // if (
+  //   file.mimetype != "application/pdf" ||
+  //   file.mimetype !=
+  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+  //   file.mimetype != "image/png" ||
+  //   file.mimetype !=
+  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+  //   file.mimetype != "image/jpg" ||
+  //   file.mimetype !=
+  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+  //   file.mimetype !=
+  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+  //   file.mimetype != "image/jpg" ||
+  //   file.mimetype != "application/x-zip-compressed" ||
+  //   file.mimetype !=
+  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  // ) {
+  //   return 3;
+  // }
+
+  return 1;
+}

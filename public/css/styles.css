@@ -50,6 +50,14 @@
   white-space: nowrap;
 }
 
+.file-name-exp1 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 150px;
+  height: 1.2em;
+  white-space: nowrap;
+}
+
 .display-flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -396,6 +404,10 @@ ul {
 .btnn-rounded:hover, .btnn-rounded:focus {
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+button[disabled] {
+  background-color: #d3d3d3cc;
 }
 
 .bg-ternary {
