@@ -20,6 +20,7 @@ export const signInPage = (req, res) => {
 export const signInUser = async (req, res) => {
   try {
     const data = req.body;
+
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((user) => {
         user.user
@@ -34,19 +35,21 @@ export const signInUser = async (req, res) => {
                 const options = { maxAge: expiresIn, httpOnly: true };
                 res.cookie("session", sessionCookie, options);
                 res.cookie("user", user, options);
-                res.end(JSON.stringify({ status: "success" }));
+                res.send({ response: 1, message: "login success" });
               })
-              .catch((err) => console.log("error ", err.message));
+              .catch((err) => {
+                res.send({ response: 0, message: err.message });
+              });
           })
           .catch((err) => {
-            res.redirect("/login");
+            res.send({ response: 0, message: err.message });
           });
       })
       .catch((err) => {
-        res.json({ message: err.message });
+        res.send({ response: 0, message: err.message });
       });
-  } catch (error) {
-    res.json({ message: error.message });
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };
 

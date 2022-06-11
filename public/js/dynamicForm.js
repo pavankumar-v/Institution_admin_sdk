@@ -7,7 +7,7 @@ $(document).ready(function () {
             <div class="display-flex w100" id="column">
                 <div class="form-input">
                     <label for="">Field Name</label>
-                    <input type="text" name="fieldName" id=""  />
+                    <input type="text" name="fieldName" id="" required />
                 </div>
                 <div class="form-input m-l" style="float: right;">
                     <label for="type">Data type</label>
@@ -40,9 +40,13 @@ $(document).ready(function () {
   //   CREATE FORM SUBMIT EVENT
   $(document).on("submit", "#create-form", function (e) {
     e.preventDefault();
+    const btn = $(this).children("button");
+    const loader = btn.children(".btn-loader");
+    btnLoaderToggleOn(btn, loader);
+
     const formName = $(this).children().children("input[name=formName]").val();
     const description = $(this).children().children("textarea").val();
-    const formId = $(this).children().children("input[name=formId]").val();
+    const formUrl = $(this).children().children("input[name=formUrl]").val();
     const sheetName = $(this)
       .children()
       .children("input[name=sheetName]")
@@ -51,7 +55,6 @@ $(document).ready(function () {
     const isChecked = $(this)
       .find("div.switch label input[type=checkbox]")
       .is(":checked");
-    console.log(isChecked);
 
     // get dynamic formFields Value
     var form = [];
@@ -68,7 +71,7 @@ $(document).ready(function () {
 
           form.push({
             type: type,
-            fieldValue: fieldName.toLowerCase(),
+            fieldName: fieldName.toLowerCase(),
           });
         });
       });
@@ -78,12 +81,35 @@ $(document).ready(function () {
       type: "POST",
       url: "/createform",
       contentType: "application/json",
-      data: JSON.stringify({ formName, description, formId, sheetName, form }),
+      data: JSON.stringify({
+        formName,
+        description,
+        formUrl,
+        sheetName,
+        isChecked,
+        form,
+      }),
       success: function (res) {
-        console.log(res);
+        btnLoaderToggleOff(btn, loader);
+        console.log(res.response);
+        if (res.response) {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+          $("#create-form")[0].reset();
+        } else {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+        // console.log(res);
       },
       error: function (res) {
-        console.log(res);
+        console.log(res.response);
+        btnLoaderToggleOff(btn, loader);
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });

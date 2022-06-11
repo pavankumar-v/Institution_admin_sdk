@@ -32,7 +32,6 @@ class Subject {
         doc.data().notes,
         doc.data().attendance
       );
-
       return subjectsData;
     });
 

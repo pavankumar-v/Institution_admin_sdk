@@ -1,13 +1,50 @@
 $(document).ready(function () {
+  $("#login-form").on("submit", function (e) {
+    e.preventDefault();
+    const btn = $(this).find("button");
+    const loader = btn.children(".btn-loader");
+    btnLoaderToggleOn(btn, loader);
+
+    const email = $(this).find("input[name=email]").val();
+    const password = $(this).find("input[name=password]").val();
+
+    $.ajax({
+      type: "POST",
+      url: "/login",
+      contentType: "application/json",
+      data: JSON.stringify({ email, password }),
+      success: function (res) {
+        if (res.response == 1) {
+          btnLoaderToggleOff(btn, loader, "Logging In..");
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+            classes: "rounded",
+          });
+          location.href = "/";
+        } else {
+          btnLoaderToggleOff(btn, loader, "Login");
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+            classes: "rounded",
+          });
+        }
+      },
+      error: function (res) {
+        btnLoaderToggleOff(btn, loader, "Loggin");
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+          classes: "rounded",
+        });
+      },
+    });
+  });
   $("#password-reset").on("submit", function (e) {
     e.preventDefault();
-    const button = $(this).find("button");
+    const btn = $(this).find("button");
     const innerHtml = $(this).find("button").html();
-    const loader = button.find(".btn-loader");
-    button.attr("disabled", true);
-    button.empty();
-    button.append(loader);
-    loader.css("display", "block");
+    const loader = btn.find(".btn-loader");
+    btnLoaderToggleOn(btn, loader);
+
     const email = $(this).find("input[type=email]");
     $.ajax({
       type: "POST",
@@ -15,9 +52,7 @@ $(document).ready(function () {
       contentType: "application/json",
       data: JSON.stringify({ email: email.val() }),
       success: function (res) {
-        loader.css("display", "none");
-        button.html(innerHtml);
-        button.attr("disabled", false);
+        btnLoaderToggleOff(btn, loader, innerHtml);
         if (res.response == 1) {
           M.toast({
             html: `<span style='color: white;'>${res.data}<span>`,
@@ -31,9 +66,7 @@ $(document).ready(function () {
         }
       },
       error: function (res) {
-        loader.css("display", "none");
-        button.html(innerHtml);
-        button.attr("disabled", false);
+        btnLoaderToggleOff(btn, loader, innerHtml);
         M.toast({
           html: ` <span style='color: white;'>${res.err}<span>`,
           classes: "rounded",

@@ -1,3 +1,16 @@
+// BUTTON TOGGLER
+function btnLoaderToggleOn(btn, loader) {
+  btn.attr("disabled", true);
+  btn.empty();
+  btn.append(loader);
+  loader.toggle();
+}
+function btnLoaderToggleOff(btn, loader, text) {
+  loader.toggle();
+  btn.append(text);
+  btn.attr("disabled", false);
+}
+
 $(document).ready(function () {
   // SIDEBAR TOGGLE
   $(".hamburger").click(function () {

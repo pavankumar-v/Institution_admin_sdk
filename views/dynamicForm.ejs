@@ -7,16 +7,18 @@
                         <h1 class="main-title">
                             <%= title %>
                         </h1>
-                        <div class="tabs">
+                        <hr>
+                        <br>
+                        <!-- <div class="tabs">
                             <button class="tab-btn active" id="tab2-btn">
                                 <span class="material-icons-outlined">list_alt</span> forms
                             </button>
                             <button class="tab-btn " id="tab1-btn">
                                 <span class="material-icons-outlined">note_add</span> create form
                             </button>
-                        </div>
+                        </div> -->
                         <div class="div tab2 display-flex j-start a-start" id="tab2">
-                            <div class="container m0">
+                            <div class="container m0" id="form-list">
                                 <%if(forms.length> 0) { %> <% let i=0; for(let form of forms) { const date=new
                                         Date(form.createdAt); var year=date.getFullYear(); var month=date.getMonth();
                                         var day=date.getDate(); var cDate=day+"/"+month+"/"+year %>
@@ -31,7 +33,7 @@
                                                     <%= form.isActive ? 'open' : 'closed' %>
                                                 </div>
                                                 <p class="file-name">
-                                                    <%= form.sheetName %>
+                                                    <%= form.sheetTitle %>
                                                 </p>
                                                 <p class="date-format">
                                                     <%= timeSince(new Date(form.createdAt)) %> ago
@@ -78,6 +80,8 @@
                                                         </div>
                                                     </div>
                                                     <button class="btnn btnn-small btnn-small-icon bg__danger">
+
+
                                                         <span class="material-icons-outlined">delete</span>
                                                         Delete
 
@@ -93,13 +97,13 @@
                                                 <% } %>
                             </div>
 
-                            <div class="card w35 my">
+                            <div class="card w30 my pos-sticky" style="top: 10%;">
                                 <div class="card-content display-flex flex-c">
                                     <form style="width: 100%;" id="create-form">
                                         <h5 class="headline5">Create form</h5>
                                         <div class="form-input">
                                             <label for="">Form Name</label>
-                                            <input type="text" name="formName" id="" />
+                                            <input type="text" name="formName" id="" required />
                                         </div>
                                         <div class="form-input">
                                             <label for="">Description</label>
@@ -107,12 +111,12 @@
                                                 rows="4" cols="50"></textarea>
                                         </div>
                                         <div class="form-input">
-                                            <label for="">Form ID</label>
-                                            <input type="text" name="formId" id="" />
+                                            <label for="">Form url</label>
+                                            <input type="text" name="formUrl" id="" required />
                                         </div>
                                         <div class="form-input ">
                                             <label for="">Sheet Name</label>
-                                            <input type="text" name="sheetName" id="" />
+                                            <input type="text" name="sheetName" id="" required />
                                             <span class="hint">case sensitive</span>
                                         </div>
 
@@ -122,7 +126,7 @@
                                             <div class="display-flex w100" id="column">
                                                 <div class="form-input">
                                                     <label for="">Field Name</label>
-                                                    <input type="text" name="fieldName" id="" />
+                                                    <input type="text" name="fieldName" id="" required />
                                                 </div>
                                                 <div class="form-input m-l" style="float: right;">
                                                     <label for="type">Data type</label>
@@ -149,7 +153,10 @@
                                             </label>
                                         </div>
 
-                                        <button class="btnn w100 m-t2">Create</button>
+                                        <button class="btnn w100 m-t2">
+                                            <%- include('./constants/btnloader.ejs') %>
+                                                Create
+                                        </button>
                                     </form>
                                 </div>
                             </div>

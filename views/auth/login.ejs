@@ -4,7 +4,7 @@
     <div class="auth card rounded p14">
       <h4 class="bl m-b" id="form-title">Login</h4>
       <!-- login -->
-      <form action="/login" method="post" id="login">
+      <form method="post" id="login-form">
         <div class="form-input">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         </div>
@@ -19,20 +19,22 @@
         <div>
           <a id="forgot-password-btn" style="cursor: pointer">forgot password</a>
         </div>
-        <button type="submit" class="btnn m-t">Login</button>
+        <button type="submit" class="btnn m-t">
+          <%- include('../constants/btnloader.ejs') %>
+            Login
+        </button>
       </form>
       <!-- Password reset -->
-      <form method="post" id="password-reset" style="display: none">
+      <form method="post" class="display-flex" id="password-reset" style="display: none">
         <div class="form-input">
           <label for="">Email</label>
           <input type="email" name="email" id="" required />
         </div>
         <br />
-        <a class="m-b" style="cursor: pointer" id="back-login-btn">login</a>
-        <button type="submit" class="btnn display-flex m-t">
+        <a class="m-b" style="cursor: pointer" id="back-login-btn">login</a> <br>
+        <button type="submit" class="btnn m-t">
           <div class="btn-loader" style="justify-content: center"></div>
           Send reset password link
-          <span class="material-icons-outlined m-l">arrow_forward</span>
         </button>
       </form>
     </div>
