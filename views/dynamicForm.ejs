@@ -18,78 +18,76 @@
                             </button>
                         </div> -->
                         <div class="div tab2 display-flex j-start a-start" id="tab2">
-                            <div class="container m0" id="form-list">
-                                <%if(forms.length> 0) { %> <% let i=0; for(let form of forms) { const date=new
+                            <div class="container display-grid m0" id="form-list">
+                                <% if(forms.length> 0) { %> <% for(let form of forms) { const date=new
                                         Date(form.createdAt); var year=date.getFullYear(); var month=date.getMonth();
                                         var day=date.getDate(); var cDate=day+"/"+month+"/"+year %>
-                                        <div class="card card-list elevation bg-ter">
-                                            <div class="display-flex card-content">
-                                                <div class="display-flex b upper" style="justify-content: start">
-                                                    <h6 class="bl m-l file-name-exp1 ">
+                                        <div class="card" id="formCard">
+                                            <input type="hidden" name="docId" value="<%= form.id %>">
+                                            <input type="hidden" name="formState" value="<%= form.isActive %>">
+                                            <div class="display-flex p-lg flex-c bl">
+                                                <div class="more-menu" id="more-menu">
+                                                    <ul>
+                                                        <%- include('./constants/btnloader.ejs') %>
+                                                            <% if(form.isActive) { %>
+                                                                <li id="formStateToggle">Disable</li>
+
+                                                                <% }else{ %>
+                                                                    <li id="formStateToggle">Enable</li>
+                                                                    <% } %>
+                                                                        <li class="delete" id="delete-form">Delete</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="display-flex j-space-between w100">
+                                                    <h6 class="file-name-exp2 display-small">
                                                         <%= form.name %>
                                                     </h6>
+
+                                                    <span class="material-icons-outlined more-vert" tabindex="1"
+                                                        id="more-vert">
+                                                        more_vert
+                                                    </span>
                                                 </div>
-                                                <div class="badge badge-<%= form.isActive ? 'success' : 'danger' %>">
+
+                                                <div class="chip <%= form.isActive ? 'bg-pri-c ' : ' bg-err-c ' %> inline-flex mx"
+                                                    style="height: 26px;">
+                                                    <span
+                                                        class="material-icons-outlined chip-icon <%= form.isActive ? 'clr-pri-c ' : 'clr-err-c' %>    m-r-sm">
+                                                        <%= form.isActive ? 'done' : 'close' %>
+                                                    </span>
                                                     <%= form.isActive ? 'open' : 'closed' %>
                                                 </div>
-                                                <p class="file-name">
-                                                    <%= form.sheetTitle %>
-                                                </p>
-                                                <p class="date-format">
-                                                    <%= timeSince(new Date(form.createdAt)) %> ago
-                                                </p>
-                                                <p>
-                                                    <span class="material-icons-outlined"
-                                                        id="expand-more">expand_more</span>
-                                                </p>
-                                            </div>
-                                            <div class="content-expand">
-                                                <input type="hidden" name="docId" value="<%= form.id %>">
-                                                <div class="display-flex flex-c"
-                                                    style="justify-content: space-between;">
-                                                    <div class="display-flex j-space-between">
-                                                        <div class="switch">
-                                                            <label>
-                                                                close
-                                                                <input type="checkbox" <%=form.isActive ? 'checked' : ''
-                                                                    %>>
-                                                                <span class="lever"></span>
-                                                                active
-                                                            </label>
-                                                        </div>
-                                                        <p contenteditable="true">
-                                                            <%= form.formId %>
-                                                        </p>
-                                                    </div>
-                                                    <h6>Fields</h6>
-                                                    <div class="display-fkex flex-c j-start">
-                                                        <div class="display-flex">
-                                                            <% for(let formField of form.form) { %>
-                                                                <p contenteditable="true">
-                                                                    <%= formField.fieldName %>
-                                                                </p>
-                                                                <select name="type" id="type" class="m-l">
-                                                                    <option value="i" <%=formField.type=="i"
-                                                                        ? 'selected' : '' %>>Integer
-                                                                    </option>
-                                                                    <option value="s" <%=formField.type=="s"
-                                                                        ? 'selected' : '' %>>String
-                                                                    </option>
-                                                                </select>
-                                                                <% } %>
-                                                        </div>
-                                                    </div>
-                                                    <button class="btnn btnn-small btnn-small-icon bg__danger">
 
+                                                <p class="desc-sm">
+                                                    <%= form.description %>
+                                                </p>
 
-                                                        <span class="material-icons-outlined">delete</span>
-                                                        Delete
-
-                                                    </button>
+                                                <div class="media  display-flex m-t rounded-lg">
+                                                    <img src="/img/<%= randomImg() %>" alt="">
                                                 </div>
+
+                                                <br>
+                                                <div class="card-footer display-flex j-space-between w100 ">
+                                                    <div class="inline-flex">
+                                                        <span class="material-icons clr-tri-c">
+                                                            description
+                                                        </span>
+                                                        <i class="text-sm display-flex flex-c j-start">
+                                                            <%= timeSince(new Date(form.createdAt)) %> ago
+                                                                <p>
+                                                                    <%= form.sheetTitle %>
+                                                                </p>
+                                                        </i>
+                                                        <br>
+                                                    </div>
+
+                                                    <button class="btnn btnn-rounded">View</button>
+                                                </div>
+
                                             </div>
+
                                         </div>
-                                        <% i +=1; }%>
+                                        <% }%>
                                             <%} else { %>
                                                 <h2>No Forms
                                                 </h2>
@@ -173,25 +171,28 @@
         </button> -->
         <%- include('./includes/footer.ejs') %>
 
-            <% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000); var
-                interval=Math.floor(seconds / 31536000); if (interval> 1) {
-                return interval + " years";
-                }
-                interval = Math.floor(seconds / 2592000);
-                if (interval > 1) {
-                return interval + " mon's";
-                }
-                interval = Math.floor(seconds / 86400);
-                if (interval > 1) {
-                return interval + " days";
-                }
-                interval = Math.floor(seconds / 3600);
-                if (interval > 1) {
-                return interval + " hrs";
-                }
-                interval = Math.floor(seconds / 60);
-                if (interval > 1) {
-                return interval + " mins";
-                }
-                return Math.floor(seconds) + " sec's";
-                } %>
+            <% function randomImg(){ var imgArr=["bg1.jpg", "bg2.jpg" , "bg3.jpg" , "bg4.jpg" , "bg5.png" , "bg6.jpg"
+                ,"bg7.jpg"]; var index=Math.floor(Math.random() * (imgArr.length)); return imgArr[index] ; } %>
+
+                <% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000); var
+                    interval=Math.floor(seconds / 31536000); if (interval> 1) {
+                    return interval + " years";
+                    }
+                    interval = Math.floor(seconds / 2592000);
+                    if (interval > 1) {
+                    return interval + " mon's";
+                    }
+                    interval = Math.floor(seconds / 86400);
+                    if (interval > 1) {
+                    return interval + " days";
+                    }
+                    interval = Math.floor(seconds / 3600);
+                    if (interval > 1) {
+                    return interval + " hrs";
+                    }
+                    interval = Math.floor(seconds / 60);
+                    if (interval > 1) {
+                    return interval + " mins";
+                    }
+                    return Math.floor(seconds) + " sec's";
+                    } %>

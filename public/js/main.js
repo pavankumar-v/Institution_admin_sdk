@@ -47,4 +47,9 @@ $(document).ready(function () {
     const cardList = $(this).parents(".card-list");
     cardList.children(".content-expand").toggle();
   });
+
+  $(document).on("click", "#more-vert", function (e) {
+    const more_menu = $(this).parent().parent().children("#more-menu");
+    more_menu.toggle();
+  });
 });

@@ -90,9 +90,96 @@ $(document).ready(function () {
         form,
       }),
       success: function (res) {
-        btnLoaderToggleOff(btn, loader);
+        btnLoaderToggleOff(btn, loader, "Create");
         console.log(res.response);
         if (res.response) {
+          var html = `
+          <div class="card" id="formCard">  
+          <input type="hidden" name="docId" value="${res.docId}">
+                                                  <input type="hidden" name="formState" value="${isChecked}">
+                                                  <div class="display-flex p-lg flex-c bl">
+                                                      <div class="more-menu" id="more-menu">
+                                                          <ul>
+                                                          
+                                                              <div class="btn-loader" style="display: none;"></div>
+                                                              <li id="formStateToggle">${
+                                                                isChecked
+                                                                  ? "Disable"
+                                                                  : "Enable"
+                                                              }</li>
+                                                   <li class="delete" id="delete-form">Delete</li>
+                                                          </ul>
+                                                      </div>
+                                                      <div class="display-flex j-space-between w100">
+                                                          <h6 class="file-name-exp2 display-small">
+                                                              ${formName}
+                                                          </h6>
+      
+                                                          <span class="material-icons-outlined more-vert" tabindex="1"
+                                                              id="more-vert">
+                                                              more_vert
+                                                          </span>
+                                                      </div>
+      
+                                                      <div class="chip ${
+                                                        isChecked
+                                                          ? "bg-pri-c "
+                                                          : " bg-err-c "
+                                                      } inline-flex mx"
+                                                          style="height: 26px;">
+                                                          <span
+                                                              class="material-icons-outlined chip-icon ${
+                                                                isChecked
+                                                                  ? "clr-pri-c "
+                                                                  : "clr-err-c"
+                                                              }    m-r-sm">
+                                                              ${
+                                                                isChecked
+                                                                  ? "done"
+                                                                  : "close"
+                                                              } 
+                                                          </span>
+                                                          ${
+                                                            isChecked
+                                                              ? "done"
+                                                              : "closed"
+                                                          } 
+                                                      </div>
+      
+                                                      <p class="desc-sm">
+                                                          ${description}
+                                                      </p>
+      
+                                                      <div class="media  display-flex m-t rounded-lg">
+                                                          <img src="/img/bg1.jpg" alt="">
+                                                      </div>
+      
+                                                      <br>
+                                                      <div class="card-footer display-flex j-space-between w100 ">
+                                                          <div class="inline-flex">
+                                                              <span class="material-icons clr-tri-c">
+                                                                  description
+                                                              </span>
+                                                              <i class="text-sm display-flex flex-c j-start">
+                                                                  ${timeSince(
+                                                                    new Date().toISOString()
+                                                                  )} ago
+                                                                      <p>
+                                                                          ${sheetName}
+                                                                      </p>
+                                                              </i>
+                                                              <br>
+                                                          </div>
+      
+                                                          <button class="btnn btnn-rounded">View</button>
+                                                      </div>
+      
+                                                  </div>
+      
+                                              </div>
+          `;
+
+          $("#form-list").prepend(html);
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
           });
@@ -106,7 +193,119 @@ $(document).ready(function () {
       },
       error: function (res) {
         console.log(res.response);
-        btnLoaderToggleOff(btn, loader);
+        btnLoaderToggleOff(btn, loader, "Create");
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  $(document).on("click", "#formStateToggle", function () {
+    const loader = $(this).parent().children(".btn-loader");
+    loader.toggle();
+    const docId = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .children("input[name=docId]")
+      .val();
+
+    const state = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .children("input[name=formState]");
+    const formState = state.val() == "true";
+
+    const chip = $(this).parent().parent().parent().parent().find(".chip");
+    const html = `
+            <span
+                class="material-icons-outlined chip-icon ${
+                  formState ? "clr-err-c" : "clr-pri-c"
+                }  m-r-sm">
+                ${formState ? "close" : "done"}
+            </span>
+            ${formState ? "Closed" : "Open"}
+    `;
+    // console.log(html);
+
+    const btnText = $(this);
+
+    $.ajax({
+      type: "POST",
+      url: "/formstatetoggle",
+      contentType: "application/json",
+      data: JSON.stringify({
+        docId,
+        formState,
+      }),
+      success: function (res) {
+        loader.toggle();
+        if (res.response) {
+          $(".more-menu").hide();
+          state.val(formState ? "false" : "true");
+          btnText.text(formState ? "Enable" : "Disable");
+          chip.empty();
+          chip.removeClass(formState ? "bg-pri-c" : "bg-err-c");
+          chip.addClass(!formState ? "bg-pri-c" : "bg-err-c");
+          chip.append(html);
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        } else {
+          loader.toggle();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+      },
+      error: function (res) {
+        loader.toggle();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  $(document).on("click", "#delete-form", function () {
+    const loader = $(this).parent().children(".btn-loader");
+    loader.toggle();
+    const card = $(this).parent().parent().parent().parent();
+    const docId = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .children("input[name=docId]")
+      .val();
+
+    $.ajax({
+      type: "POST",
+      url: "/deleteform",
+      contentType: "application/json",
+      data: JSON.stringify({
+        docId,
+      }),
+      success: function (res) {
+        loader.toggle();
+        if (res.response) {
+          card.remove();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        } else {
+          loader.toggle();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+      },
+      error: function (res) {
+        loader.toggle();
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -114,3 +313,28 @@ $(document).ready(function () {
     });
   });
 });
+
+function timeSince(date) {
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+  if (interval > 1) {
+    return interval + " years";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + " mon's";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + " days";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + " hrs";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + " mins";
+  }
+  return Math.floor(seconds) + " sec's";
+}

@@ -48,11 +48,12 @@ class DynamicForm {
             createdAt: this.createdAt,
           })
           .then((data) => {
-            return true;
+            console.log(data.id);
+            return { res: true, docId: data.id };
           })
           .catch((err) => {
             console.log(err);
-            return false;
+            return { res: false, docId: "" };
           });
 
         return addForm;
@@ -65,7 +66,10 @@ class DynamicForm {
   }
 
   static async getAllForms() {
-    const snapshot = await db.collection("global").get();
+    const snapshot = await db
+      .collection("global")
+      .orderBy("createdAt", "desc")
+      .get();
     const forms = snapshot.docs.map((doc) => {
       var val = doc.data();
       const formData = new DynamicForm(
@@ -83,6 +87,38 @@ class DynamicForm {
     });
 
     return forms;
+  }
+
+  static async formStateToggle(docId, formState) {
+    const setState = db
+      .collection("global")
+      .doc(docId)
+      .update({
+        isActive: formState ? false : true,
+      })
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return false;
+      });
+    return setState;
+  }
+
+  static async deleteFormById(docId) {
+    const del = db
+      .collection("global")
+      .doc(docId)
+      .delete()
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return false;
+      });
+    return del;
   }
 }
 
