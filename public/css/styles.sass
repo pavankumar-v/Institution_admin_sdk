@@ -523,8 +523,6 @@ a
         box-shadow: none
 
 button[disabled]
-    background-color: #d3d3d3cc
-
     &:hover
         cursor: not-allowed
 
@@ -717,6 +715,11 @@ select
     width: auto
     border-radius: $borderRadius1
     border: $border
+
+// [type="checkbox"]:not(:checked), [type="checkbox"]:checked
+//     position: relative
+//     opacity: 100
+//     pointer-events: all
 
 .loader
     position: absolute

@@ -627,10 +627,6 @@ a {
           box-shadow: none;
 }
 
-button[disabled] {
-  background-color: #d3d3d3cc;
-}
-
 button[disabled]:hover {
   cursor: not-allowed;
 }

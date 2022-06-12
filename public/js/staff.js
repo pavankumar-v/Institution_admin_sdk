@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  $(".modal").modal();
   function calculate() {
     var arr = $.map($("input:checkbox:checked"), function (e, i) {
       return +e.value;
@@ -10,9 +9,8 @@ $(document).ready(function () {
 
   calculate();
 
-  $("#checkbox").delegate("input:checkbox", "click", calculate);
+  $("#checkbox").delegate("input[type=checkbox]", "click", calculate);
 
-  // TAB SWITCH
   $("#tab1-btn").on("click", function (e) {
     e.preventDefault();
     $(this).addClass("active");
@@ -28,75 +26,141 @@ $(document).ready(function () {
     $("#tab1-btn").removeClass("active");
   });
 
+  var code;
+  $("#email-verify-form #send-code").on("click", function (e) {
+    e.preventDefault();
+    const btn = $(this);
+    const loader = btn.children(".btn-loader");
+    btnLoaderToggleOn(btn, loader);
+    const emailVerDiv = $("#email-ver");
+    const email = $(this).parent().find("input[type=email]");
+    email.attr("readonly", true);
+
+    $.ajax({
+      type: "POST",
+      url: "/sendverificationcode",
+      contentType: "application/json",
+      data: JSON.stringify({
+        email: email.val(),
+      }),
+      success: function (res) {
+        console.log(res);
+        if (res.response) {
+          btnLoaderToggleOff(
+            btn,
+            loader,
+            '<span class="material-icons-outlined">done</span>Verificatoin code sent'
+          );
+          emailVerDiv.show();
+          btn.attr("disabled", true);
+          code = res.code;
+        } else {
+          email.attr("readonly", false);
+          btnLoaderToggleOff(btn, loader, "Resend Code");
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+      },
+      error: function (res) {
+        email.attr("readonly", false);
+        btnLoaderToggleOff(btn, loader, "Resend Code");
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  $("input[name=verificationCode]").on("input", function () {
+    console.log($(this).val());
+    const msg = $(".msg");
+    const loader = msg.children(".btn-loader").toggle();
+    if ($(this).val() == code) {
+      loader.remove();
+      msg.css("color", "green");
+      msg.text("Email Verified");
+      $("#staffAuth").show();
+      $("#email-ver").remove();
+    }
+  });
+
   $("#staffAuth").on("submit", addStaff);
 
   addStaff();
   function addStaff(e) {
     e.preventDefault();
-    const button = $(this).find("#createStaffAuth");
-    const loader = button.find(".btn-loader");
-    button.attr("disabled", true);
-    button.empty();
-    button.append(loader);
-    loader.css("display", "block");
-    const email = $(this).find("input[name=email]");
-    const fullName = $(this).find("input[name=fullName]");
-    const department = $(this).find("#department").find(":selected");
-    const designation = $(this).find("#designation").find(":selected");
-    const semAssigned = calculate();
-    // console.log(semassigned);
+    const btn = $(this).find("#createStaffAuth");
+    const loader = btn.find(".btn-loader");
+
+    btnLoaderToggleOn(btn, loader);
+
+    const email = $("#email-verify-form").find("input[name=email]").val();
+    const fullName = $(this).find("input[name=fullName]").val();
+    const department = $(this).find("#department").find(":selected").val();
+    const designation = $(this).find("#designation").find(":selected").val();
+    var semAssigned = calculate();
+
+    if (designation == "hod") {
+      $("#checkbox").find("input[type=checkbox]").attr("checked", true);
+      $("#checkbox").find("input[type=checkbox]").attr("disabled", true);
+      semAssigned = [1, 2, 3, 4, 5, 6, 7, 8];
+    }
+
+    console.log(semAssigned);
 
     $.ajax({
       type: "POST",
       url: "/createStaffAuth",
       contentType: "application/json",
-
       data: JSON.stringify({
-        email: email.val(),
-        fullName: fullName.val(),
-        department: department.val(),
-        designation: designation.val(),
+        email: email,
+        fullName: fullName,
+        department: department,
+        designation: designation,
         semAssigned: semAssigned,
       }),
       success: function (res) {
+        btnLoaderToggleOff(btn, loader, "Create");
         if (res.response == 1) {
           M.toast({
-            html: " <span style='color: white;'>Staff was created successfully<span>",
-            classes: "rounded",
+            html: `<span style='color: white;'>${res.message}<span>`,
           });
-          loader.css("display", "none");
-          button.append("create staff");
-          button.removeAttr("disabled", false);
-          email.val("");
-          fullName.val("");
+          $("#staffAuth")[0].reset();
+          $("#tab1").children("#email-verify-form").remove();
+          $("#tab1").prepend(`
+              <form class="display-grid" id="email-verify-form">
+                <div class="form-input">
+                  <label for="">Email</label>
+                  <input type="email" name="email" id="" required />
+                </div>
+                <div class="form-input" id="email-ver" style="display: none;">
+                  <label for="">enter code</label>
+                  <input type="number" name="verificationCode" maxlength="6" value="" />
+                </div>
+                <button class="btnn btnn-small m-t" id="send-code">
+                  <div class="btn-loader" style="display: none;"></div>
+                    send email verification code
+                </button>
+                <div></div>
+                <div class="msg">
+                <div class="btn-loader" style="display: none;"></div>
+                </div>
+
+              </form>
+          `);
+          $("#staffAuth").toggle();
         } else {
           M.toast({
-            html: `<span style='color: white;'>${res.data}<span>`,
-            classes: "rounded",
+            html: `<span style='color: white;'>${res.message}<span>`,
           });
-          loader.css("display", "none");
-          button.append("create staff");
-          button.removeAttr("disabled", false);
         }
       },
       error: function (res) {
         M.toast({
-          html: `<span>${res.data}<span>`,
-          classes: "rounded",
+          html: `<span style='color: white;'>${res.message}<span>`,
         });
       },
     });
   }
-
-  $("#modal .modal-content .display-flex .subjects .btnn").on(
-    "click",
-    function (e) {
-      console.log("invoked");
-      const val = $(this)
-        .parents("#subject-assigned-load")
-        .find("input[type=hidden]")
-        .val();
-      console.log(val);
-    }
-  );
 });

@@ -6,28 +6,49 @@
           <div class="main-data">
             <h1 class="main-title">Teachers</h1>
             <div class="description">Control saff memeber and provide privilage</div>
-            <div class="tabs">
-              <button class="tab-btn " id="tab1-btn">
-                <span class="material-icons-outlined">group_add</span> Add staff
-              </button>
+            <div class="tabs pos-sticky" style="top: 40px;">
               <button class="tab-btn active" id="tab2-btn">
                 <span class="material-icons-outlined">manage_accounts</span> Saff
               </button>
+
+              <button class="tab-btn" id="tab1-btn">
+                <span class="material-icons-outlined">group_add</span> Add staff
+              </button>
+
             </div>
             <!-- FORM -->
-            <div class="tab1" id="tab1" style="display: none;">
-              <form class="" id="staffAuth">
-                <div class="form-input col s6">
+            <div class="tab2" id="tab2">
+              <form class="display-grid" id="email-verify-form">
+                <div class="form-input">
                   <label for="">Email</label>
-                  <input type="email" name="email" id="" required />
+                  <input type="email" name="email" id="" />
                 </div>
+                <div class="form-input" id="email-ver" style="display: none;">
+                  <label for="">enter code</label>
+                  <input type="number" name="verificationCode" maxlength="6" value="" />
+                </div>
+                <button class="btnn btnn-small m-t" id="send-code">
+                  <%- include('./constants/btnloader.ejs') %>
+
+                    send email verification code
+                </button>
+                <div></div>
+                <div class="msg">
+
+                  <%- include('./constants/btnloader.ejs') %>
+                </div>
+
+              </form>
+
+              <!-- form 2 -->
+              <form class="" id="staffAuth" style="display: none;">
                 <div class="form-input col s12">
                   <label for="fullName">Full Name</label>
                   <input type="text" name="fullName" id="fullName" />
                 </div>
                 <div class="col">
                   <label for="department">Department</label>
-                  <select name="department" id="department" class="" required>
+                  <select name="department" id="department" class="">
                     <option value="CSE">CSE</option>
                     <option value="ECE">ECE</option>
                     <option value="ISE">ISE</option>
@@ -39,9 +60,9 @@
                 </div>
                 <div class="col">
                   <label for="designation">Designation</label>
-                  <select name="designation" id="designation" class="" required>
-                    <option value="professor">Professor</option>
-                    <option value="Assistant Professor">Assistant Professor</option>
+                  <select name="designation" id="designation" class="">
+                    <option value="staff">Professor</option>
+                    <option value="staff">Assistant Professor</option>
                     <option value="hod">HOD</option>
                   </select>
                 </div>
@@ -80,19 +101,6 @@
                     <span>sem 8</span>
                   </label>
                 </div>
-                <div id="subjects">
-                  <div class="display-flex flex-c">
-                    <label for="form-sem">Assign Subjects</label>
-                    <label>
-                      <input type="checkbox" class="filled-in" value="1" />
-                      <span>Sem 1</span>
-                    </label>
-                    <label>
-                      <input type="checkbox" class="filled-in" value="2" />
-                      <span>sem 2</span>
-                    </label>
-                  </div>
-                </div>
                 <p class="m-t">click on password reset while logging.</p>
                 <button type="submit" class="btnn m-t" id="createStaffAuth">
                   <div class="btn-loader" style="justify-content: center"></div>
@@ -102,110 +110,17 @@
             </div>
 
             <!-- tab 2 -->
-            <div class="div tab2" id="tab2">
+            <div class="div tab1" id="tab1" style="display: none;">
               <%if(staffs.length> 0) { %> <% let i=0; for(let staff of staffs) { %>
-                  <div class="card card-list elevation">
-                    <div class="display-flex card-content">
-                      <div class="display-flex b upper" style="justify-content: start">
-                        <img src="<%= staff.avatar %>" class="avatar" alt="avatar" />
-                        <h6 class="bl m-l">
+                  <ul class="collapsible" id="staff-List">
+                    <li data-id="<%= staff.id %>">
+                      <div class="collapsible-header display-flex">
+                        <img class="avatar" src="<%= staff.avatar %>" alt="">
+                        <%= staff.fullName %>
                           <%= staff.fullName %>
-                        </h6>
                       </div>
-                      <p>
-                        <%= staff.department %>
-                      </p>
-                      <p>
-                        <%= staff.designation %>
-                      </p>
-                      <p>
-                        <%= staff.semAssigned %>
-                      </p>
-                      <p>
-                        <span class="material-icons-outlined" id="expand-more">expand_more</span>
-                      </p>
-                    </div>
-                    <div class="content-expand">
-                      <div class="display-flex" style="justify-content: space-between;" id="sem-assigned">
-                        <div id="sem-assigned">
-                          Subjects Assigned : <%= staff.semAssigned %>
-                        </div>
-                        <a class="modal-trigger btnn-small" href="#modal<%= i %>" id="edit-btn">Edit</a>
-
-                      </div>
-                    </div>
-                    <div id="modal<%= i %>" class="modal">
-                      <div class="modal-content">
-                        <h4>Control <%= staff.id %>
-                        </h4>
-                        <div class="display-flex" style="align-items: start; justify-content: space-between;">
-                          <div class="checkbox col s12 m-t display-flex flex-c" id="checkbox">
-                            <label for="form-sem">Assign sem</label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="1" <%=staff.semAssigned.includes(1)
-                                ? "checked" : "" %> />
-                              <span>Sem 1</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="2" <%=staff.semAssigned.includes(2)
-                                ? "checked" : "" %>/>
-                              <span>sem 2</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="3" <%=staff.semAssigned.includes(3)
-                                ? "checked" : "" %> />
-                              <span>sem 3</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="4" <%=staff.semAssigned.includes(4)
-                                ? "checked" : "" %>/>
-                              <span>sem 4</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="5" <%=staff.semAssigned.includes(5)
-                                ? "checked" : "" %> />
-                              <span>sem 5</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="6" <%=staff.semAssigned.includes(6)
-                                ? "checked" : "" %> />
-                              <span>sem 6</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="7" <%=staff.semAssigned.includes(7)
-                                ? "checked" : "" %> />
-                              <span>sem 7</span>
-                            </label>
-                            <label>
-                              <input type="checkbox" class="filled-in" value="8" <%=staff.semAssigned.includes(8)
-                                ? "checked" : "" %> />
-                              <span>sem 8</span>
-                            </label>
-                          </div>
-                          <div class="subjects m-t display-flex flex-c" id="subject-assigned-load">
-                            <label for="subjects ">Subjects Assigned</label>
-                            <input type="hidden" name="subjectsAssigned" value="<%= staff.subjectsAssigned %>">
-                            <!-- <%if(staff.subjectsAssigned.length> 0) {
-                              for(let subject of staff.subjectsAssigned) {
-                              %>
-                              <label>
-                                <input type="checkbox" class="filled-in" value="<%= subject %>" />
-                                <span>
-                                  <%= subject %>
-                                </span>
-                              </label>
-                              <% } } else { %>
-                                <h6>No Subjects Assigned</h6>
-                                <% }%> -->
-                            <button class="btnn btnn-small" id="load-subjects-btn">Load Subjects</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <a href="#!" class="modal-close btnn bg__danger">Close</a>
-                      </div>
-                    </div>
-                  </div>
+                    </li>
+                  </ul>
                   <% i +=1; }%>
                     <%} else { %>
                       <h2>No users</h2>
