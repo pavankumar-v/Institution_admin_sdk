@@ -182,6 +182,9 @@ $transition: all 0.3s ease
 .j-end
     justify-content: end
 
+.a-end
+    align-items: end
+
 .j-space-between
     justify-content: space-between
 
@@ -249,6 +252,15 @@ ul
 
 a
     color: $onBackground
+
+header
+    height: 76px
+    width: 100%
+    background-color: $background
+
+border-0
+    border: 0px
+
 .m0
     margin: 0
 
@@ -318,6 +330,17 @@ a
 .pos-sticky
     position: sticky
     top: 0
+.pos-abs
+    position: absolute
+    bottom: 0
+    right: 0
+.pos-rel
+    position: relative
+    bottom: 0
+    right: 0
+
+.rounded
+    border-radius: 10px
 
 .rounded-sm
     border-radius: 20px
@@ -334,6 +357,11 @@ a
     &:focus, &:active
         background-color: $primaryContainer
         color: $onPrimaryContainer
+
+.full-screen-view
+    width: 100%
+    height: 100vh
+    background-color: $background2
 
 .more-menu
     display: none
@@ -355,12 +383,6 @@ a
             cursor: pointer
             color: $onBackground
             padding: 6px 10px
-
-            // a
-            //     @include button
-            //     cursor: pointer
-            //     width: 100%
-            //     height: 100%
 
             &:hover
                 background-color: $hoverColor
@@ -393,18 +415,20 @@ a
 .clr-tri-c
     color: $ternary
 
-.bg-ter
+.bg-ter-c
     background: $ternaryContainer
+    color: $onTernaryContainer
 
 .bg-pri-c
     color: $onPrimaryContainer
     background-color: $primaryContainer
 
 .bg-err
-    background-color: rgba($error , 0.9 )
-    color: $onError
+    color: $onError !important
+    background-color: $error !important
     &:hover
-        background-color: $error
+        background-color: $error !important
+
 .delete
     &:hover
         background: $error
@@ -507,16 +531,15 @@ a
         background: $primary
         box-shadow: 0 4px 8px 3px rgba(black, 0.15), 0 1px 3px 0px rgba(black, 0.3)
 
-.flat-btnn
-    padding: 8px 24px
-    background: none
-
-    &:hover
-        box-shadow: none
-        background: none
-
 .btnn-rounded
     padding: 8px 24px
+    border-radius: 50px
+    box-shadow: none
+    &:hover, &:focus
+        box-shadow: none
+
+.btnn-rounded-lg
+    padding: 10px 24px
     border-radius: 50px
     box-shadow: none
     &:hover, &:focus
@@ -593,6 +616,9 @@ button[disabled]
 .elevation
     box-shadow: $card-elevation
 
+.elevation-0
+    box-shadow: none
+
 .card-content
     flex-flow: row wrap
     justify-content: space-between
@@ -607,6 +633,17 @@ button[disabled]
 
     img
         width: 100%
+
+.elevated-card
+    background: #fff
+    border: 0
+    border-radius: 10px
+    box-shadow: $card-elevation
+    padding: 14px
+
+    .card-title
+        font-size: 30px
+        line-height: 44px
 
 .subject-card
     width: 300px
@@ -721,6 +758,9 @@ select
 //     opacity: 100
 //     pointer-events: all
 
+.progress
+    display: none
+
 .loader
     position: absolute
     top: 50%
@@ -756,6 +796,19 @@ select
 @-webkit-keyframes spin
   to { -webkit-transform: rotate(360deg); }
 
+.preloader-wrapper
+    position: absolute
+    top: 50%
+    left: 50%
+    z-index: 1
+.spinner-layer
+    border-color: $primary
+// .full-screen
+//     background: #fff
+//     width: 100vw
+//     height: 100vh
+//     position: fixed
+//     z-index: 1
 // WRAPPER
 // NAVBAR
 .wrapper .navbar

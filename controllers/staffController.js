@@ -20,8 +20,6 @@ export const staffControl = async (req, res) => {
   try {
     const staffs = await StaffUser.fetchAll();
     const subjects = await Subject.fetchByBranchSem("cse", "8");
-    // console.log(subjects);
-    // console.log(staffs);
     res
       .status(200)
       .render("staffControl", { title: "staff control", staffs: staffs });
@@ -33,57 +31,6 @@ export const staffControl = async (req, res) => {
 export const createStaffAuth = async (req, res) => {
   try {
     const data = req.body;
-    // const createStaff = await AdminAuth.createUser({
-    //   email: data.email,
-    // })
-    //   .then(async (user) => {
-    //     console.log(user.uid);
-    //     const addToDb = await db
-    //       .collection("staff")
-    //       .doc(user.uid)
-    //       .set({
-    //         fullName: data.fullName,
-    //         department: data.department,
-    //         designation: data.designation,
-    //         semAssigned: data.semAssigned,
-    //         subjectsAssigned: [],
-    //         avatar:
-    //           "https://firebasestorage.googleapis.com/v0/b/brindavan-student-app.appspot.com/o/assets%2Favatars%2Fteachers%2Fcdg.png?alt=media&token=a3f8fa74-1ade-4375-94d4-ef8869aea672",
-    //       })
-    //       .then(async (dbData) => {
-    //         console.log(dbData);
-    //         const addClaim = await AdminAuth.setCustomUserClaims(user.uid, {
-    //           staff: data.department == "staff" ? true : false,
-    //           hod: data.department == "hod" ? true : false,
-    //           // admin: false,
-    //         })
-    //           .then((claimData) => {
-    //             sendPasswordResetEmail(auth, user.email)
-    //               .then((mail) => {
-    //                 console.log(mail);
-    //                 console.log("password reset mail sent");
-    //               })
-    //               .catch((err) => {
-    //                 console.log(err.message);
-    //               });
-    //             return true;
-    //           })
-    //           .catch((err) => {
-    //             console.log(err.message);
-    //             return false;
-    //           });
-    //         return addClaim;
-    //       })
-    //       .catch((err) => {
-    //         console.log(err.message);
-    //         return false;
-    //       });
-    //     return addToDb;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //     return false;
-    //   });
 
     const userUid = await AdminAuth.createUser({
       email: data.email,
@@ -199,15 +146,6 @@ export const createStaffAuth = async (req, res) => {
   }
 };
 
-export const loadSubjects = async (req, res) => {
-  try {
-    const sem = req.body.semAssigned;
-    res.send({ response: 1, data: "success" });
-  } catch (error) {
-    res.send({ response: 0, err: "Some Error" });
-  }
-};
-
 export const sendVerificationCode = async (req, res) => {
   try {
     const data = req.body;
@@ -249,6 +187,46 @@ export const sendVerificationCode = async (req, res) => {
         console.log(err.message);
         res.send({ response: 0, message: "Email verification code not sent" });
       });
+  } catch (error) {
+    res.send({ response: 0, err: "Some Error" });
+  }
+};
+
+export const viewStaff = async (req, res) => {
+  try {
+    const data = req.body;
+    console.log(data.docId);
+    const staffData = await StaffUser.fetchUser(data.docId);
+    console.log(staffData);
+    if (staffData.res) {
+      res.render("usable/staffCard", {
+        title: "Staff",
+        backPath: "/staffcontrol",
+        staff: staffData.data,
+      });
+    }
+  } catch (error) {
+    res.send({ response: 0, message: error.message });
+  }
+};
+
+export const loadSubjects = async (req, res) => {
+  try {
+    const data = req.body;
+    const subjects = [];
+    console.log(data);
+    for (let i = 0; i < data.sem.length; i++) {
+      var subjectData = await Subject.fetchByBranchSem(
+        data.branch,
+        data.sem[i]
+      );
+      subjects.push(subjectData);
+    }
+    res.send({
+      response: 1,
+      subjects: subjects,
+      message: "Loading Subjects..",
+    });
   } catch (error) {
     res.send({ response: 0, err: "Some Error" });
   }

@@ -15,7 +15,7 @@ import { auth } from "../database/firebase.js";
 const router = express.Router();
 
 router.all("*", (req, res, next) => {
-  // console.log("all");
+  console.log("all");
   const sessionCookie = req.cookies.session || "";
   // const userCookie = req.cookies.user;
   // console.log(userCookie.user.email);

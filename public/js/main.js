@@ -52,4 +52,6 @@ $(document).ready(function () {
     const more_menu = $(this).parent().parent().children("#more-menu");
     more_menu.toggle();
   });
+
+  $(".collapsible").collapsible();
 });

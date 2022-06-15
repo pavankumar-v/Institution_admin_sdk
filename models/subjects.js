@@ -38,7 +38,9 @@ class Subject {
     return subjects;
   }
   static async fetchByBranchSem(branch, sem) {
-    const snapshot = await db.collection("branch/" + branch + "/" + sem).get();
+    const snapshot = await db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
+      .get();
     const subjects = snapshot.docs.map((doc) => {
       const subjectsData = new Subject(
         doc.id,

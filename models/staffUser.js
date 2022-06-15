@@ -20,13 +20,23 @@ class Staff {
   }
 
   static async fetchUser(id) {
-    const staff = await db.collection("staff").doc(id).get();
-    const subjects = [];
-    // staff.data().subjectAssigned.forEach(async (ref) => {
-    //   const document = await ref.get();
-    //   const
-    // });
-    return staff;
+    const snapshot = db.collection("staff").doc(id);
+    const doc = await snapshot.get();
+    if (doc.exists) {
+      const staff = new Staff(
+        doc.id,
+        doc.data().fullName,
+        doc.data().department,
+        doc.data().designation,
+        doc.data().semAssigned,
+        doc.data().subjectsAssigned,
+        doc.data().avatar
+      );
+
+      return { res: 1, data: staff };
+    } else {
+      return { res: 0 };
+    }
   }
 
   static async fetchAll() {

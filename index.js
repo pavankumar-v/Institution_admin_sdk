@@ -1,12 +1,9 @@
 // import csurf from "csurf";
 import cookieParser from "cookie-parser";
-import saltedMd5 from "salted-md5";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import multer from "multer";
-
-const upload = multer({ storage: multer.memoryStorage() });
 
 //Routes
 import authentication from "./routes/authRoutes.js";
@@ -15,7 +12,6 @@ import staffRoutes from "./routes/staffRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
 import DynamicForm from "./routes/dynamicFormRoutes.js";
-import { auth } from "./database/firebase.js";
 
 // INITIALIZE EXPRESS APP
 // const csrfMiddleware = csurf({ cookie: true });

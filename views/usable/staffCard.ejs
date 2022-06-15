@@ -1,0 +1,159 @@
+<%- include('../includes/head.ejs') %>
+    <div class="full-screen-view" id="staff-view">
+        <input type="hidden" name="docId" value="<%= staff.id %>">
+
+
+
+        <header class="pos-sticky">
+            <div class="elevation p-sm">
+                <div class="container display-flex j-space-between ">
+                    <div class="back display-flex">
+                        <a href="/staffcontrol">
+                            <span class="material-symbols-outlined p-sm bg-pri-c rounded-lg" id="back">
+                                arrow_back
+                            </span>
+                        </a>
+                        <div class="title m-l p-sm">
+                            <h5 contenteditable="true" spellcheck="false" id="edit-name">
+                                <%= staff.fullName %>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="action">
+                        <!-- <button class="btnn elevation-0 bg-err " id="delete">Delete</button> -->
+                        <!-- <button class="btnn falt-btnn elevation-0" id="save">Save</button> -->
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <br>
+        <main>
+            <div class="container">
+                <div class="alert display-flex bg-ter-c p-sm m-b rounded">
+                    <span class="material-symbols-rounded m-r">
+                        info
+                    </span>
+                    <p>
+                        Make sure you select correct department
+                    </p>
+                </div>
+                <div class="display-flex j-start m-b">
+                    <div class="m-r">
+                        <label for="department">Department</label>
+                        <select name="department" id="department" class="">
+                            <option value="CSE" <%=staff.department=="CSE" ? "selected" : "" %> >CSE</option>
+                            <option value="ECE" <%=staff.department=="ECE" ? "selected" : "" %> >ECE</option>
+                            <option value="ISE" <%=staff.department=="ISE" ? "selected" : "" %> >ISE</option>
+                            <option value="MECH" <%=staff.department=="MECH" ? "selected" : "" %> >MECH</option>
+                            <option value="CIV" <%=staff.department=="CIV" ? "selected" : "" %> >CIV</option>
+                            <option value="ARC" <%=staff.department=="ARC" ? "selected" : "" %> >ARC</option>
+                            <option value="EEE" <%=staff.department=="EEE" ? "selected" : "" %> >EEE</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="designation">Designation</label>
+                        <select name="designation" id="designation" class="">
+                            <option value="professor" <%=staff.designation=="professor" ? "selected" : "" %> >Professor
+                            </option>
+                            <option value="assistant professor" <%=staff.designation=="assistant professor" ? "selected"
+                                : "" %>
+                                >Assistant Professor</option>
+                            <option value="hod" <%=staff.designation=="hod" ? "selected" : "" %>>HOD</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="elevated-card border-0 m-b">
+                    <div class="card-content">
+                        <h6 class="card-title">
+                            Sem Assigned
+                        </h6>
+                        <p class="assignedSem m-t">
+                            <%= staff.semAssigned %>
+                        </p>
+
+                        <div class="checkbox col s12 m-t" id="checkbox">
+                            <label for="form-sem">Assign sem</label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="1" <%=staff.semAssigned.includes(1)
+                                    ? "checked" : "" %> />
+                                <span>Sem 1</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="2" <%=staff.semAssigned.includes(2)
+                                    ? "checked" : "" %> />
+                                <span>sem 2</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="3" <%=staff.semAssigned.includes(3)
+                                    ? "checked" : "" %> />
+                                <span>sem 3</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="4" <%=staff.semAssigned.includes(4)
+                                    ? "checked" : "" %> />
+                                <span>sem 4</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="5" <%=staff.semAssigned.includes(5)
+                                    ? "checked" : "" %> />
+                                <span>sem 5</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="6" <%=staff.semAssigned.includes(6)
+                                    ? "checked" : "" %> />
+                                <span>sem 6</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="7" <%=staff.semAssigned.includes(7)
+                                    ? "checked" : "" %> />
+                                <span>sem 7</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="8" <%=staff.semAssigned.includes(8)
+                                    ? "checked" : "" %> />
+                                <span>sem 8</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="elevated-card m-b" id="load-subjects">
+                    <h6 class="card-title">
+                        New Subjects Assigning
+                    </h6>
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                    <div class="card-content row">
+
+                    </div>
+                </div>
+                <div class="elevated-card border-0 m-b">
+                    <div class="card-content">
+                        <h6 class="card-title">
+                            Subjects Assigned
+                        </h6>
+
+                        <div>
+                            <% if(staff.subjectsAssigned.length> 0) {
+                                %>
+                                <% for(let subjects of staff.subjectsAssigned){ %>
+                                    <div class="display-flex flex-c j-start">
+                                        <%= subjects.name %>, <%= subjects.id %>
+                                    </div>
+                                    <% } %>
+                                        <% } else { %>
+                                            <p>No Subjects Assigned</p>
+                                            <% }%>
+                        </div>
+                    </div>
+                </div>
+                <!-- <button class="btnn elevation-0 pos-abs m-r m-b">Save</button> -->
+            </div>
+        </main>
+    </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>

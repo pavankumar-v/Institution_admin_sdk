@@ -8,7 +8,7 @@
             <div class="description">Control saff memeber and provide privilage</div>
             <div class="tabs pos-sticky" style="top: 40px;">
               <button class="tab-btn active" id="tab2-btn">
-                <span class="material-icons-outlined">manage_accounts</span> Saff
+                <span class="material-icons-outlined">manage_accounts</span> Staff
               </button>
 
               <button class="tab-btn" id="tab1-btn">
@@ -17,7 +17,7 @@
 
             </div>
             <!-- FORM -->
-            <div class="tab2" id="tab2">
+            <div class="tab1" id="tab1" style="display: none;">
               <form class="display-grid" id="email-verify-form">
                 <div class="form-input">
                   <label for="">Email</label>
@@ -110,27 +110,88 @@
             </div>
 
             <!-- tab 2 -->
-            <div class="div tab1" id="tab1" style="display: none;">
-              <%if(staffs.length> 0) { %> <% let i=0; for(let staff of staffs) { %>
-                  <ul class="collapsible" id="staff-List">
-                    <li data-id="<%= staff.id %>">
-                      <div class="collapsible-header display-flex">
-                        <img class="avatar" src="<%= staff.avatar %>" alt="">
-                        <%= staff.fullName %>
-                          <%= staff.fullName %>
+            <div class="div tab2" id="tab2">
+              <div class="form-input">
+                <!-- <label for="searchName">Search</label> -->
+                <input type="text" name="search" id="filter" placeholder="Enter Name">
+              </div>
+
+              <ul class="collapsible" id="staff-List">
+                <%if(staffs.length> 0) { %> <% let i=0; for(let staff of staffs) { %>
+                    <li class="results" style="border-left: 5px solid #386A20" data-id="<%= staff.id %>">
+                      <div class="collapsible-header display-flex j-space-between">
+                        <div class="display-flex j-start">
+                          <img class="avatar" src="<%= staff.avatar %>" alt="">
+                          <p class="m-l bl file-name-exp1">
+                            <%= staff.fullName %>
+                          </p>
+                        </div>
+                        <p>
+                          <%= staff.department %>
+                        </p>
+                        <p>
+                          <%= staff.designation %>
+                        </p>
+                      </div>
+                      <div class="collapsible-body">
+                        <div class="display-flex j-space-between m-b">
+                          <p>
+                            <b>Full Name : </b>
+                            <%= staff.fullName %>
+                          </p>
+
+                        </div>
+                        <div class="display-flex j-space-between m-b">
+                          <p>
+                            <b>Sem Assigned : </b>
+                            <%= staff.semAssigned %>
+                          </p>
+                          <p>
+                            <b>Subjects Assigned : </b>
+                            <% if(staff.subjectsAssigned.length> 0) {
+                              %>
+                              <% for(let subjects of staff.subjectsAssigned){ %>
+                                <%= subjects.id %>,
+                                  <% } %>
+                                    <% } else { %>
+                                      <p>No Subjects Assigned</p>
+                                      <% }%>
+                          </p>
+                        </div>
+                        <div class="display-flex j-end">
+                          <form action="/viewStaff" method="POST">
+                            <input type="hidden" name="docId" value="<%= staff.id%>">
+                            <button class="btnn btnn-rounded-lg" id="view-staff">View More</button>
+                          </form>
+
+                        </div>
+
                       </div>
                     </li>
-                  </ul>
-                  <% i +=1; }%>
-                    <%} else { %>
-                      <h2>No users</h2>
-                      <% } %>
+                    <% i +=1; }%>
+              </ul>
+              <%} else { %>
+                <h2>No users</h2>
+                <% } %>
 
             </div>
 
-
+            <div class="preloader-wrapper small">
+              <div class="spinner-layer ">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
 
           </div>
       </div>
     </div>
+
     <%- include('./includes/footer.ejs') %>
