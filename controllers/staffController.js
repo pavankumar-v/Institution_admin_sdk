@@ -19,7 +19,7 @@ var transporter = nodemailer.createTransport({
 export const staffControl = async (req, res) => {
   try {
     const staffs = await StaffUser.fetchAll();
-    const subjects = await Subject.fetchByBranchSem("cse", "8");
+    // const subjects = await Subject.fetchByBranchSem("cse", "8");
     res
       .status(200)
       .render("staffControl", { title: "staff control", staffs: staffs });
@@ -197,7 +197,6 @@ export const viewStaff = async (req, res) => {
     const data = req.body;
     console.log(data.docId);
     const staffData = await StaffUser.fetchUser(data.docId);
-    console.log(staffData);
     if (staffData.res) {
       res.render("usable/staffCard", {
         title: "Staff",
@@ -210,11 +209,32 @@ export const viewStaff = async (req, res) => {
   }
 };
 
+// update Name
+export const updateName = async (req, res) => {
+  try {
+    const data = req.body;
+    const updateName = await StaffUser.updateName(data.docId, data.newName);
+    if (updateName) {
+      res.send({ response: 1, message: "Name updated" });
+    } else {
+      res.send({ response: 0, message: "Name could not be updated" });
+    }
+  } catch (error) {
+    res.send({ response: 0, message: error.message });
+  }
+};
+
 export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
     const subjects = [];
     console.log(data);
+    const staffData = await StaffUser.fetchUser(data.docId);
+    var existingSub;
+    if (staffData.res) {
+      existingSub = staffData.data.subjectsAssigned;
+    }
+
     for (let i = 0; i < data.sem.length; i++) {
       var subjectData = await Subject.fetchByBranchSem(
         data.branch,
@@ -222,12 +242,73 @@ export const loadSubjects = async (req, res) => {
       );
       subjects.push(subjectData);
     }
+
     res.send({
       response: 1,
       subjects: subjects,
-      message: "Loading Subjects..",
+      existingSub,
+      message: "Subjects Loaded",
     });
   } catch (error) {
-    res.send({ response: 0, err: "Some Error" });
+    res.send({ response: 0, message: error.message });
+  }
+};
+
+export const assignSubjects = async (req, res) => {
+  try {
+    const data = req.body;
+    const updateSubjects = await StaffUser.updateSubjects(
+      data.docId,
+      data.subjectsAssigned,
+      data.semAssigned
+    );
+
+    if (updateSubjects) {
+      res.send({ response: 1, message: "subjects updated" });
+    } else {
+      res.send({ response: 0, message: "subjects could not be updated" });
+    }
+  } catch (error) {
+    res.send({ response: 0, err: error.message });
+  }
+};
+
+// delete assigned subject from array
+export const deleteSubjectVal = async (req, res) => {
+  try {
+    const data = req.body;
+    const deletSub = await StaffUser.deleteSubjectVal(
+      data.docId,
+      data.subValue
+    );
+
+    if (deletSub) {
+      res
+        .status(200)
+        .send({ response: 1, message: "Subject unAssigned Successfully." });
+    } else {
+      res.send({ response: 0, message: "Subject could be deleted." });
+    }
+  } catch (error) {
+    res.send({ response: 0, err: error.message });
+  }
+};
+
+// delete staff user
+
+export const deleteStaffUser = async (req, res) => {
+  try {
+    const id = req.body.docId;
+    const deleteStaff = await StaffUser.deleteStaffUser(id);
+
+    if (deleteStaff) {
+      res
+        .status(200)
+        .send({ response: 1, message: "Staff deleted successfully." });
+    } else {
+      res.send({ response: 0, message: "Staff could not be deleted sorry!" });
+    }
+  } catch (error) {
+    res.send({ response: 0, err: error.message });
   }
 };

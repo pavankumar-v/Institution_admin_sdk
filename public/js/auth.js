@@ -1,4 +1,17 @@
 $(document).ready(function () {
+  // Login and reset password toggle
+  $("#forgot-password-btn").on("click", function () {
+    $("#form-title").text("Reset Password");
+    $("#login-form").css("display", "none");
+    $("#password-reset").css("display", "block");
+  });
+
+  $("#back-login-btn").on("click", function (e) {
+    $("#form-title").text("Login");
+    $("#password-reset").css("display", "none");
+    $("#login-form").css("display", "block");
+  });
+
   $("#login-form").on("submit", function (e) {
     e.preventDefault();
     const btn = $(this).find("button");
@@ -38,6 +51,7 @@ $(document).ready(function () {
       },
     });
   });
+
   $("#password-reset").on("submit", function (e) {
     e.preventDefault();
     const btn = $(this).find("button");

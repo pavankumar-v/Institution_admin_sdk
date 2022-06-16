@@ -230,6 +230,9 @@ h1
 .subtitle2
     @include subtitle2
 
+.captize
+    text-transform: capitalize
+
 hr
     border: none
     padding: 1px
@@ -309,6 +312,8 @@ border-0
 .m-l2
     margin-left: 22px
 
+.p
+    padding: 3px
 .p-sm
     padding: 10px
 
@@ -330,6 +335,7 @@ border-0
 .pos-sticky
     position: sticky
     top: 0
+    z-index: 2
 .pos-abs
     position: absolute
     bottom: 0
@@ -433,6 +439,12 @@ border-0
     &:hover
         background: $error
         color: $onError
+
+.del-icon
+    color: $error
+    &:hover
+        background-color: $background
+        cursor: pointer
 
 .bg-err-c
     color: $onErrorContainer
@@ -785,6 +797,22 @@ select
     width: 20px
     height: 20px
     border: 3px solid $surface
+    border-radius: 50%
+    border-top-color: $primary
+    animation: spin 1s ease-in-out infinite
+    -webkit-animation: spin 1s ease-in-out infinite
+
+@keyframes spin
+  to { -webkit-transform: rotate(360deg); }
+
+@-webkit-keyframes spin
+  to { -webkit-transform: rotate(360deg); }
+
+.icon-loader
+    display: inline-block
+    width: 10px
+    height: 10px
+    border: 2px solid $surface
     border-radius: 50%
     border-top-color: $primary
     animation: spin 1s ease-in-out infinite

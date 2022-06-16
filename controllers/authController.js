@@ -20,19 +20,25 @@ export const signInPage = (req, res) => {
 export const signInUser = async (req, res) => {
   try {
     const data = req.body;
+    const expiresIn = 60 * 60 * 24 * 1 * 100;
+    const options = { maxAge: expiresIn, httpOnly: true };
 
     signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((user) => {
+      .then(async (user) => {
+        // const claims = await user.user.getIdTokenResult((idTokenResult) => {
+        //   return idTokenResult.claims;
+        // });
+
+        console.log(user.user);
         user.user
           .getIdToken()
           .then((idToken) => {
             // res.setHeader("CSRF-Token", Cookies.get("XSRF-TOKEN"));
             console.log(idToken);
-            const expiresIn = 60 * 60 * 24 * 5 * 1000;
+
             // Cookies.get("XSRF-TOKEN");
             AdminAuth.createSessionCookie(idToken, { expiresIn })
               .then((sessionCookie) => {
-                const options = { maxAge: expiresIn, httpOnly: true };
                 res.cookie("session", sessionCookie, options);
                 res.cookie("user", user, options);
                 res.send({ response: 1, message: "login success" });

@@ -17,14 +17,16 @@ const router = express.Router();
 router.all("*", (req, res, next) => {
   console.log("all");
   const sessionCookie = req.cookies.session || "";
-  // const userCookie = req.cookies.user;
-  // console.log(userCookie.user.email);
+  const userCookie = req.cookies.user;
+  // console.log(userCookie.customClaims);
   AdminAuth.verifySessionCookie(sessionCookie, true)
     .then(() => {
-      // console.log(auth.currentUser);
       next();
     })
-    .catch((err) => res.redirect("/login"));
+    .catch((err) => {
+      console.log(err.message);
+      res.redirect("/login");
+    });
 });
 router.get("/", getDashboard);
 router.get("/dashboard", getDashboard);

@@ -1,6 +1,6 @@
 $(document).ready(function () {
   function semSeletected() {
-    var arr = $.map($("input:checkbox:checked"), function (e, i) {
+    var arr = $.map($(".semCheckbox:checked"), function (e, i) {
       return +e.value;
     });
     $(".assignedSem").text("Checked sem: " + arr.join(","));
@@ -8,22 +8,93 @@ $(document).ready(function () {
   }
 
   semSeletected();
-  function subjectSeleted() {
-    var sub = $.map($("input:checkbox:checked"), function (e, i) {
-      return +e.value;
+
+  $("#checkbox").delegate(".semCheckboc", "click", semSeletected);
+
+  function subSelected() {
+    var sub = $.map($(".subCheckbox:checked"), function (e, i) {
+      return e.value;
     });
-    // $(".assignedSem").text("Checked sem: " + arr.join(","));
-    console.log(sub);
+
     return sub;
   }
 
-  subjectSeleted();
-  $("#subjectCheckBox").delegate(
-    "input[type=checkbox]",
-    "click",
-    subjectSeleted
-  );
-  $("#checkbox").delegate("input[type=checkbox]", "click", semSeletected);
+  subSelected();
+  $(document).delegate("#subject-checkbox .subCheckbox", "click", subSelected);
+
+  $(document).on("click", "#assign-subject-btn", function (e) {
+    const docId = $("#staff-view").children("input[name=docId]").val();
+    const subjectsAssigned = subSelected();
+    const semAssigned = semSeletected();
+
+    if (subjectsAssigned.length > 0) {
+      var res = confirm("are you sure ?");
+      if (res) {
+        console.log(docId);
+        const btn = $(this);
+        const loader = btn.children(".btn-loader");
+        btnLoaderToggleOn(btn, loader);
+        $("#subjects-list").children(".icon-loader").show();
+
+        $.ajax({
+          type: "post",
+          url: "/assignSubjects",
+          contentType: "application/json",
+          data: JSON.stringify({ docId, subjectsAssigned, semAssigned }),
+          dataType: "json",
+          success: function (res) {
+            btnLoaderToggleOff(btn, loader, "Assign");
+            if (res.response) {
+              $(document).find("#subjects-ul").empty();
+
+              var html;
+              for (let i = 0; i < subjectsAssigned.length; i++) {
+                var subject = subjectsAssigned[i];
+                var sub = subjectsAssigned[i].split("/");
+                html = `
+                <li class="m-b p-sm bg-pri-c rounded">
+                  <input type="hidden" name="subjectValue" value="${subject}">
+                  <p class="display-flex j-start j-space-between captize">
+                        <b>
+                          ${sub[4]},
+                          <i class="hint">
+                          ${sub[3].toUpperCase()}
+                          </i>
+                        </b>
+                          <span
+                              class="material-symbols-rounded clr-err m-l del-icon rounded-sm p"
+                              id="subject-delete-btn">
+
+                              delete
+                          </span>
+
+
+
+                  </p>
+              </li>
+                `;
+
+                $(document).find("#subjects-ul").append(html);
+              }
+            }
+
+            M.toast({
+              html: `<span style='color: white;'>${res.message}<span>`,
+            });
+            $("#subjects-list").children(".icon-loader").hide();
+          },
+
+          error: function (res) {
+            btnLoaderToggleOn(btn, loader);
+            M.toast({
+              html: `<span style='color: white;'>${res.message}<span>`,
+            });
+          },
+        });
+      }
+    }
+  });
+
   $("#staff-view #checkbox").delegate(
     "input[type=checkbox]",
     "click",
@@ -31,6 +102,7 @@ $(document).ready(function () {
       $(".progress").show();
       var sem = semSeletected();
       const branch = $("#department").find(":selected").val();
+      const docId = $("#staff-view").children("input[name=docId]").val();
 
       $.ajax({
         type: "POST",
@@ -39,34 +111,45 @@ $(document).ready(function () {
         data: JSON.stringify({
           sem,
           branch,
+          docId,
         }),
         success: function (res) {
+          $(".progress").hide();
           if (res.response) {
-            $(".progress").hide();
-
             $("#load-subjects .card-content").empty();
             M.toast({
               html: `<span style='color: white;'>${res.message}<span>`,
             });
 
-            console.log(res.subjects);
             for (var i = 0; i < res.subjects.length; i++) {
               var html = `
-              <div class="subjectCheckBox display-flex flex-c j-start m-r col s3 m-b">
+              <div class="subjectCheckBox display-flex flex-c j-start m-r col s3 m-b" id="subject-checkbox">
               <h5 class="title">sem ${sem[i]}</h5>
                             
               `;
               if (res.subjects[i].length > 0) {
                 $.each(res.subjects[i], function () {
-                  console.log(this);
-                  var val = branch.toLowerCase() + "/" + sem[i] + "/" + this.id;
+                  var val =
+                    branch.toLowerCase() +
+                    "/" +
+                    sem[i] +
+                    "/" +
+                    this.id +
+                    "/" +
+                    this.subId +
+                    "/" +
+                    this.name;
+
+                  var foo = res.existingSub.includes(val);
 
                   html =
                     html +
                     `
                     <label>
-                    <input type="checkbox" class="filled-in" value="${val}"
-                    " />
+                    <input type="checkbox"  class="filled-in subCheckbox" value="${val}" ${
+                      foo ? "checked" : ""
+                    }
+                     />
                     <span>${this.subId.toUpperCase()}</span>
                 </label>`;
                 });
@@ -82,11 +165,23 @@ $(document).ready(function () {
 
               $("#load-subjects .card-content").append(html);
             }
+
+            $("#load-subjects .card-content").append(
+              '<button class="btnn flat-btnn" id="assign-subject-btn"><div class="btn-loader" style="display: none;"></div>Assign</button>'
+            );
           } else {
+            $(".progress").hide();
+
             M.toast({
               html: `<span style='color: white;'>${res.message}<span>`,
             });
           }
+        },
+
+        error: function (res) {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
         },
       });
     }
@@ -166,6 +261,7 @@ $(document).ready(function () {
     }
   });
 
+  // crate staff
   $("#staffAuth").on("submit", function (e) {
     e.preventDefault();
     const btn = $(this).find("#createStaffAuth");
@@ -177,7 +273,7 @@ $(document).ready(function () {
     const fullName = $(this).find("input[name=fullName]").val();
     const department = $(this).find("#department").find(":selected").val();
     const designation = $(this).find("#designation").find(":selected").val();
-    var semAssigned = calculate();
+    var semAssigned = semSeletected();
 
     if (designation == "hod") {
       $("#checkbox").find("input[type=checkbox]").attr("checked", true);
@@ -235,6 +331,7 @@ $(document).ready(function () {
         }
       },
       error: function (res) {
+        btnLoaderToggleOff(btn, loader, "Create");
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -242,6 +339,7 @@ $(document).ready(function () {
     });
   });
 
+  // filter user
   $("#filter").on("input", function (e) {
     console.log("invok");
     // Retrieve the input field text and reset the count to zero
@@ -262,15 +360,114 @@ $(document).ready(function () {
     });
   });
 
+  // enable loader
   $("#view-staff").on("click", function () {
     console.log("dhgth");
     $("#preloader-wrapper").addClass(" active");
   });
 
+  // update name
   $(document).on("focusout", "#edit-name", function () {
     const docId = $("#staff-view").children("input[name=docId]").val();
-    const name = $(this).text();
+    const newName = $(this).text().trim();
 
-    console.log(name.trim());
+    $.ajax({
+      type: "POST",
+      url: "/updatename",
+      contentType: "application/json",
+      data: JSON.stringify({
+        docId,
+        newName,
+      }),
+      success: function (res) {
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+
+      error: function (res) {
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  // delete subject
+  $(document).on("click", "#subject-delete-btn", function () {
+    const parentLi = $(this).parent().parent();
+    const docId = $("#staff-view").children("input[name=docId]").val();
+    const subValue = parentLi.find("input[name=subjectValue]").val();
+
+    $("#subjects-list").children(".icon-loader").toggle();
+
+    $.ajax({
+      type: "POST",
+      url: "/unassignsub",
+      contentType: "application/json",
+      data: JSON.stringify({
+        docId,
+        subValue,
+      }),
+      success: function (res) {
+        $("#subjects-list").children(".icon-loader").hide();
+        if (res.response) {
+          parentLi.remove();
+        }
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+      error: function (res) {
+        $("#subjects-list").children(".icon-loader").hide();
+
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  $("#back").on("click", function () {
+    $("#staff-view").children(".progress").show();
+  });
+
+  // delete staff user
+  $("#delete-staff").on("click", function () {
+    const btn = $(this);
+    const loader = btn.children(".btn-loader");
+
+    const docId = $("#staff-view").children("input[name=docId]").val();
+    const isConfirm = confirm(
+      "Are you sure you want to delete the staff?, If you procees, all data regarding the staff will be deleted forever!"
+    );
+
+    if (isConfirm) {
+      btnLoaderToggleOn(btn, loader);
+      $("#staff-view").children(".progress").show();
+      $.ajax({
+        type: "POST",
+        url: "/deleteStaffUser",
+        contentType: "application/json",
+        data: JSON.stringify({
+          docId,
+        }),
+        success: function (res) {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+          if (res.response) {
+            location.href = "/staffcontrol";
+          }
+        },
+        error: function (res) {
+          btnLoaderToggleOff(btn, loader, "Delete");
+          $("#staff-view").children(".progress").hide();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        },
+      });
+    }
   });
 });

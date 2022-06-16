@@ -73,31 +73,31 @@
                     <span>Sem 1</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="2" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="2" />
                     <span>sem 2</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="3" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="3" />
                     <span>sem 3</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="4" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="4" />
                     <span>sem 4</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="5" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="5" />
                     <span>sem 5</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="6" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="6" />
                     <span>sem 6</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="7" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="7" />
                     <span>sem 7</span>
                   </label>
                   <label>
-                    <input type="checkbox" class="filled-in" value="8" />
+                    <input type="checkbox" class="filled-in semCheckbox" value="8" />
                     <span>sem 8</span>
                   </label>
                 </div>
@@ -146,17 +146,7 @@
                             <b>Sem Assigned : </b>
                             <%= staff.semAssigned %>
                           </p>
-                          <p>
-                            <b>Subjects Assigned : </b>
-                            <% if(staff.subjectsAssigned.length> 0) {
-                              %>
-                              <% for(let subjects of staff.subjectsAssigned){ %>
-                                <%= subjects.id %>,
-                                  <% } %>
-                                    <% } else { %>
-                                      <p>No Subjects Assigned</p>
-                                      <% }%>
-                          </p>
+
                         </div>
                         <div class="display-flex j-end">
                           <form action="/viewStaff" method="POST">

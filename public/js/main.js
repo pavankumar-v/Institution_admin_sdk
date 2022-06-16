@@ -28,20 +28,6 @@ $(document).ready(function () {
     $(this).addClass("active");
   });
 
-  // Login and reset password toggle
-  $("#forgot-password-btn").on("click", function () {
-    $("#form-title").text("Reset Password");
-    $("#login").css("display", "none");
-    $("#password-reset").css("display", "block");
-  });
-
-  $("#back-login-btn").on("click", function (e) {
-    // e.preventDefault();
-    $("#form-title").text("Login");
-    $("#password-reset").css("display", "none");
-    $("#login").css("display", "block");
-  });
-
   // expand toggle
   $("#tab2 #expand-more").on("click", function (e) {
     const cardList = $(this).parents(".card-list");

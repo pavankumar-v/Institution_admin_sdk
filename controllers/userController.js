@@ -45,14 +45,6 @@ export const getSubject = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    // const staff = await StaffUser.fetchUser("RXnSNdihGAsxEsx637OS");
-    // const path = staff.data().subjectAssigned[0]._path.segments;
-    // var str = "";
-    // path.forEach((ele) => {
-    //   str += "/" + ele;
-    // });
-
-    // console.log(staff.data().subjectAssigned[0]);
     const users = await User.fetchAll();
     res.status(200).render("users", {
       title: "users",

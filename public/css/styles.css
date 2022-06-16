@@ -200,6 +200,10 @@ h1 {
   font-weight: 500;
 }
 
+.captize {
+  text-transform: capitalize;
+}
+
 hr {
   border: none;
   padding: 1px;
@@ -323,6 +327,10 @@ border-0 {
   margin-left: 22px;
 }
 
+.p {
+  padding: 3px;
+}
+
 .p-sm {
   padding: 10px;
 }
@@ -353,6 +361,7 @@ border-0 {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  z-index: 2;
 }
 
 .pos-abs {
@@ -491,6 +500,15 @@ border-0 {
 .delete:hover {
   background: #BA1B1B;
   color: #FFFFFF;
+}
+
+.del-icon {
+  color: #BA1B1B;
+}
+
+.del-icon:hover {
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .bg-err-c {
@@ -987,6 +1005,29 @@ select {
   width: 20px;
   height: 20px;
   border: 3px solid #FDFDF6;
+  border-radius: 50%;
+  border-top-color: #386A20;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.icon-loader {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #FDFDF6;
   border-radius: 50%;
   border-top-color: #386A20;
   animation: spin 1s ease-in-out infinite;
