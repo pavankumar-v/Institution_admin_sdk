@@ -4,22 +4,86 @@ import path from "path";
 export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const subjects = await Subject.fetchByBranchSem(
       data.branch != null ? data.branch : "cse",
       data.sem.toString()
     );
     // console.log(subjects);
     res.send({ response: 1, subjects: subjects });
-  } catch (error) {
-    console.log(error.message);
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
+  }
+};
+
+export const addNewSubject = async (req, res) => {
+  try {
+    const data = req.body;
+    const claim = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var branch;
+
+    console.log(data);
+    if (claim["admin"]) {
+      branch = data.branch;
+    } else {
+      branch = curUser.department;
+    }
+
+    console.log(branch);
+    const subject = new Subject(
+      "",
+      data.id,
+      data.name,
+      data.description,
+      [],
+      [],
+      []
+    );
+
+    console.log(subject);
+
+    const addSubject = await subject.createNewSubject(branch, data.sem);
+    console.log(addSubject);
+    if (addSubject.res) {
+      res.send({
+        response: 1,
+        message: "New Subject Added",
+        docId: addSubject.uid,
+      });
+    } else {
+      res.send({ response: 0, message: "subject could not be added" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.send({ response: 0, message: err.message });
+  }
+};
+
+export const deleteSubject = async (req, res) => {
+  try {
+    const data = req.body;
+    const del = await Subject.deleteSubject(data.branch, data.sem, data.docId);
+
+    if (del) {
+      res.send({ response: 1, message: "Subject Deleted" });
+    } else {
+      res.send({ response: 0, message: "Subject could not be Deleted" });
+    }
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };
 
 export const addModule = async (req, res) => {
   try {
     const data = req.body;
-    Subject.addModule(data.branch, data.sem, data.uid, data.moduleName)
+    console.log(data);
+    Subject.addModule(
+      data.branch.toLowerCase(),
+      data.sem,
+      data.uid,
+      data.moduleName
+    )
       .then(() => {
         res.send({ response: 1, message: "Module Added" });
       })
@@ -89,8 +153,8 @@ export const addNotes = async (req, res) => {
     } else {
       res.send({ response: 0, message: "Error uploading file" });
     }
-  } catch (error) {
-    console.log(error.message);
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };
 
@@ -113,8 +177,8 @@ export const deleteNotes = async (req, res) => {
     } else {
       res.send({ response: 0, message: "operation failed" });
     }
-  } catch (error) {
-    console.log(error.message);
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };
 
@@ -141,26 +205,6 @@ function fileValidate(file, fileType) {
   ) {
     return 3;
   }
-
-  // if (
-  //   file.mimetype != "application/pdf" ||
-  //   file.mimetype !=
-  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-  //   file.mimetype != "image/png" ||
-  //   file.mimetype !=
-  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-  //   file.mimetype != "image/jpg" ||
-  //   file.mimetype !=
-  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-  //   file.mimetype !=
-  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-  //   file.mimetype != "image/jpg" ||
-  //   file.mimetype != "application/x-zip-compressed" ||
-  //   file.mimetype !=
-  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  // ) {
-  //   return 3;
-  // }
 
   return 1;
 }

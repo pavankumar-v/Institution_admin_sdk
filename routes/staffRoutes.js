@@ -11,6 +11,7 @@ import {
   deleteSubjectVal,
   updateName,
   deleteStaffUser,
+  claimToggle,
 } from "../controllers/staffController.js";
 
 router.get("/staffcontrol", staffControl);
@@ -23,5 +24,6 @@ router.post("/assignSubjects", assignSubjects);
 router.post("/unassignsub", deleteSubjectVal);
 router.post("/updateName", updateName);
 router.post("/deleteStaffUser", deleteStaffUser);
+router.post("/toggleclaim", claimToggle);
 
 export default router;

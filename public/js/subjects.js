@@ -1,48 +1,133 @@
 $(document).ready(function () {
-  $("#sem").on("change", getSubjects);
-  $("#branch").on("change", getSubjects);
-
+  $("#sub-sem").on("change", getSubjects);
+  $("#sub-branch").on("change", getSubjects);
   getSubjects();
-  function getSubjects() {
-    $(".loader").toggle();
-    var branch = $("#branch").val();
-    var sem = $("#sem").val();
-    if (sem == null) {
-      sem = 8;
-    }
 
-    if (branch != null) {
-      branch = branch.toLowerCase();
-    }
+  $("#new-subject-form").on("submit", function (e) {
+    e.preventDefault();
+    var branch = $("#sub-branch").val();
+
+    var sem = $("#sub-sem").val();
+    const btn = $(this).find("button");
+    const loader = btn.find(".btn-loader");
+    btnLoaderToggleOn(btn, loader);
+    const name = $(this).find("input[name=subjectName]").val();
+    const id = $(this).find("input[name=subId]").val();
+    const description = $(this).find("textarea").val();
+    const modal = document.querySelector("#modal1");
+
+    $.ajax({
+      type: "POST",
+      url: "/addnewsubject",
+      contentType: "application/json",
+      data: JSON.stringify({ name, id, description, branch, sem }),
+      success: function (res) {
+        if (res.response) {
+          getSubjects();
+        }
+        $("#new-subject-form")[0].reset();
+        btnLoaderToggleOff(btn, loader, "Submit");
+        M.Modal.getInstance(modal).close();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+
+      error: function (res) {
+        $(".loader").hide();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  $(document).on("click", "#delete-subject", function (e) {
+    const card = $(this).parent().parent().parent().parent();
+    const loader = $(this).parent().find(".btn-loader");
+    console.log(loader);
+    loader.show();
+    var branch = $("#sub-branch").val();
+    var sem = $("#sub-sem").val();
+    const docId = card.find(".card-expand").find("input[name=uid]").val();
+
+    $.ajax({
+      type: "POST",
+      url: "/deletesubject",
+      contentType: "application/json",
+      data: JSON.stringify({ branch, sem, docId }),
+      success: function (res) {
+        loader.hide();
+        if (res.response) {
+          card.remove();
+        }
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+
+      error: function (res) {
+        loader.hide();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
+
+  function getSubjects() {
+    $(".loader").show();
+    var branch = $("#sub-branch").val();
+    var sem = $("#sub-sem").val();
+
     $.ajax({
       type: "POST",
       url: "/loadSubjects",
       contentType: "application/json",
       data: JSON.stringify({ branch, sem }),
       success: function (res) {
-        $(".loader").toggle();
+        $(".loader").hide();
         $("#subject-list").empty();
 
-        if (res.subjects.length > 0) {
+        if (res.subjects && res.subjects.length > 0) {
           $.each(res.subjects, function (index) {
             var str = this.name;
             var matches = str.match(/\b(\w)/g);
             var acronomy = matches.join("").toUpperCase();
-            var subjectCards = `<div class="card elevation col subject-card">
+            var subjectCards = `<div class="card elevation col subject-card m-r">
     <div class="card-content">
+    <div class="more-menu" id="more-menu">
+            <ul>
+            
+                <div class="btn-loader" style="display: none;"></div>
+                
+      <li class="delete" id="delete-subject">Delete</li>
+            </ul>
+        </div>
+    <div class="display-flex j-space-between a-start">
+    <div>
       <h6 class="headline5">${acronomy}</h6>
-      <p class="subhead">${this.name}</p>
-      <i class="hint">${this.subId}</i>
+      <p class="subhead" contenteditable="true" >${this.name}</p>
+      <i class="hint" contenteditable="true" >${this.subId}</i>
+
+      </div>
+      <span class="material-icons-outlined more-vert" tabindex="1"
+      id="more-vert">
+      more_vert
+  </span>
+      </div>
       <hr />
-      <p class="desc">
+      <p class="desc" >
         ${this.description}
       </p>
       <div class="action display-flex j-end m-t">
+      
         <button class="btnn btnn-icon" id="edit">
           <span class="material-symbols-rounded"> edit </span>
         </button>
       </div>
       <div class="card-expand" style="display: none;">
+      <div class="icon-loader" style="display: none;"></div>
         <input type="hidden" name="uid" value="${this.id}" />
         <div class="display-flex flex-c">
           <h5 class="display-flex m-b">
@@ -144,6 +229,7 @@ $(document).ready(function () {
         }
       },
       error: function (res) {
+        $(".loader").hide();
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -168,11 +254,16 @@ $(document).ready(function () {
 
   $(document).on("submit", "#add-module-form", function (e) {
     e.preventDefault();
-    const branch = $("#branch").val();
-    const sem = $("#sem").val();
+    const branch = $("#sub-branch").val();
+    const sem = $("#sub-sem").val();
     const moduleName = $(this).children("input[name=moduleName]");
     const cardExpand = $(this).parents(".card-expand");
     const uid = cardExpand.children("input[name=uid]").val();
+
+    const loader = cardExpand.children(".icon-loader");
+    loader.show();
+
+    // console.log()
     $.ajax({
       type: "POST",
       url: "/addModule",
@@ -184,6 +275,7 @@ $(document).ready(function () {
         moduleName: moduleName.val(),
       }),
       success: function (res) {
+        loader.hide();
         if (res.response == 1) {
           cardExpand.find(".modules").append(`
 <p class="display-flex">
@@ -202,6 +294,7 @@ $(document).ready(function () {
       },
 
       error: function (res) {
+        loader.hide();
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -211,8 +304,8 @@ $(document).ready(function () {
 
   $(document).on("click", "#delete-module-btn", function () {
     const parent = $(this).parent();
-    const branch = $("#branch").val();
-    const sem = $("#sem").val();
+    const branch = $("#sub-branch").val();
+    const sem = $("#sub-sem").val();
     const docId = $(this)
       .parentsUntil(".card-expan")
       .children("input[name=uid]")
@@ -221,6 +314,13 @@ $(document).ready(function () {
       .parent()
       .children("input[name=moduleName]")
       .val();
+    const loader = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .children(".icon-loader");
+    loader.show();
 
     $.ajax({
       type: "POST",
@@ -233,6 +333,8 @@ $(document).ready(function () {
         moduleName: moduleName,
       }),
       success: function (res) {
+        loader.hide();
+
         if (res.response == 1) {
           parent.remove();
 
@@ -247,6 +349,8 @@ $(document).ready(function () {
       },
 
       error: function (res) {
+        loader.hide();
+
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -256,13 +360,20 @@ $(document).ready(function () {
 
   $(document).on("click", "#notes-delete-btn", function () {
     const parent = $(this).parent();
-    const branch = $("#branch").val();
-    const sem = $("#sem").val();
+    const branch = $("#sub-branch").val();
+    const sem = $("#sub-sem").val();
     const docId = $(this)
       .parentsUntil(".card-expan")
       .children("input[name=uid]")
       .val();
     const fileUrl = parent.children("a").attr("href");
+    const loader = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .children(".icon-loader");
+    loader.show();
 
     $.ajax({
       type: "POST",
@@ -275,20 +386,18 @@ $(document).ready(function () {
         notesUrl: fileUrl,
       }),
       success: function (res) {
+        loader.hide();
+
         if (res.response == 1) {
           parent.remove();
-
-          M.toast({
-            html: `<span style='color: white;'>${res.message}<span>`,
-          });
-        } else {
-          M.toast({
-            html: `<span style='color: white;'>${res.message}<span>`,
-          });
         }
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
 
       error: function (res) {
+        loader.hide();
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -317,8 +426,8 @@ $(document).ready(function () {
     btn.append(loader);
     btn.attr("disabled", true);
     loader.toggle();
-    var branch = $("#branch").val();
-    var sem = $("#sem").val();
+    var branch = $("#sub-branch").val();
+    var sem = $("#sub-sem").val();
     const cardExpand = $(this).parents(".card-expand");
     const docId = cardExpand.children("input[name=uid]").val();
     const newName = $(this).children("input[name=fileName]").val();

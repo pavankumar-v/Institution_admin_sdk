@@ -179,9 +179,14 @@ $transition: all 0.3s ease
 .j-start
     justify-content: start
 
+.j-self-end
+    margin-left: auto
+
 .j-end
     justify-content: end
 
+.a-start
+    align-items: start
 .a-end
     align-items: end
 
@@ -370,6 +375,7 @@ border-0
     background-color: $background2
 
 .more-menu
+    z-index: 1
     display: none
     position: absolute
     top: 40px
@@ -774,6 +780,7 @@ select
     display: none
 
 .loader
+    z-index: 1
     position: absolute
     top: 50%
     left: 45%
@@ -848,7 +855,7 @@ select
     top: 0
     left: 0
     box-shadow: 0 0 0
-    z-index: 1
+    z-index: 10
 
     &__items
         @include flex

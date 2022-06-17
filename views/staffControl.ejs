@@ -14,7 +14,6 @@
               <button class="tab-btn" id="tab1-btn">
                 <span class="material-icons-outlined">group_add</span> Add staff
               </button>
-
             </div>
             <!-- FORM -->
             <div class="tab1" id="tab1" style="display: none;">
@@ -44,63 +43,36 @@
               <form class="" id="staffAuth" style="display: none;">
                 <div class="form-input col s12">
                   <label for="fullName">Full Name</label>
-                  <input type="text" name="fullName" id="fullName" />
+                  <input type="text" name="fullName" id="fullName" required />
                 </div>
                 <div class="col">
                   <label for="department">Department</label>
-                  <select name="department" id="department" class="">
-                    <option value="CSE">CSE</option>
-                    <option value="ECE">ECE</option>
-                    <option value="ISE">ISE</option>
-                    <option value="MECH">MECH</option>
-                    <option value="CIV">CIV</option>
-                    <option value="ARC">ARC</option>
-                    <option value="EEE">EEE</option>
+                  <select name="branch" id="user-branch" class="" <%=staff.department=="ALL" ? "" : "disabled" %>>
+                    <% if(staff.department=="ALL" ) { %>
+                      <option value="CSE" selected>CSE</option>
+                      <option value="ECE">ECE</option>
+                      <option value="ISE">ISE</option>
+                      <option value="MECH">MECH</option>
+                      <option value="CIV">CIV</option>
+                      <option value="ARC">ARC</option>
+                      <option value="EEE">EEE</option>
+                      <% } else { %>
+                        <option value="<%= staff.department %>" selected>
+                          <%= staff.department %>
+                        </option>
+
+                        <% }%>
                   </select>
                 </div>
                 <div class="col">
                   <label for="designation">Designation</label>
                   <select name="designation" id="designation" class="">
                     <option value="staff">Professor</option>
-                    <option value="staff">Assistant Professor</option>
+                    <!-- <option value="staff">Assistant Professor</option> -->
                     <option value="hod">HOD</option>
                   </select>
                 </div>
-                <div class="checkbox col s12 m-t" id="checkbox">
-                  <label for="form-sem">Assign sem</label>
-                  <label>
-                    <input type="checkbox" class="filled-in" value="1" />
-                    <span>Sem 1</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="2" />
-                    <span>sem 2</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="3" />
-                    <span>sem 3</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="4" />
-                    <span>sem 4</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="5" />
-                    <span>sem 5</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="6" />
-                    <span>sem 6</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="7" />
-                    <span>sem 7</span>
-                  </label>
-                  <label>
-                    <input type="checkbox" class="filled-in semCheckbox" value="8" />
-                    <span>sem 8</span>
-                  </label>
-                </div>
+
                 <p class="m-t">click on password reset while logging.</p>
                 <button type="submit" class="btnn m-t" id="createStaffAuth">
                   <div class="btn-loader" style="justify-content: center"></div>
@@ -130,7 +102,7 @@
                           <%= staff.department %>
                         </p>
                         <p>
-                          <%= staff.designation %>
+                          <%= staff.designation.toUpperCase() %>
                         </p>
                       </div>
                       <div class="collapsible-body">

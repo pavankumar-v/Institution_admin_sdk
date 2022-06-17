@@ -20,6 +20,30 @@ class Subject {
     this.attendance = attendance;
   }
 
+  async createNewSubject(branch, sem) {
+    console.log(branch);
+    const addSubject = await db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
+      .add({
+        name: this.name,
+        id: this.subId,
+        description: this.description,
+        modules: [],
+        notes: [],
+        attendance: [],
+      })
+      .then((doc) => {
+        console.log(doc);
+        return { res: 1, uid: doc.id };
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return { res: 0 };
+      });
+
+    return addSubject;
+  }
+
   static async fetchAll() {
     const snapshot = await db.collection("branch/cse/8").get();
     const subjects = snapshot.docs.map((doc) => {
@@ -37,9 +61,25 @@ class Subject {
 
     return subjects;
   }
+
+  static async deleteSubject(branch, sem, docId) {
+    const deleteSub = await db
+      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .doc(docId)
+      .delete()
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        return false;
+      });
+
+    return deleteSub;
+  }
+
   static async fetchByBranchSem(branch, sem) {
     const snapshot = await db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem)
+      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
       .get();
     const subjects = snapshot.docs.map((doc) => {
       const subjectsData = new Subject(

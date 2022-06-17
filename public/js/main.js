@@ -39,5 +39,14 @@ $(document).ready(function () {
     more_menu.toggle();
   });
 
+  // close alert
+  $("#alert-close").on("click", function () {
+    $(this).parent().remove();
+  });
+
   $(".collapsible").collapsible();
+
+  $(document).ready(function () {
+    $(".modal").modal();
+  });
 });

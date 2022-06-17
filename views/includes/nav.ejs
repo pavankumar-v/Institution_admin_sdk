@@ -8,19 +8,27 @@
         <div class="logo" tabindex="1">
           <img src="img/logo.png" alt="" /><span> Intstitution Management</span>
         </div>
-        <ul class="navbar__items">
+        <ul class="navbar__items display-flex">
+          <l>
+            <div class="chip bg-ter-c display-flex">
+              <span class="material-symbols-rounded m-r-sm"> done </span>
+              <%= claim["admin"] ? "admin" : claim["hod"] ? "HOD" : "STAFF" %>
+            </div>
+          </l>
           <li>
             <a href="/signout">
               <span class="material-symbols-rounded"> power_settings_new </span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="#">
               <span class="material-symbols-rounded"> notifications </span>
             </a>
-          </li>
+          </li> -->
           <li class="profile">
-            <span>J</span>
+            <span>
+              <%= staff.fullName[0] %>
+            </span>
           </li>
         </ul>
       </div>
@@ -60,16 +68,18 @@
         <span class="material-symbols-rounded"> group </span>
         <span class="sidebar__title">Users</span>
       </li>
-      <li class="sidebar__item <%= title === 'staff control' ? 'active' : '' %>" id="users"
-        onclick="location.href='/staffcontrol'">
-        <span class="material-symbols-rounded"> admin_panel_settings </span>
-        <span class="sidebar__title">Staff control</span>
-      </li>
-      <li class="sidebar__item <%= title === 'create form' ? 'active' : '' %>" id="dynamicform"
-        onclick="location.href='/dynamicform'">
-        <span class="material-symbols-rounded"> description </span>
-        <span class="sidebar__title">create forms</span>
-      </li>
+      <% if(claim["admin"] || claim["hod"]) { %>
+        <li class="sidebar__item <%= title === 'staff control' ? 'active' : '' %>" id="users"
+          onclick="location.href='/staffcontrol'">
+          <span class="material-symbols-rounded"> admin_panel_settings </span>
+          <span class="sidebar__title">Staff control</span>
+        </li>
+        <% } %>
+          <li class="sidebar__item <%= title === 'create form' ? 'active' : '' %>" id="dynamicform"
+            onclick="location.href='/dynamicform'">
+            <span class="material-symbols-rounded"> description </span>
+            <span class="sidebar__title">create forms</span>
+          </li>
     </ul>
   </div>
 </div>

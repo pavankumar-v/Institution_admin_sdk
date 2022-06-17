@@ -27,7 +27,6 @@ class Gsheet {
       const createSht = services.googleSheets.spreadsheets
         .batchUpdate(request)
         .then(async (data) => {
-          console.log(data);
           const appendColumns = await services.googleSheets.spreadsheets.values
             .append({
               auth: services.auth,

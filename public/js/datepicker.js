@@ -16,7 +16,7 @@ $(document).ready(function () {
 
   $(".datepicker").change(function () {
     var date = $(".datepicker").val();
-    console.log(date);
+    // console.log(date);
     $.ajax({
       url: "/attendanceParams",
       method: "GET",

@@ -8,57 +8,71 @@
               <%= title %>
             </h1>
             <br />
-            <div class="card p14 br1">
-              <h6>Users List</h6>
-              <div class="table" id="userTable">
-                <table>
-                  <tr>
-                    <th>USN</th>
-                    <th>Name</th>
-                    <th>Branch</th>
-                    <th>Sem</th>
-                    <th>Section</th>
-                    <th>Action</th>
-                  </tr>
-                  <% var students=users; if(students.length> 0) { %> <% for(let student of students) { %>
-                      <tr>
-                        <td class="display-flex b upper" style="justify-content: start">
-                          <img src="<%= student.avatar %>" class="avatar" alt="avatar" />
-                          <h6 class="bl m-l">
-                            <%= student.usn %>
-                          </h6>
-                        </td>
-                        <td>
-                          <%= student.fullName %>
-                        </td>
-                        <td>
-                          <%= student.branch %>
-                        </td>
-                        <td>
-                          <%= student.sem %>
-                        </td>
-                        <td>
-                          <%= student.section %>
-                        </td>
-                        <td>
-                          <div id="blockUser">
-                            <input type="hidden" name="uid" id="uid" value="<%= student.id %>" />
-                            <input type="hidden" name="active" value="<%= student.isActive ? '1' : '0' %>" />
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button class="btnn-small display-flex <%= student.isActive ? 'bg__danger' : '' %>"
-                              id="blockUserBtn" style="width: 100%">
-                              <div class="btn-loader" style="justify-content: center"></div>
-                              <%= student.isActive ? 'Block' : 'Un Block' %>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                      <%}%>
-                        <%} else { %>
-                          <h2>No users</h2>
-                          <% } %>
-                </table>
+
+
+            <div class="tab2" id="tab2">
+              <div class="display-flex j-start">
+                <div>
+                  <select name="branch" id="user-branch" class="" <%=staff.department=="ALL" ? "" : "disabled" %>>
+                    <% if(staff.department=="ALL" ) { %>
+                      <option value="CSE" selected>CSE</option>
+                      <option value="ECE">ECE</option>
+                      <option value="ISE">ISE</option>
+                      <option value="MECH">MECH</option>
+                      <option value="CIV">CIV</option>
+                      <option value="ARC">ARC</option>
+                      <option value="EEE">EEE</option>
+                      <% } else { %>
+                        <option value="<%= staff.department %>" selected>
+                          <%= staff.department %>
+                        </option>
+
+                        <% }%>
+                  </select>
+                </div>
+                <select name="sem" id="user-sem" class="m-l">
+                  <% if(staff.semAssigned.length> 0) {
+                    %>
+
+                    <%for(let sem of staff.semAssigned) { %>
+                      <option value="<%= sem %>">sem <%= sem %>
+                      </option>
+
+                      <% }%>
+                        <% } else { %>
+                          <p>No sem Assigned</p>
+                          <% }%>
+
+                </select>
+                <div class="m-l">
+                  <input type="text" name="searchuser" id="search-user" placeholder="search">
+                </div>
+                <form class="m-l display-flex" id="add-usn">
+                  <input type="text" maxlength="10" autocomplete="off" name="usn" id="usn" placeholder="USN"
+                    VALUE="1BO<%= staff.department.slice(0,2) %>" required />
+                  <button class="btnn falt-btnn m-l display-flex">
+                    <div class="btn-loader"></div>
+                    Add
+                  </button>
+                </form>
+
               </div>
+              <div class="card p14 br1">
+                <h6>Users List</h6>
+                <div class="table" id="userTable">
+                  <div class="progress">
+                    <div class="indeterminate"></div>
+                  </div>
+                  <!-- TABLE -->
+                  <table id="user-table">
+
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab1" id="tab1" style="display: none;">
+
             </div>
           </div>
       </div>

@@ -31,14 +31,12 @@ $(document).ready(function () {
           btnLoaderToggleOff(btn, loader, "Logging In..");
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
-            classes: "rounded",
           });
           location.href = "/";
         } else {
           btnLoaderToggleOff(btn, loader, "Login");
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
-            classes: "rounded",
           });
         }
       },
@@ -46,7 +44,6 @@ $(document).ready(function () {
         btnLoaderToggleOff(btn, loader, "Loggin");
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
-          classes: "rounded",
         });
       },
     });
@@ -70,12 +67,10 @@ $(document).ready(function () {
         if (res.response == 1) {
           M.toast({
             html: `<span style='color: white;'>${res.data}<span>`,
-            classes: "rounded",
           });
         } else {
           M.toast({
             html: `<span style='color: white;'>${res.err}<span>`,
-            classes: "rounded",
           });
         }
       },
@@ -83,7 +78,6 @@ $(document).ready(function () {
         btnLoaderToggleOff(btn, loader, innerHtml);
         M.toast({
           html: ` <span style='color: white;'>${res.err}<span>`,
-          classes: "rounded",
         });
       },
     });

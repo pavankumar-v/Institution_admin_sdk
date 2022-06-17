@@ -1,12 +1,13 @@
 import DynamicForm from "../models/dynamicForm.js";
-import { google } from "googleapis";
 
 export const getForm = async (req, res) => {
   try {
     const forms = await DynamicForm.getAllForms();
-    res.render("dynamicForm", { title: "create form", forms });
-  } catch (error) {
-    console.log(error.message);
+    const claim = req.cookies.userClaim;
+    const staff = req.cookies.authUser;
+    res.render("dynamicForm", { title: "create form", forms, claim, staff });
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };
 
@@ -26,16 +27,12 @@ export const createForm = async (req, res) => {
     );
 
     const result = await createForm.createForm();
-
-    console.log(result);
     if (result.res) {
-      res
-        .status(200)
-        .send({
-          response: 1,
-          message: "Form Created Successfully",
-          docId: result.docId,
-        });
+      res.status(200).send({
+        response: 1,
+        message: "Form Created Successfully",
+        docId: result.docId,
+      });
     } else {
       res.send({
         response: 0,

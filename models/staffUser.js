@@ -40,8 +40,48 @@ class Staff {
     }
   }
 
+  static async fetchAdmin(id) {
+    const snapshot = db.collection("admin").doc(id);
+    const doc = await snapshot.get();
+    if (doc.exists) {
+      const staff = new Staff(
+        doc.id,
+        doc.data().fullName,
+        doc.data().department,
+        doc.data().designation,
+        doc.data().semAssigned,
+        doc.data().subjectsAssigned,
+        doc.data().avatar
+      );
+
+      return { res: 1, data: staff };
+    } else {
+      return { res: 0 };
+    }
+  }
+
   static async fetchAll() {
     const snapshot = await db.collection("staff").get();
+    const staffs = snapshot.docs.map((doc) => {
+      const staff = new Staff(
+        doc.id,
+        doc.data().fullName,
+        doc.data().department,
+        doc.data().designation,
+        doc.data().semAssigned,
+        doc.data().subjectsAssigned,
+        doc.data().avatar
+      );
+      return staff;
+    });
+
+    return staffs;
+  }
+  static async fetchByBranch(branch) {
+    const snapshot = await db
+      .collection("staff")
+      .where("department", "==", branch.toUpperCase())
+      .get();
     const staffs = snapshot.docs.map((doc) => {
       const staff = new Staff(
         doc.id,
@@ -136,6 +176,28 @@ class Staff {
       });
 
     return deleteStaff;
+  }
+
+  static async toggleClaim(docId, claim, claimName) {
+    const setClaim = await AdminAuth.setCustomUserClaims(
+      docId,
+      claimName === "staff"
+        ? {
+            staff: !claim,
+          }
+        : {
+            hod: !claim,
+          }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return false;
+      });
+
+    return setClaim;
   }
 }
 

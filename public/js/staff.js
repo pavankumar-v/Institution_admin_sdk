@@ -470,4 +470,63 @@ $(document).ready(function () {
       });
     }
   });
+
+  // more vert
+  $("#more-vert").on("click", function () {
+    $(".action .more-menu").toggle();
+  });
+
+  $(document).on("click", "#userClaimToggle", function () {
+    const btnText = $(this);
+    const docId = $("#staff-view").children("input[name=docId]").val();
+    const claimName = $("#staff-view").children("input[name=desg]").val();
+    const claim = $("#staff-view").children("input[name=claim]");
+
+    const state = claim.val() === "true";
+    const loader = $("#more-menu ul .btn-loader");
+    loader.show();
+
+    const chip = $(".chip");
+    const html = `
+            <span
+                class="material-icons-outlined chip-icon ${
+                  state ? "clr-err-c" : "clr-pri-c"
+                }  m-r-sm">
+                ${state ? "close" : "done"}
+            </span>
+            ${state ? "privilege revoked" : "privileged"}
+    `;
+
+    $.ajax({
+      type: "POST",
+      url: "/toggleclaim",
+      contentType: "application/json",
+      data: JSON.stringify({
+        docId,
+        claim: state,
+        claimName,
+      }),
+      success: function (res) {
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+        loader.hide();
+        if (res.response) {
+          $(".more-menu").hide();
+          claim.val(state ? "false" : "true");
+          btnText.text(state ? "Give Privilege" : "Revoke");
+          chip.empty();
+          chip.removeClass(state ? "bg-pri-c" : "bg-err-c");
+          chip.addClass(!state ? "bg-pri-c" : "bg-err-c");
+          chip.append(html);
+        }
+      },
+      error: function (res) {
+        loader.toggle();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
+  });
 });

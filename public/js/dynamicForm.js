@@ -95,88 +95,71 @@ $(document).ready(function () {
         if (res.response) {
           var html = `
           <div class="card" id="formCard">  
-          <input type="hidden" name="docId" value="${res.docId}">
-                                                  <input type="hidden" name="formState" value="${isChecked}">
-                                                  <div class="display-flex p-lg flex-c bl">
-                                                      <div class="more-menu" id="more-menu">
-                                                          <ul>
-                                                          
-                                                              <div class="btn-loader" style="display: none;"></div>
-                                                              <li id="formStateToggle">${
-                                                                isChecked
-                                                                  ? "Disable"
-                                                                  : "Enable"
-                                                              }</li>
-                                                   <li class="delete" id="delete-form">Delete</li>
-                                                          </ul>
-                                                      </div>
-                                                      <div class="display-flex j-space-between w100">
-                                                          <h6 class="file-name-exp2 display-small">
-                                                              ${formName}
-                                                          </h6>
-      
-                                                          <span class="material-icons-outlined more-vert" tabindex="1"
-                                                              id="more-vert">
-                                                              more_vert
-                                                          </span>
-                                                      </div>
-      
-                                                      <div class="chip ${
-                                                        isChecked
-                                                          ? "bg-pri-c "
-                                                          : " bg-err-c "
-                                                      } inline-flex mx"
-                                                          style="height: 26px;">
-                                                          <span
-                                                              class="material-icons-outlined chip-icon ${
-                                                                isChecked
-                                                                  ? "clr-pri-c "
-                                                                  : "clr-err-c"
-                                                              }    m-r-sm">
-                                                              ${
-                                                                isChecked
-                                                                  ? "done"
-                                                                  : "close"
-                                                              } 
-                                                          </span>
-                                                          ${
-                                                            isChecked
-                                                              ? "done"
-                                                              : "closed"
-                                                          } 
-                                                      </div>
-      
-                                                      <p class="desc-sm">
-                                                          ${description}
-                                                      </p>
-      
-                                                      <div class="media  display-flex m-t rounded-lg">
-                                                          <img src="/img/bg1.jpg" alt="">
-                                                      </div>
-      
-                                                      <br>
-                                                      <div class="card-footer display-flex j-space-between w100 ">
-                                                          <div class="inline-flex">
-                                                              <span class="material-icons clr-tri-c">
-                                                                  description
-                                                              </span>
-                                                              <i class="text-sm display-flex flex-c j-start">
-                                                                  ${timeSince(
-                                                                    new Date().toISOString()
-                                                                  )} ago
-                                                                      <p>
-                                                                          ${sheetName}
-                                                                      </p>
-                                                              </i>
-                                                              <br>
-                                                          </div>
-      
-                                                          <button class="btnn btnn-rounded">View</button>
-                                                      </div>
-      
-                                                  </div>
-      
-                                              </div>
+              <input type="hidden" name="docId" value="${res.docId}">
+              <input type="hidden" name="formState" value="${isChecked}">
+              <div class="display-flex p-lg flex-c bl" id="form-state">
+                  <div class="more-menu" id="more-menu">
+                      <ul>
+                          <div class="btn-loader" style="display: none;"></div>
+                          <li id="formStateToggle">${
+                            isChecked ? "Disable" : "Enable"
+                          }</li>
+                <li class="delete" id="delete-form">Delete</li>
+                      </ul>
+                  </div>
+                  <div class="display-flex j-space-between w100">
+                      <h6 class="file-name-exp2 display-small">
+                          ${formName}
+                      </h6>
+
+                      <span class="material-icons-outlined more-vert" tabindex="1"
+                          id="more-vert">
+                          more_vert
+                      </span>
+                  </div>
+
+                  <div class="chip ${
+                    isChecked ? "bg-pri-c " : " bg-err-c "
+                  } inline-flex mx"
+                      style="height: 26px;">
+                      <span
+                          class="material-icons-outlined chip-icon ${
+                            isChecked ? "clr-pri-c " : "clr-err-c"
+                          }    m-r-sm">
+                          ${isChecked ? "done" : "close"} 
+                      </span>
+                      ${isChecked ? "done" : "closed"} 
+                  </div>
+
+                  <p class="desc-sm">
+                      ${description}
+                  </p>
+
+                  <div class="media  display-flex m-t rounded-lg">
+                      <img src="/img/bg1.jpg" alt="">
+                  </div>
+
+                  <br>
+                  <div class="card-footer display-flex j-space-between w100 ">
+                      <div class="inline-flex">
+                          <span class="material-icons clr-tri-c">
+                              description
+                          </span>
+                          <i class="text-sm display-flex flex-c j-start">
+                              ${timeSince(new Date().toISOString())} ago
+                                  <p>
+                                      ${sheetName}
+                                  </p>
+                          </i>
+                          <br>
+                      </div>
+
+                      <button class="btnn btnn-rounded">View</button>
+                  </div>
+
+              </div>
+
+          </div>
           `;
 
           $("#form-list").prepend(html);

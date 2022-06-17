@@ -18,11 +18,26 @@ var transporter = nodemailer.createTransport({
 
 export const staffControl = async (req, res) => {
   try {
-    const staffs = await StaffUser.fetchAll();
+    const claim = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var staffs;
+    console.log(curUser.department);
+
+    if (claim["admin"]) {
+      staffs = await StaffUser.fetchAll();
+    } else {
+      staffs = await StaffUser.fetchByBranch(curUser.department);
+    }
+
+    console.log(staffs);
+
     // const subjects = await Subject.fetchByBranchSem("cse", "8");
-    res
-      .status(200)
-      .render("staffControl", { title: "staff control", staffs: staffs });
+    res.status(200).render("staffControl", {
+      title: "staff control",
+      claim,
+      staff: curUser,
+      staffs: staffs,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -39,7 +54,6 @@ export const createStaffAuth = async (req, res) => {
         return { response: 1, uid: user.uid };
       })
       .catch((err) => {
-        console.log(err.message);
         return { response: 0, message: err.message };
       });
 
@@ -57,19 +71,17 @@ export const createStaffAuth = async (req, res) => {
             "https://firebasestorage.googleapis.com/v0/b/brindavan-student-app.appspot.com/o/assets%2Favatars%2Fteachers%2Fcdg.png?alt=media&token=a3f8fa74-1ade-4375-94d4-ef8869aea672",
         })
         .then((db) => {
-          console.log(db);
           return true;
         })
         .catch((err) => {
-          console.log(err.message);
           res.send({ response: 0, message: err.message });
         });
 
       if (addToDb) {
         const addClaim = await AdminAuth.setCustomUserClaims(userUid.uid, {
-          staff: data.department == "staff" ? true : false,
-          hod: data.department == "hod" ? true : false,
-          // admin: false,
+          staff: data.designation === "staff" ? true : false,
+          hod: data.designation === "hod" ? true : false,
+          admin: false,
         })
           .then((claim) => {
             console.log(claim);
@@ -195,13 +207,18 @@ export const sendVerificationCode = async (req, res) => {
 export const viewStaff = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data.docId);
     const staffData = await StaffUser.fetchUser(data.docId);
     if (staffData.res) {
+      const claim = await AdminAuth.getUser(data.docId).then((user) => {
+        const res = user.customClaims[staffData.data.designation];
+        return res;
+      });
+
       res.render("usable/staffCard", {
         title: "Staff",
         backPath: "/staffcontrol",
         staff: staffData.data,
+        claim,
       });
     }
   } catch (error) {
@@ -310,5 +327,24 @@ export const deleteStaffUser = async (req, res) => {
     }
   } catch (error) {
     res.send({ response: 0, err: error.message });
+  }
+};
+
+export const claimToggle = async (req, res) => {
+  try {
+    const data = req.body;
+    const toggle = await StaffUser.toggleClaim(
+      data.docId,
+      data.claim,
+      data.claimName
+    );
+
+    if (toggle) {
+      res.send({ response: 1, message: "Claim set" });
+    } else {
+      res.send({ response: 0, message: "Operation Error" });
+    }
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
   }
 };

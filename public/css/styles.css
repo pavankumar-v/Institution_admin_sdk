@@ -111,10 +111,20 @@
           justify-content: start;
 }
 
+.j-self-end {
+  margin-left: auto;
+}
+
 .j-end {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;
+}
+
+.a-start {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
 }
 
 .a-end {
@@ -410,6 +420,7 @@ border-0 {
 }
 
 .more-menu {
+  z-index: 1;
   display: none;
   position: absolute;
   top: 40px;
@@ -975,6 +986,7 @@ select {
 }
 
 .loader {
+  z-index: 1;
   position: absolute;
   top: 50%;
   left: 45%;
@@ -1067,7 +1079,7 @@ select {
   left: 0;
   -webkit-box-shadow: 0 0 0;
           box-shadow: 0 0 0;
-  z-index: 1;
+  z-index: 10;
 }
 
 .wrapper .navbar__items {

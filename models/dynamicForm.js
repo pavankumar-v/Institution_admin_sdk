@@ -48,7 +48,6 @@ class DynamicForm {
             createdAt: this.createdAt,
           })
           .then((data) => {
-            console.log(data.id);
             return { res: true, docId: data.id };
           })
           .catch((err) => {
