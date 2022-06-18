@@ -24,6 +24,7 @@ export const storage = admin
   .bucket("gs://brindavan-student-app.appspot.com");
 export const adminFirestore = admin.firestore;
 export const db = admin.firestore();
+db.settings({ ignoreUndefinedProperties: true });
 export const AdminAuth = admin.auth();
 
 // admin.auth()

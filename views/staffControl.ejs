@@ -89,43 +89,52 @@
               </div>
 
               <ul class="collapsible" id="staff-List">
-                <%if(staffs.length> 0) { %> <% let i=0; for(let staff of staffs) { %>
+                <%if(staffs.length> 0) { %> <% let i=0; for(let teacher of staffs) { %>
                     <li class="results" style="border-left: 5px solid #386A20" data-id="<%= staff.id %>">
                       <div class="collapsible-header display-flex j-space-between">
                         <div class="display-flex j-start">
-                          <img class="avatar" src="<%= staff.avatar %>" alt="">
+                          <img class="avatar" src="<%= teacher.avatar %>" alt="">
                           <p class="m-l bl file-name-exp1">
-                            <%= staff.fullName %>
+                            <%= teacher.fullName %>
                           </p>
                         </div>
                         <p>
-                          <%= staff.department %>
+                          <%= teacher.department %>
                         </p>
                         <p>
-                          <%= staff.designation.toUpperCase() %>
+                          <%= teacher.designation.toUpperCase() %>
                         </p>
+                        <% if(staff.id===teacher.id){ %>
+                          <div class="chip bg-pri-c inline-flex mx" style="height: 26px;">
+                            <span
+                              class="material-icons-outlined chip-icon <%= claim ? 'clr-pri-c ' : 'clr-err-c' %>    m-r-sm">
+                              done
+                            </span>
+                            you
+                          </div>
+                          <% }%>
+
                       </div>
                       <div class="collapsible-body">
                         <div class="display-flex j-space-between m-b">
                           <p>
                             <b>Full Name : </b>
-                            <%= staff.fullName %>
+                            <%= teacher.fullName %>
                           </p>
 
                         </div>
                         <div class="display-flex j-space-between m-b">
                           <p>
                             <b>Sem Assigned : </b>
-                            <%= staff.semAssigned %>
+                            <%= teacher.semAssigned %>
                           </p>
 
                         </div>
                         <div class="display-flex j-end">
                           <form action="/viewStaff" method="POST">
-                            <input type="hidden" name="docId" value="<%= staff.id%>">
+                            <input type="hidden" name="docId" value="<%= teacher.id%>">
                             <button class="btnn btnn-rounded-lg" id="view-staff">View More</button>
                           </form>
-
                         </div>
 
                       </div>

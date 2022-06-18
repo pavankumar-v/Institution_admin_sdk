@@ -42,26 +42,46 @@ class User {
     return users;
   }
   static async fetchByBranchSem(branch, sem) {
-    const snapshot = await db
+    const loadUsers = await db
       .collection("users")
       .where("branch", "==", branch)
       .where("sem", "==", parseInt(sem))
-      .get();
-    const users = snapshot.docs.map((doc) => {
-      const user = new User(
-        doc.id,
-        doc.data().fullName,
-        doc.data().usn,
-        doc.data().branch,
-        doc.data().sem,
-        doc.data().section,
-        doc.data().avatar,
-        doc.data().isActive
-      );
+      .get()
+      .then((data) => {
+        const users = data.docs.map((doc) => {
+          const user = new User(
+            doc.id,
+            doc.data().fullName,
+            doc.data().usn,
+            doc.data().branch,
+            doc.data().sem,
+            doc.data().section,
+            doc.data().avatar,
+            doc.data().isActive
+          );
+          return user;
+        });
+        return { res: 1, users };
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return { res: 0, users: [] };
+      });
 
-      return user;
-    });
-    return users;
+    // const users = snapshot.docs.map((doc) => {
+    //   const user = new User(
+    //     doc.id,
+    //     doc.data().fullName,
+    //     doc.data().usn,
+    //     doc.data().branch,
+    //     doc.data().sem,
+    //     doc.data().section,
+    //     doc.data().avatar,
+    //     doc.data().isActive
+    //   );
+    //   return user;
+    // });
+    return loadUsers;
   }
 
   static async blockUser(uid, str) {

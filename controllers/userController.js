@@ -99,19 +99,27 @@ export const loadUsersByBranchSem = async (req, res) => {
     const claim = req.cookies.userClaim;
     const curUser = req.cookies.authUser;
     const data = req.body;
-    var users;
+    var students;
 
     // // security check
     if (claim["admin"]) {
-      users = await User.fetchByBranchSem(data.branch, data.sem);
+      students = await User.fetchByBranchSem(data.branch, data.sem);
     } else {
-      users = await User.fetchByBranchSem(
+      students = await User.fetchByBranchSem(
         curUser.department.toUpperCase(),
         data.sem
       );
     }
-    console.log(users);
-    res.send({ response: 1, message: "Updated", users });
+
+    if (students.res) {
+      res.send({ response: 1, message: "Updated", users: students.users });
+    } else {
+      res.send({
+        response: 0,
+        message: "could not load",
+        users: students.users,
+      });
+    }
   } catch (err) {
     res.send({ response: 0, message: err.message });
   }

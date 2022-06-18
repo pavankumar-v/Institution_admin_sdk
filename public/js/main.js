@@ -18,8 +18,8 @@ $(document).ready(function () {
   });
 
   //loader
-  $(".loader").css("display", "none");
-  $(".btn-loader").css("display", "none");
+  $(".container .loader").hide();
+  $(".btn-loader").hide();
 
   $(".sidebar__item").click(function () {
     $(".main-data").css("display", "none");

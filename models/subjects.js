@@ -94,7 +94,6 @@ class Subject {
 
       return subjectsData;
     });
-
     return subjects;
   }
 
@@ -202,6 +201,26 @@ class Subject {
       });
 
     return taskDelete;
+  }
+
+  static async loadAssignedSubjects(docId, branch, sem, collectionName) {
+    const result = await db
+      .collection(collectionName)
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        var subAssigned = doc.data().subjectsAssigned;
+        subAssigned = subAssigned.filter((sub) =>
+          String(sub).startsWith(`${branch.toLowerCase()}/${sem.toString()}`)
+        );
+        return { res: 1, subAssigned };
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return { res: 0, subAssigned: [] };
+      });
+
+    return result;
   }
 }
 

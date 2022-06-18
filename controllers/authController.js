@@ -28,8 +28,6 @@ export const signInUser = async (req, res) => {
           return idTokenResult.claims;
         });
 
-        console.log(claims);
-
         if (
           claims.claims["admin"] ||
           claims.claims["staff"] ||
