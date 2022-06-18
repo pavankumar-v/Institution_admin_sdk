@@ -7,7 +7,18 @@
             <h1 class="main-title">Mark <%= title %>
             </h1>
             <br />
-            <div class="display-flex j-start" id="att-selections">
+            <div class="alert display-flex bg-pri-c p-sm m-b rounded elevation">
+              <span class="material-symbols-rounded m-r">
+                info
+              </span>
+              <p>
+                Make sure to select correct subject before marking attendance
+              </p>
+              <span class="material-symbols-rounded m-r j-self-end alert-close" id="alert-close">
+                close
+              </span>
+            </div>
+            <div class="display-flex j-start elevation m-0 p-sm rounded" id="att-selections">
               <input type="text" name="date" style="width: 30%" class="datepicker input-control" />
               <!-- <span class="material-icons-outlined p" id="datepicker"
                   >calendar_month</span
@@ -25,7 +36,6 @@
                     <option value="<%= staff.department %>" selected>
                       <%= staff.department %>
                     </option>
-
                     <% }%>
               </select>
               <select name="sem" id="att-sem" class="m-l">
@@ -59,20 +69,38 @@
               </select>
 
               <select name="subject" id="dropdown-subjects" class="m-l">
-                <option disabled selected>Select subject</option>
+
               </select>
               <div class="btn-loader"></div>
             </div>
             <br />
-            <div class="card p14 br1">
+            <div class="alert display-flex bg-pri-c p-sm m-b rounded elevation">
+              <span class="material-symbols-rounded m-r">
+                info
+              </span>
+              <p>
+                Users will load after a subject is selected
+              </p>
+              <span class="material-symbols-rounded m-r j-self-end alert-close" id="alert-close">
+                close
+              </span>
+            </div>
+            <div class="elevated-card p14 br1">
               <h6>Attendance List</h6>
-              <div class="table" id="attendance-table">
+              <div class="table" id="att-table">
                 <div class="progress">
                   <div class="indeterminate"></div>
                 </div>
                 <!-- TABLE -->
-                <table id="attendance-table">
-
+                <table id="att-table">
+                  <tr>
+                    <th>USN</th>
+                    <th>Name</th>
+                    <th>Branch</th>
+                    <th>Sem</th>
+                    <th>Section</th>
+                    <th>Action</th>
+                  </tr>
                 </table>
               </div>
             </div>

@@ -222,6 +222,27 @@ class Subject {
 
     return result;
   }
+
+  static async getAttendance(path, docId, date) {
+    const att = await db
+      .collection("branch/" + path.toLowerCase())
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        const data = doc.data().attendance[date];
+        if (data != undefined) {
+          return { res: 1, att: data };
+        } else {
+          return { res: 0, att: [] };
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return { res: 0, att: [] };
+      });
+
+    return att;
+  }
 }
 
 export default Subject;

@@ -13,21 +13,4 @@ $(document).ready(function () {
     day;
   $(".datepicker").val(curDate);
   $(".datepicker").datepicker({ format: "yyyy-mm-dd", defaultDate: curDate });
-
-  $(".datepicker").change(function () {
-    var date = $(".datepicker").val();
-    // console.log(date);
-    $.ajax({
-      url: "/attendanceParams",
-      method: "GET",
-      contentType: "application/json",
-      data: JSON.stringify({ data: date }),
-      success: function (res) {
-        // console.log(res);
-      },
-      error: function (data) {
-        console.log("User creation failed :" + data);
-      },
-    });
-  });
 });

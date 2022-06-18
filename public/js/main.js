@@ -40,7 +40,7 @@ $(document).ready(function () {
   });
 
   // close alert
-  $("#alert-close").on("click", function () {
+  $(".alert-close").on("click", function () {
     $(this).parent().remove();
   });
 

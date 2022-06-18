@@ -55,9 +55,35 @@ export const loadAssignedSubjects = async (req, res) => {
     }
 
     if (assignedSub.res) {
-      res.send({ response: 1, message: "", subjects: assignedSub.subAssigned });
+      res.send({
+        response: 1,
+        message: "",
+        subjects: assignedSub.subAssigned,
+      });
     } else {
-      res.send({ response: 0, message: "Error" });
+      res.send({ response: 0, message: "Error", users: [] });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.send({ response: 0, message: err.message });
+  }
+};
+
+export const loadAttUsers = async (req, res) => {
+  try {
+    const data = req.body;
+    const path = data.branch + "/" + data.sem;
+    if (data.docId != null) {
+      const att = await Subject.getAttendance(path, data.docId, data.date);
+      const users = await User.fetchByBranchSem(data.branch, data.sem);
+      res.send({
+        response: 1,
+        message: "Updated",
+        attendance: att.att,
+        users: users.users,
+      });
+    } else {
+      res.send({ response: 1, att: [], users: [] });
     }
   } catch (err) {
     console.log(err.message);
