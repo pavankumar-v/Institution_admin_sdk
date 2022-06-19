@@ -422,26 +422,31 @@ $(document).ready(function () {
 
   function formatAMPMFloor(date) {
     var hours = date.getHours();
-    var minutes = date.getMinutes();
-    minutes = hours > 11 ? 15 : 00;
+    var minutes = 00;
+    if (hours >= 11) {
+      minutes = 15;
+    }
+    if (hours > 13) {
+      minutes = "00";
+    }
     var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
     var strTime = hours + ":" + minutes + ampm.toUpperCase();
     return strTime;
   }
   function formatAMPMCeal(date) {
     var hours = date.getHours() + 1;
-    var minutes = date.getMinutes();
-    minutes = hours > 11 ? 15 : 00;
+    var minutes = 00;
+    if (hours >= 11) {
+      minutes = 15;
+    }
+    if (hours > 13) {
+      minutes = "00";
+    }
     var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    if (hours > 12 && ampm == "pm") {
-      minutes = "00";
-    }
     var strTime = hours + ":" + minutes + ampm.toUpperCase();
     return strTime;
   }

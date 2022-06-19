@@ -47,7 +47,7 @@
                 </div>
                 <div class="col">
                   <label for="department">Department</label>
-                  <select name="branch" id="user-branch" class="" <%=staff.department=="ALL" ? "" : "disabled" %>>
+                  <select name="branch" id="department" class="" <%=staff.department=="ALL" ? "" : "disabled" %>>
                     <% if(staff.department=="ALL" ) { %>
                       <option value="CSE" selected>CSE</option>
                       <option value="ECE">ECE</option>

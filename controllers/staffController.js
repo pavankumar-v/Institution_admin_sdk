@@ -47,6 +47,8 @@ export const createStaffAuth = async (req, res) => {
   try {
     const data = req.body;
 
+    console.log(data);
+
     const userUid = await AdminAuth.createUser({
       email: data.email,
     })
@@ -84,7 +86,6 @@ export const createStaffAuth = async (req, res) => {
           admin: false,
         })
           .then((claim) => {
-            console.log(claim);
             return true;
           })
           .catch((err) => {
@@ -154,6 +155,7 @@ export const createStaffAuth = async (req, res) => {
       res.send({ response: 0, message: userUid.message });
     }
   } catch (error) {
+    console.log(err.message);
     res.send({ response: 0, message: error.message });
   }
 };
