@@ -71,7 +71,28 @@
               <select name="subject" id="dropdown-subjects" class="m-l">
 
               </select>
-              <div class="btn-loader"></div>
+              <div class="btn-loader m-l m-r"></div>
+              <div class="display-flex m-l" id="timestamp">
+                <label>
+                  <input name="group1" id="floor-inp" type="radio" checked />
+                  <span id="floor"></span>
+                </label>
+                <label class="m-l">
+                  <input name="group1" id="ceal-inp" type="radio" />
+                  <span id="ceal"></span>
+                </label>
+
+              </div>
+              <div class="m-l display-flex" id="custom-timestamp">
+                <label>
+                  <input type="checkbox" class="filled-in time-stamp-checkbox" />
+                  <span>Custom-time</span>
+                </label>
+
+                <select name="customTime" id="customTime" class="m-l" style="display: none;">
+
+                </select>
+              </div>
             </div>
             <br />
             <div class="alert display-flex bg-pri-c p-sm m-b rounded elevation">
@@ -87,7 +108,7 @@
             </div>
             <div class="elevated-card p14 br1">
               <h6>Attendance List</h6>
-              <div class="table" id="att-table">
+              <div class="table" id="attTable">
                 <div class="progress">
                   <div class="indeterminate"></div>
                 </div>

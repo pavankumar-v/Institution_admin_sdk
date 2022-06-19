@@ -66,13 +66,13 @@ $(document).ready(function () {
 
           var rows = `
           <tr>
-                    <th>USN</th>
-                    <th>Name</th>
-                    <th>Branch</th>
-                    <th>Sem</th>
-                    <th>Section</th>
-                    <th>Action</th>
-                  </tr>
+            <th>USN</th>
+            <th>Name</th>
+            <th>Branch</th>
+            <th>Sem</th>
+            <th>Section</th>
+            <th>Action</th>
+          </tr>
           `;
           $("#user-table").append(rows);
           if (res.users.length > 0) {

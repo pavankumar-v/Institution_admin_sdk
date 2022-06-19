@@ -72,10 +72,13 @@ export const loadAssignedSubjects = async (req, res) => {
 export const loadAttUsers = async (req, res) => {
   try {
     const data = req.body;
-    const path = data.branch + "/" + data.sem;
+    console.log(data);
+    const path = getPath(data.branch, data.sem);
+    console.log(path);
     if (data.docId != null) {
       const att = await Subject.getAttendance(path, data.docId, data.date);
       const users = await User.fetchByBranchSem(data.branch, data.sem);
+
       res.send({
         response: 1,
         message: "Updated",
@@ -90,3 +93,75 @@ export const loadAttUsers = async (req, res) => {
     res.send({ response: 0, message: err.message });
   }
 };
+
+export const markAttendance = async (req, res) => {
+  try {
+    const data = req.body;
+    console.log(data);
+    const path = getPath(data.branch, data.sem);
+    const val = data.usn + "-" + data.time + "-" + data.state;
+
+    const markAtt = await Subject.markAttendance(
+      path,
+      data.subId,
+      val,
+      data.date
+    );
+
+    if (markAtt) {
+      res.send({
+        response: 1,
+        message: "marked present",
+        usnStr: val,
+        time: data.time,
+      });
+    } else {
+      res.send({ response: 0, message: "could not mark attendance" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.send({ response: 0, message: err.message });
+  }
+};
+
+export const reMarkAtt = async (req, res) => {
+  try {
+    const data = req.body;
+    console.log(data);
+    const path = getPath(data.branch, data.sem);
+    const addUsnStr = addVal(data.state, data.usnStr);
+
+    const reMark = await Subject.alterAttendance(
+      path,
+      data.subId,
+      data.usnStr,
+      addUsnStr,
+      data.date
+    );
+
+    if (reMark) {
+      res.send({ response: 1, message: "attendance updated", addUsnStr });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.send({ response: 0, message: err.message });
+  }
+};
+
+function getPath(branch, sem) {
+  const path = branch + "/" + sem;
+  return path.toLowerCase();
+}
+
+function addVal(state, remVal) {
+  var n = remVal.length - 1;
+  String.prototype.replaceAt = function (index, replacement) {
+    return (
+      this.substring(0, index) +
+      replacement +
+      this.substring(index + replacement.length)
+    );
+  };
+  const addStr = remVal.replaceAt(n, state ? "1" : "0");
+  return addStr;
+}

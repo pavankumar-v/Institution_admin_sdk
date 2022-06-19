@@ -1,4 +1,4 @@
-import { db, adminFirestore } from "../database/firebase-admin.js";
+import { db, adminFirestore, AdminAuth } from "../database/firebase-admin.js";
 import {
   ref,
   uploadBytes,
@@ -223,12 +223,14 @@ class Subject {
     return result;
   }
 
+  // ATTENDANCE
   static async getAttendance(path, docId, date) {
     const att = await db
       .collection("branch/" + path.toLowerCase())
       .doc(docId)
       .get()
       .then((doc) => {
+        console.log(doc.data().attendance);
         const data = doc.data().attendance[date];
         if (data != undefined) {
           return { res: 1, att: data };
@@ -237,11 +239,75 @@ class Subject {
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log("err" + err.message);
         return { res: 0, att: [] };
       });
 
     return att;
+  }
+
+  // MARK ATTENDANCE
+  static async markAttendance(path, subId, val, date) {
+    console.log(path);
+    console.log(subId);
+    const markAttendance = await db
+      .collection("branch/" + path)
+      .doc(subId)
+      .set(
+        {
+          attendance: {
+            [date]: adminFirestore.FieldValue.arrayUnion(val),
+          },
+        },
+        { merge: true }
+      )
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.log("error :" + err.message);
+        return false;
+      });
+
+    return markAttendance;
+  }
+
+  // ALTERT ATTENDANCE
+  static async alterAttendance(path, subId, remVal, addVal, date) {
+    const ref = db.collection("branch/" + path).doc(subId);
+    const mark = await ref
+      .set(
+        {
+          attendance: {
+            [date]: adminFirestore.FieldValue.arrayRemove(remVal),
+          },
+        },
+        { merge: true }
+      )
+      .then(async () => {
+        const add = await ref
+          .set(
+            {
+              attendance: {
+                [date]: adminFirestore.FieldValue.arrayUnion(addVal),
+              },
+            },
+            { merge: true }
+          )
+          .then(() => {
+            return true;
+          })
+          .catch((err) => {
+            return false;
+          });
+        return add;
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return false;
+      });
+
+    return mark;
   }
 }
 

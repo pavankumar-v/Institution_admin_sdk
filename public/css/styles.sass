@@ -319,6 +319,12 @@ border-0
 
 .p
     padding: 3px
+.p-y
+    padding-top: 10px
+    padding-bottom: 10px
+.p-x
+    padding-left: 10px
+    padding-rihgt: 10px
 .p-sm
     padding: 10px
 
@@ -333,6 +339,10 @@ border-0
 
 .chip-icon
     font-size: 14px !important
+
+.more-icon, .more-btn
+    &:hover
+        cursor: pointer
 
 .icon-small
     font-size: 16px !important
@@ -403,6 +413,33 @@ border-0
                 &:hover
                     color: #fff
                     background-color: $error !important
+.more-menu-rel
+    z-index: 1
+    display: none
+    position: relative
+    width: 90px
+    border-radius: 3px
+    box-shadow: 0 4px 4px rgba($onBackground, 0.25)
+    background: $background
+    @include button
+    color: $onBackground
+    overflow: hidden
+
+    ul
+        width: 100%
+        text-align: left
+        li
+            cursor: pointer
+            color: $onBackground
+            padding: 6px 10px
+
+            &:hover
+                background-color: $hoverColor
+
+            &.delete
+                &:hover
+                    color: #fff
+                    background-color: $error !important
 
 // colors
 .clr-pri
@@ -426,6 +463,9 @@ border-0
 
 .clr-tri-c
     color: $ternary
+
+.bg-w
+    background-color: $background !important
 
 .bg-ter-c
     background: $ternaryContainer
