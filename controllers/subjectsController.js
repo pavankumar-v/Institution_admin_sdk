@@ -9,7 +9,7 @@ export const loadSubjects = async (req, res) => {
       data.sem.toString()
     );
     // console.log(subjects);
-    res.send({ response: 1, subjects: subjects });
+    res.send({ response: 1, message: "Updated", subjects: subjects });
   } catch (err) {
     res.send({ response: 0, message: err.message });
   }

@@ -64,7 +64,7 @@ class Subject {
 
   static async deleteSubject(branch, sem, docId) {
     const deleteSub = await db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .doc(docId)
       .delete()
       .then(() => {
@@ -79,7 +79,7 @@ class Subject {
 
   static async fetchByBranchSem(branch, sem) {
     const snapshot = await db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .get();
     const subjects = snapshot.docs.map((doc) => {
       const subjectsData = new Subject(
@@ -99,7 +99,7 @@ class Subject {
 
   static async addModule(branch, sem, docId, subjectName) {
     const subjectRef = db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .doc(docId);
     subjectRef
       .update({
@@ -115,7 +115,7 @@ class Subject {
 
   static async deleteModule(branch, sem, uid, modulName) {
     const subjectRef = db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .doc(uid);
 
     subjectRef
@@ -137,9 +137,7 @@ class Subject {
         .then((snapshot) => {
           const fileUrl = getDownloadURL(storageRef)
             .then((url) => {
-              db.collection(
-                "branch/" + branch.toLowerCase() + "/" + sem.toString()
-              )
+              db.collection("branch/" + branch.toLowerCase() + "/" + sem)
                 .doc(docId)
                 .set(
                   {
@@ -175,7 +173,7 @@ class Subject {
     const deleteRef = ref(storage, "notes/" + fileName);
 
     const subjectRef = db
-      .collection("branch/" + branch.toLowerCase() + "/" + sem.toString())
+      .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .doc(docId);
 
     const taskDelete = subjectRef
@@ -211,7 +209,7 @@ class Subject {
       .then((doc) => {
         var subAssigned = doc.data().subjectsAssigned;
         subAssigned = subAssigned.filter((sub) =>
-          String(sub).startsWith(`${branch.toLowerCase()}/${sem.toString()}`)
+          String(sub).startsWith(`${branch.toLowerCase()}/${sem}`)
         );
         return { res: 1, subAssigned };
       })

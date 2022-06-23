@@ -1,0 +1,78 @@
+<div class="full-screen-view" id="staff-view">
+    <div class="progress m0 pos-sticky">
+        <div class="indeterminate"></div>
+    </div>
+    <input type="hidden" name="docId" value="<%= staff.id %>">
+    <input type="hidden" name="desg" value="<%= staff.designation %>">
+
+
+    <header class="pos-sticky">
+        <div class="elevation p-sm">
+            <div class="container display-flex j-space-between ">
+                <div class="back display-flex">
+                    <a href="/notifications" id="back">
+                        <span class="material-symbols-outlined p-sm bg-pri-c rounded-lg">
+                            arrow_back
+                        </span>
+                    </a>
+                    <div class="title m-l p-sm">
+                        <h5 contenteditable="true" spellcheck="false" id="edit-name">
+                            <%= staff.fullName %>
+                        </h5>
+                    </div>
+                </div>
+                <div class="action display-flex">
+                    <div class="more-menu" id="more-menu" style=" right: 25%;">
+                        <ul>
+                            <%- include('../constants/btnloader.ejs') %>
+
+                                <% if(claim) { %>
+
+                                    <li id="userClaimToggle">Revoke privilege</li>
+
+                                    <% }else{ %>
+                                        <li id="userClaimToggle">Give privilege
+                                        </li>
+                                        <% } %>
+                        </ul>
+                    </div>
+                    <div class="chip <%= claim ? 'bg-pri-c ' : ' bg-err-c ' %> inline-flex mx" style="height: 26px;">
+                        <span
+                            class="material-icons-outlined chip-icon <%= claim ? 'clr-pri-c ' : 'clr-err-c' %>    m-r-sm">
+                            <%= claim ? 'done' : 'close' %>
+                        </span>
+                        <%= claim ? 'privileged' : 'privilege revoked' %>
+                    </div>
+
+                    <span class="material-icons-outlined more-vert" tabindex="1" id="more-vert">
+                        more_vert
+                    </span>
+
+                    <button class="btnn elevation-0 bg-err display-flex m-l" id="delete-staff">
+                        <div class="btn-loader"></div>
+                        Delete
+                    </button>
+                    <!-- <button class="btnn falt-btnn elevation-0" id="save">Save</button> -->
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <br>
+    <main>
+        <div class="container">
+            <div class="alert display-flex bg-ter-c p-sm m-b rounded">
+                <span class="material-symbols-rounded m-r">
+                    info
+                </span>
+                <p>
+                    To change department & designation delete user and create again
+
+                </p>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+</div>

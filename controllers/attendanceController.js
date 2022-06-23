@@ -111,7 +111,7 @@ export const markAttendance = async (req, res) => {
     if (markAtt) {
       res.send({
         response: 1,
-        message: "marked present",
+        message: "marked attendance",
         usnStr: val,
         time: data.time,
       });

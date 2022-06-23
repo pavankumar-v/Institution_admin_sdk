@@ -31,7 +31,7 @@ $(document).ready(function () {
   $(document).on(
     "click",
     "#create-form #form-fields div #form-decrement",
-    function (params) {
+    function () {
       const column = $(this).parent().parent();
       column.remove();
     }
@@ -296,28 +296,3 @@ $(document).ready(function () {
     });
   });
 });
-
-function timeSince(date) {
-  var seconds = Math.floor((new Date() - date) / 1000);
-  var interval = Math.floor(seconds / 31536000);
-  if (interval > 1) {
-    return interval + " years";
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " mon's";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hrs";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " mins";
-  }
-  return Math.floor(seconds) + " sec's";
-}

@@ -227,6 +227,10 @@ $(document).ready(function () {
         } else {
           $("#subject-list").append("No Subjects Found");
         }
+
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
       error: function (res) {
         $(".loader").hide();

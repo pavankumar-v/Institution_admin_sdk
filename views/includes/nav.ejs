@@ -37,46 +37,47 @@
 
   <div class="sidebar">
     <ul class="sidebar__items" id="sidebar-items">
-      <li class="sidebar__item <%= title === 'dashboard' ? 'active' : '' %>" id="dashboard"
+      <li class="sidebar__item <%= title === 'dashboard' ? 'active' : '' %> waves-effect waves-dark " id="dashboard"
         onclick="location.href='/dashboard'">
         <span class="material-symbols-rounded"> team_dashboard </span>
         <span class="sidebar__title">Dashboard</span>
       </li>
 
-      <li class="sidebar__item <%= title === 'classes' ? 'active' : '' %>" id="classes"
+      <!-- <li class="sidebar__item <%= title === 'classes' ? 'active' : '' %> waves-effect waves-dark " id="classes"
         onclick="location.href='/classes'">
         <span class="material-symbols-rounded"> school </span>
         <span class="sidebar__title">Classes</span>
-      </li>
+      </li> -->
 
-      <li class="sidebar__item <%= title === 'attendance' ? 'active' : '' %>" id="attendance"
+      <li class="sidebar__item <%= title === 'attendance' ? 'active' : '' %> waves-effect waves-dark " id="attendance"
         onclick="location.href='/attendance'">
         <span class="material-symbols-rounded"> event_available </span>
         <span class="sidebar__title">Attendance</span>
       </li>
-      <li class="sidebar__item <%= title === 'notifications' ? 'active' : '' %>" id="notifications"
-        onclick="location.href='/notifications'">
+      <li class="sidebar__item <%= title === 'notifications' ? 'active' : '' %> waves-effect waves-dark "
+        id="notifications" onclick="location.href='/notifications'">
         <span class="material-symbols-rounded"> mark_unread_chat_alt </span>
         <span class="sidebar__title">Notifications</span>
       </li>
-      <li class="sidebar__item <%= title === 'subjects' ? 'active' : '' %>" id="subjects"
+      <li class="sidebar__item <%= title === 'subjects' ? 'active' : '' %> waves-effect waves-dark " id="subjects"
         onclick="location.href='/subjects'">
         <span class="material-symbols-rounded"> note_alt </span>
         <span class="sidebar__title">Subjects</span>
       </li>
-      <li class="sidebar__item <%= title === 'users' ? 'active' : '' %>" id="users" onclick="location.href='/users'">
+      <li class="sidebar__item <%= title === 'users' ? 'active' : '' %> waves-effect waves-dark " id="users"
+        onclick="location.href='/users'">
         <span class="material-symbols-rounded"> group </span>
         <span class="sidebar__title">Users</span>
       </li>
       <% if(claim["admin"] || claim["hod"]) { %>
-        <li class="sidebar__item <%= title === 'staff control' ? 'active' : '' %>" id="users"
+        <li class="sidebar__item <%= title === 'staff control' ? 'active' : '' %> waves-effect waves-dark " id="users"
           onclick="location.href='/staffcontrol'">
           <span class="material-symbols-rounded"> admin_panel_settings </span>
           <span class="sidebar__title">Staff control</span>
         </li>
         <% } %>
-          <li class="sidebar__item <%= title === 'create form' ? 'active' : '' %>" id="dynamicform"
-            onclick="location.href='/dynamicform'">
+          <li class="sidebar__item <%= title === 'create form' ? 'active' : '' %> waves-effect waves-dark "
+            id="dynamicform" onclick="location.href='/dynamicform'">
             <span class="material-symbols-rounded"> description </span>
             <span class="sidebar__title">create forms</span>
           </li>

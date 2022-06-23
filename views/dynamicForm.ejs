@@ -7,18 +7,45 @@
                         <h1 class="main-title">
                             <%= title %>
                         </h1>
+
+                        <div class="display-flex j-start m-y">
+                            <div class="chip bg-pri-c m-r-sm copy-able">
+                                <p>
+                                    gsheets@gsheets-352410.iam.gserviceaccount.com
+                                </p>
+                            </div>
+
+                            <div class="icon-btn waves-effect waves-dark target-able display-flex m-r"
+                                id="copy-clipboard">
+                                <span class="material-symbols-outlined">
+                                    content_copy
+                                </span>
+                            </div>
+
+                            <div class="alert display-flex bg-ter-c p-sm rounded p-x">
+                                <span class="material-symbols-rounded m-r chip-icon">
+                                    info
+                                </span>
+                                <p class="caption">
+                                    Make sure you give access to the service account to the sheet!
+                                    <a href="https://help.tillerhq.com/en/articles/432685-sharing-and-permissions-in-google-sheets"
+                                        class="link" target="_blank">How
+                                        to give access?</a>
+                                </p>
+
+                                <span class="material-symbols-rounded m-r j-self-end alert-close m-l chip-icon"
+                                    id="alert-close">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+
+
                         <hr>
                         <br>
-                        <!-- <div class="tabs">
-                            <button class="tab-btn active" id="tab2-btn">
-                                <span class="material-icons-outlined">list_alt</span> forms
-                            </button>
-                            <button class="tab-btn " id="tab1-btn">
-                                <span class="material-icons-outlined">note_add</span> create form
-                            </button>
-                        </div> -->
-                        <div class="div tab2 display-flex j-start a-start" id="tab2">
-                            <div class="container display-grid m0" id="form-list">
+
+                        <div class="div tab2 grid form-grid j-start a-start" id="tab2">
+                            <div class="container grid grid-foo m0 w100" id="form-list">
                                 <% if(forms.length> 0) { %> <% for(let form of forms) { const date=new
                                         Date(form.createdAt); var year=date.getFullYear(); var month=date.getMonth();
                                         var day=date.getDate(); var cDate=day+"/"+month+"/"+year %>

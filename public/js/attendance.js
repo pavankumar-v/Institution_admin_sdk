@@ -37,7 +37,7 @@ $(document).ready(function () {
               var subName = sub[sub.length - 1];
               var subId = sub[3];
               var docId = sub[2];
-              var html = `
+              var html = ` 
               <option value="${docId}">${subName}</option>
               `;
               $("#dropdown-subjects").append(html);
@@ -86,7 +86,6 @@ $(document).ready(function () {
             <th>USN</th>
             <th>Name</th>
             <th>Branch</th>
-
             <th>Action</th>
           </tr>
           `;
@@ -138,9 +137,10 @@ $(document).ready(function () {
                       </ul>
               </div>
                     <div class="fo pos-rel">
-                            <div class="more-menu-sm hint pos-abs p bg-w elevation m0" id="more-menu-sm" style="top: 25px; left: 20px; width: 130px; border-radius: 3px; display: none; cursor:pointer;">
+                            <div class="more-menu-sm hint pos-abs p bg-w elevation m0" id="more-menu-sm" style="">
                             <input type="hidden" name="usnStr" value="${arrEle}">
                             <ul>
+                            <div class="icon-loader" style="display: none;"></div>
                             
                             ${
                               foo[2] == 1
@@ -208,6 +208,17 @@ $(document).ready(function () {
           } else {
             $("#att-table").append(`<tr><td><h5>No Users</h5></td></tr>`);
           }
+
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        },
+
+        error: function (res) {
+          $("#attTable .progress").hide();
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
         },
       });
     }
@@ -243,7 +254,8 @@ $(document).ready(function () {
           <div class="more-menu" id="more-menu" style=" top: 6px; left: 90px">
           <ul>
 
-             <div class="btn-loader" style="display: none;"></div>
+          <div class="icon-loader" style="display: none; overflow: hidden;"></div>
+
                 
                       <li data-id="1" id="markAtt">Present</li>
 
@@ -252,11 +264,12 @@ $(document).ready(function () {
               </div>
           
                         <div class="fo pos-rel">
-                            <div class="more-menu-sm hint pos-abs p bg-w elevation m0" id="more-menu-sm" style="top: 25px; left: 20px; width: 130px; border-radius: 3px; display: none; cursor:pointer;">
+                            <div class="more-menu-sm hint pos-abs p bg-w elevation m0" id="more-menu-sm" style="">
                             <input type="hidden" name="usnStr" value="${
                               res.usnStr
                             }">
                             <ul>
+                            <div class="icon-loader" style="display: none;overflow:hidden;"></div>
                             
                             ${
                               state == 1
@@ -360,6 +373,17 @@ $(document).ready(function () {
           parent1.parent().hide();
           $(html).insertBefore(markAttId.children(".more-vert"));
         }
+
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+
+      error: function (res) {
+        loader.show();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });
@@ -367,6 +391,8 @@ $(document).ready(function () {
   // RE-MARK
   $(document).on("click", "#re-mark", function () {
     const li = $(this);
+    const loader = li.parent().children(".icon-loader");
+    loader.show();
     const state = parseInt($(this).attr("data-id"));
     const parentFoo = $(this).parent().parent().parent();
     const ul = $(this).parent().parent();
@@ -388,6 +414,7 @@ $(document).ready(function () {
       contentType: "application/json",
       data: JSON.stringify({ branch, sem, usnStr, date, state, subId }),
       success: function (res) {
+        loader.hide();
         if (res.response) {
           const tim = res.addUsnStr.split("-");
           const chip = parentFoo.children(".chip");
@@ -406,6 +433,17 @@ $(document).ready(function () {
           ul.children("input[name=usnStr]").val(res.addUsnStr);
           ul.hide();
         }
+
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+
+      error: function (res) {
+        loader.show();
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });
@@ -417,7 +455,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "#more-vert", function () {
-    $(this).parent().children(".more-menu").toggle();
+    $(this).parent().find("#more-menu").toggle();
   });
 
   function formatAMPMFloor(date) {
@@ -470,14 +508,14 @@ $(document).ready(function () {
   });
 
   // CUSTOM TIME STAMP
-  var hrs = 8;
+  var hrs = 9;
   var mins = "00";
   var ampm = "AM";
   var time = [];
   var n = 9;
   var i = 0;
   var flag = false;
-  for (i; i < n; i++) {
+  for (i; i < n - 1; i++) {
     if (hrs >= 11) {
       mins = 15;
     }
@@ -497,7 +535,7 @@ $(document).ready(function () {
       ampm = "PM";
     }
 
-    const timeStr = hrs.toString() + ":" + mins.toString() + ampm;
+    const timeStr = hrs + ":" + mins + ampm;
     time.push(timeStr);
     $("#customTime").append(`<option value="${timeStr}">${timeStr}</option>`);
     hrs = parseInt(hrs) + 1;

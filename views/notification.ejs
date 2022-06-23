@@ -1,0 +1,246 @@
+<%- include('./includes/head.ejs') %>
+    <% const combine=([head, ...[headTail, ...tailTail]])=> {
+        if (!headTail) return head
+        const combined = headTail.reduce((acc, x) => {
+        return acc.concat(head.map(h => `${h}${x}`))
+        }, [])
+
+        return combine([combined, ...tailTail])
+        }
+        %>
+        <%- include('./includes/nav.ejs') %>
+            <div class="wrapper">
+                <div class="main-content">
+                    <%- include('./constants/loader.ejs') %>
+                        <div class="main-data">
+                            <h1 class="main-title">
+                                <%= title %>
+                            </h1>
+
+                            <hr>
+
+
+
+
+                            <div class="row" style="gap: 10px">
+                                <div class="col s8">
+                                    <ul class="tabs">
+                                        <li class="tab col s3" tabindex="1"><a class="waves-effect waves-dark "
+                                                href="#byId" data-id="byId">You posted</a></li>
+                                        <li class="tab col s3" tabindex="2"><a href="#all"
+                                                class="active waves-effect waves-dark " data-id="all">All</a></li>
+                                        <li class="tab col s3" tabindex="3"><a href="#branch"
+                                                class="waves-effect waves-dark" data-id="branch">Branch <%=
+                                                    staff.department %></a></li>
+                                        <li class="col s3">
+                                            <div class="display-flex j-end ">
+                                                <button class="btnn waves-effect waves-light" id="full-screen-trigger">
+                                                    <div class="btn-loader"></div>
+                                                    <span class="material-symbols-rounded m-r">
+                                                        add_box
+                                                    </span>
+                                                    create
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                                <div id="byId" class="col s12  row ">
+
+                                </div>
+                                <div id="all" class="col s12 row ">
+
+                                </div>
+                                <div id="branch" class="col s12 row ">
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                </div>
+            </div>
+
+
+            <!-- full screen -->
+
+            <div class="full-screen-overlay" id="staff-view">
+                <div class="progres m0 pos-sticky">
+                    <div class="indeterminate"></div>
+                </div>
+                <input type="hidden" name="docId" value="<%= staff.id %>">
+                <input type="hidden" name="desg" value="<%= staff.designation %>">
+
+                <header class="elevation display-flex pos-sticky">
+                    <div class="container display-flex j-space-between ">
+                        <div class="back display-flex">
+                            <a href="#" id="overlay-screen-close">
+                                <span class="material-symbols-outlined p-sm bg-pri-c rounded-lg">
+                                    arrow_back
+                                </span>
+                            </a>
+                            <div class="title m-l p-sm">
+                                <h5>
+                                    Create New Post
+                                </h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </header>
+                <br>
+                <main style="overflow: scroll-able;">
+                    <div class="container">
+                        <!-- alert -->
+                        <div class="alert display-flex bg-ter-c p-sm m-b rounded">
+                            <span class="material-symbols-rounded m-r">
+                                info
+                            </span>
+                            <p>
+                                To change department & designation delete user and create again
+                            </p>
+                            <span class="material-symbols-rounded m-r j-self-end alert-close target-able"
+                                id="alert-close">
+                                close
+                            </span>
+                        </div>
+
+                        <!-- content -->
+
+                        <div class="elevated-card">
+                            <div class="card-contents">
+                                <form id="create-post">
+                                    <div class="form-input ">
+                                        <label for="">
+                                            Title
+                                        </label>
+                                        <input type="text" name="title" maxlength="40" id="title" data-length="40"
+                                            required />
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="">Description</label>
+                                        <textarea class="materialize-textarea" id="w3review" name="w3review" rows="4"
+                                            cols="50" style="height: 214px;"></textarea>
+                                    </div>
+                                </form>
+
+                                <div class="alert display-flex bg-ter-c p-sm rounded p-x">
+                                    <span class="material-symbols-rounded m-r chip-icon">
+                                        info
+                                    </span>
+                                    <p class="caption">
+                                        Select who can view the post
+                                    </p>
+
+                                </div>
+
+
+
+                                <input type="text" class="input-small m-t" name="search-chip" id="search-chips"
+                                    placeholder="search tags..." style="max-width: 200px !important;" />
+
+                                <div class="md-chips" style="display: grid; grid-template-columns: repeat(8, 1fr);">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="foo" class="checkbox-chip"
+                                            value="<%= staff.department.toLowerCase() %>" id="0">
+                                        <label for="0"
+                                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                            <%= staff.department %>
+                                        </label>
+                                    </div>
+                                    <% const branch=[]; branch.push(staff.department.toLowerCase()); const
+                                        chips1=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece"
+                                        ,"civ", "mech" ] : branch, staff.semAssigned, ["a", "b" , "c" ]]);
+                                        chips2=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece"
+                                        ,"civ", "mech" ] : branch, staff.semAssigned]); var i=1; %>
+                                        <%for(let chip of chips2){ %>
+                                            <div class="checkbox">
+                                                <input type="checkbox" class="checkbox-chip" name="foo"
+                                                    value="<%= chip %>" id="<%= i %>">
+                                                <label for="<%= i %>"
+                                                    class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                                    <%= chip.toUpperCase() %>
+                                                </label>
+                                            </div>
+                                            <% i++;} %>
+                                                %>
+                                                <% for(let chip of chips1){ %>
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" class="checkbox-chip" name="foo"
+                                                            value="<%= chip %>" id="<%= i %>">
+                                                        <label for="<%= i %>"
+                                                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                                            <%= chip.toUpperCase() %>
+                                                        </label>
+
+                                                    </div>
+
+                                                    <% i++;} %>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="m-t" style="min-width: 200px;">
+                            <h5>Preview</h5>
+                        </div>
+
+                        <div class="card col s3 p0 preview" style="max-width: 350px; min-width: auto;">
+                            <div class="card-centents p-lg ">
+
+                                <div class="display-flex j-space-between">
+                                    <div class="display-flex">
+                                        <div class="avatar m-r-sm">
+                                            <%= staff.fullName[0] %>
+                                        </div>
+                                        <p class="captize">
+                                            <%= staff.fullName %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="display-flex j-start hint m-t">
+                                    <p>
+                                        <%= staff.department=="ALL" ? "Principle" : staff.department %>
+                                            <%= staff.designation=="Admin" ? "" : staff.designation %>
+                                    </p>
+                                    <div class="hint m-l"> 1 sec ago</div>
+                                </div>
+                                <div class="title header">
+                                    this is title
+                                </div>
+
+                                <p class="desc">
+                                    this is description
+                                </p>
+
+                                <div class="display-flex j-start m-t card-chips">
+
+
+                                </div>
+
+                                <hr>
+
+                                <div class="display-flex j-end">
+                                    <button class="btnn btnn-rounded" id="post-notification-btn">
+                                        <div class="btn-loader" style="display: none;"></div>
+                                        post
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                </main>
+            </div>
+            </div>
+
+            <script src="/js/notification.js"></script>
+            <%- include('./includes/footer.ejs') %>

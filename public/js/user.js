@@ -5,10 +5,7 @@ $(document).ready(function () {
     const loader = btn.find(".btn-loader");
     btnLoaderToggleOn(btn, loader);
     const usn = $(this).find("input[name=usn]").val();
-    var validate = usn
-      .toLowerCase()
-      .toString()
-      .match("1bo[0-9]{2}[a-zA-Z]{2}[0-9]{3}");
+    var validate = usn.toLowerCase().match("1bo[0-9]{2}[a-zA-Z]{2}[0-9]{3}");
     if (validate) {
       $.ajax({
         type: "POST",
@@ -125,16 +122,16 @@ $(document).ready(function () {
             $("#user-table").empty();
             $("#user-table").append(`<tr><td><h5>No Users</h5></td></tr>`);
           }
-          // M.toast({
-          //   html: `<span style='color: white;'>${res.message}<span>`,
-          // });
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
         }
       },
       error: function (res) {
         $(".table .progress").hide();
-        // M.toast({
-        //   html: `<span style='color: white;'>${res.message}<span>`,
-        // });
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   }

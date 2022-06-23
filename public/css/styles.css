@@ -176,7 +176,26 @@
   display: -ms-grid;
   display: grid;
       grid-template-areas: 'card card card';
-  grid-gap: 20px;
+  gap: 1rem;
+}
+
+.grid {
+  display: -ms-grid !important;
+  display: grid !important;
+  gap: 10px;
+}
+
+.grid-foo {
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+}
+
+.form-grid {
+  -ms-grid-columns: 2fr 1fr;
+      grid-template-columns: 2fr 1fr;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .p {
@@ -212,6 +231,16 @@ h1 {
 
 .captize {
   text-transform: capitalize;
+}
+
+.text-mini {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 400;
+}
+
+.link {
+  text-decoration: underline;
 }
 
 hr {
@@ -289,6 +318,10 @@ border-0 {
   width: 100%;
 }
 
+.h100 {
+  height: 100%;
+}
+
 .m {
   margin: 14px;
 }
@@ -297,8 +330,13 @@ border-0 {
   margin: 22px;
 }
 
+.m-y {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .m-t {
-  margin-top: 14px;
+  margin-top: 14px !important;
 }
 
 .m-t2 {
@@ -337,6 +375,10 @@ border-0 {
   margin-left: 22px;
 }
 
+.p0 {
+  padding: 0px !important;
+}
+
 .p {
   padding: 3px;
 }
@@ -369,8 +411,23 @@ border-0 {
   font-size: 22px !important;
 }
 
+.chip {
+  margin: 0;
+}
+
 .chip-icon {
   font-size: 14px !important;
+}
+
+.md-chip {
+  cursor: pointer;
+}
+
+input[name="foo"]:checked + label {
+  -webkit-transition: all 500ms ease;
+  transition: all 500ms ease;
+  background-color: #B8F397;
+  color: #042100;
 }
 
 .more-icon:hover, .more-btn:hover {
@@ -398,6 +455,10 @@ border-0 {
   position: relative;
   bottom: 0;
   right: 0;
+}
+
+.pos-center {
+  left: 50%;
 }
 
 .rounded {
@@ -431,6 +492,18 @@ border-0 {
   width: 100%;
   height: 100vh;
   background-color: #FDFDF6;
+}
+
+.full-screen-overlay {
+  position: fixed;
+  top: 100%;
+  width: 100%;
+  height: 100vh;
+  background-color: #FDFDF6;
+  z-index: 10;
+  overflow-y: scroll;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .more-menu {
@@ -469,6 +542,17 @@ border-0 {
 .more-menu ul li.delete:hover {
   color: #fff;
   background-color: #BA1B1B !important;
+}
+
+.more-menu-sm {
+  top: 18px;
+  left: 18px;
+  width: 130px;
+  height: 20px;
+  border-radius: 3px;
+  display: none;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .more-menu-rel {
@@ -574,6 +658,16 @@ border-0 {
 .del-icon:hover {
   background-color: #fff;
   cursor: pointer;
+}
+
+.target-able {
+  cursor: pointer;
+}
+
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 100vmax;
 }
 
 .bg-err-c {
@@ -829,6 +923,10 @@ button[disabled]:hover {
   background: #410001;
 }
 
+.modal {
+  border-radius: 25px;
+}
+
 .card {
   background: white;
   border-radius: 18px;
@@ -870,6 +968,11 @@ button[disabled]:hover {
 
 .card-content div {
   text-align: left;
+}
+
+.card-contents a {
+  color: blue;
+  text-decoration: underline;
 }
 
 .media {
@@ -989,6 +1092,18 @@ button[disabled]:hover {
   font-weight: 400;
 }
 
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.modal {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -1028,6 +1143,10 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   width: 100%;
 }
 
+.create-post .form-input {
+  width: 50%;
+}
+
 select {
   display: block;
   width: auto;
@@ -1035,8 +1154,40 @@ select {
   border: 1px solid #74796E;
 }
 
+.tabs .tab {
+  border-radius: 15px;
+}
+
+.tabs .tab a {
+  color: rgba(56, 106, 32, 0.7);
+}
+
+.tabs .tab a:hover {
+  color: #386A20;
+}
+
+.tabs .tab .active {
+  border-radius: 16px;
+  color: #386A20 !important;
+}
+
+.tabs .tab a:focus.active {
+  border-radius: 16px;
+  background-color: rgba(184, 243, 151, 0.3) !important;
+}
+
+.tabs .indicator {
+  height: 3px;
+  background-color: #386A20;
+}
+
 .progress {
   display: none;
+  background-color: rgba(56, 106, 32, 0.3);
+}
+
+.progress .indeterminate {
+  background-color: #386A20;
 }
 
 .loader {
