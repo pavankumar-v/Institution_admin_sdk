@@ -44,12 +44,12 @@
                         <hr>
                         <br>
 
-                        <div class="div tab2 grid form-grid j-start a-start" id="tab2">
-                            <div class="container grid grid-foo m0 w100" id="form-list">
+                        <div class="div tab2 row j-start a-start" id="tab2">
+                            <div class="container col s12 row m0 w100" id="form-list">
                                 <% if(forms.length> 0) { %> <% for(let form of forms) { const date=new
                                         Date(form.createdAt); var year=date.getFullYear(); var month=date.getMonth();
                                         var day=date.getDate(); var cDate=day+"/"+month+"/"+year %>
-                                        <div class="card" id="formCard">
+                                        <div class="card col m-r" id="formCard" style="max-width: 310px;">
                                             <input type="hidden" name="docId" value="<%= form.id %>">
                                             <input type="hidden" name="formState" value="<%= form.isActive %>">
                                             <div class="display-flex p-lg flex-c bl">
@@ -122,7 +122,7 @@
                                                 <% } %>
                             </div>
 
-                            <div class="card w30 my pos-sticky" style="top: 10%;">
+                            <div class="card col s12 my pos-sticky" style="top: 10%; max-width: 400px;">
                                 <div class="card-content display-flex flex-c">
                                     <form style="width: 100%;" autocomplete="off" id="create-form">
                                         <h5 class="headline5">Create form</h5>

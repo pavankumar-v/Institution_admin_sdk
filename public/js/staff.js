@@ -472,9 +472,9 @@ $(document).ready(function () {
   });
 
   // more vert
-  $("#more-vert").on("click", function () {
-    $(".action .more-menu").toggle();
-  });
+  // $("#more-vert").on("click", function () {
+  //   $(".action .more-menu").toggle();
+  // });
 
   $(document).on("click", "#userClaimToggle", function () {
     const btnText = $(this);

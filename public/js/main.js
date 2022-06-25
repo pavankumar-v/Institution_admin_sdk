@@ -72,7 +72,8 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".more-vert", function (e) {
-    const more_menu = $(this).parent().parent().find(".more-menu");
+    console.log("min");
+    const more_menu = $(this).parent().parent().find("#more-menu");
     more_menu.toggle();
   });
   $(document).on("click", ".more-vert", function (e) {
