@@ -13,6 +13,7 @@ import attendanceRoutes from "./routes/attendanceRoutes.js";
 import subjectRoutes from "./routes/subjectRoutes.js";
 import DynamicForm from "./routes/dynamicFormRoutes.js";
 import notification from "./routes/notificationRoute.js";
+import dashboard from "./routes/dashboardRoutes.js";
 
 // INITIALIZE EXPRESS APP
 // const csrfMiddleware = csurf({ cookie: true });
@@ -36,6 +37,7 @@ app.use(authentication);
 // });
 
 app.use(userRoutes);
+app.use(dashboard);
 app.use(attendanceRoutes);
 app.use(notification);
 app.use(staffRoutes);

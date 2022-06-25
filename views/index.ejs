@@ -7,7 +7,65 @@
             <h1 class="main-title">
               <%= title %>
             </h1>
+
+
+            <!-- Reports -->
+
+            <div class="elevated-card" style="max-width: 600px;">
+              <div class="card-body p-sm">
+                <div class="card-titl display-flex j-start j-space-between">
+                  <div class="display-flex j-start">
+                    <h5 class="col">
+                      Reports
+                    </h5>
+                  </div>
+                </div>
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+                <!-- End Line Chart -->
+              </div>
+
+
+              <div class="display-flex j-start chat-action">
+                <select name="branch" id="chart-branch" class="m-l col" <%=staff.department=="ALL" ? "" : "disabled" %>>
+                  <% if(staff.department=="ALL" ) { %>
+                    <option value="CSE" selected>CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="ISE">ISE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIV">CIV</option>
+                    <option value="ARC">ARC</option>
+                    <option value="EEE">EEE</option>
+                    <% } else { %>
+                      <option value="<%= staff.department %>" selected>
+                        <%= staff.department %>
+                      </option>
+                      <% }%>
+                </select>
+                <select name="sem" id="chart-sem" class="m-l col">
+                  <% if(staff.semAssigned.length> 0) {
+                    %>
+
+                    <%for(let sem of staff.semAssigned) { %>
+                      <option value="<%= sem %>">sem <%= sem %>
+                      </option>
+
+                      <% }%>
+                        <% } else { %>
+                          <p>No sem Assigned</p>
+                          <% }%>
+                </select>
+                <div class="btn-loader"></div>
+
+              </div>
+
+            </div>
           </div>
       </div>
     </div>
+    <script src="/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="/vendors/chart.js/chart.min.js"></script>
+    <script src="/vendors/echarts/echarts.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+
     <%- include('./includes/footer.ejs') %>

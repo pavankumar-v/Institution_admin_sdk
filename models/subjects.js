@@ -228,8 +228,28 @@ class Subject {
       .doc(docId)
       .get()
       .then((doc) => {
-        console.log(doc.data().attendance);
         const data = doc.data().attendance[date];
+        if (data != undefined) {
+          return { res: 1, att: data };
+        } else {
+          return { res: 0, att: [] };
+        }
+      })
+      .catch((err) => {
+        console.log("err" + err.message);
+        return { res: 0, att: [] };
+      });
+
+    return att;
+  }
+
+  static async getAttendanceAll(path, docId) {
+    const att = await db
+      .collection("branch/" + path.toLowerCase())
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        const data = doc.data().attendance;
         if (data != undefined) {
           return { res: 1, att: data };
         } else {

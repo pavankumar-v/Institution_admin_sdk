@@ -12,5 +12,9 @@ $(document).ready(function () {
     (("" + day).length < 2 ? "0" : "") +
     day;
   $(".datepicker").val(curDate);
-  $(".datepicker").datepicker({ format: "yyyy-mm-dd", defaultDate: curDate });
+  $(".datepicker").datepicker({
+    format: "yyyy-mm-dd",
+    defaultDate: curDate,
+    maxDate: new Date(),
+  });
 });

@@ -730,9 +730,6 @@ button[disabled]
         color: $errorContainer
         background: $onErrorContainer
 
-.modal
-    border-radius: 25px
-
 .card
     background: white
     border-radius: 18px
@@ -902,6 +899,32 @@ select
     width: auto
     border-radius: $borderRadius1
     border: $border
+
+.datepicker-select
+    display: none
+
+.select-wrapper
+    input
+        &.select-dropdown
+            position: relative !important
+            cursor: pointer !important
+            background-color: transparent !important
+            border: none !important
+            border-bottom: 1px solid #9e9e9e
+            outline: none !important
+            height: 3rem !important
+            line-height: 3rem !important
+            width: 100% !important
+            font-size: 16px !important
+            margin: 0 0 8px 0 !important
+            padding: 0 !important
+            display: block !important
+            user-select: none !important
+            z-index: 1 !important
+
+.datepicker-date-display
+    span
+        color: #fff
 
 // [type="checkbox"]:not(:checked), [type="checkbox"]:checked
 //     position: relative

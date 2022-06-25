@@ -2,7 +2,7 @@ import express from "express";
 import { onAuthStateChanged } from "firebase/auth";
 
 import {
-  getDashboard,
+  getIndexPage,
   getClass,
   getUsers,
   blockUser,
@@ -25,8 +25,7 @@ router.all("*", (req, res, next) => {
       res.redirect("/login");
     });
 });
-router.get("/", getDashboard);
-router.get("/dashboard", getDashboard);
+router.get("/", getIndexPage);
 router.get("/classes", getClass);
 router.get("/subjects", getSubject);
 router.get("/users", getUsers);

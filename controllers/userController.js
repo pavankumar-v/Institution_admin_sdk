@@ -6,41 +6,10 @@ import { auth } from "../database/firebase.js";
 
 export const getIndexPage = async (req, res) => {
   try {
-    // const claim = req.cookies.userClaim;
-    // const uid = req.cookies.user.user.uid;
-    // const authCurUser = req.cookie.curUser;
-    // console.log(authCurUser);
-    // var curUser;
-    // var users;
-    // if (claim["admin"]) {
-    //   curUser = await StaffUser.fetchAdmin(uid);
-    //   users = await User.fetchAll();
-    // } else if (claim["hod"]) {
-    //   curUser = await StaffUser.fetchUser(uid);
-    //   console.log(curUser);
-    //   users = await User.fetchByBranch(curUser.data.department.toUpperCase());
-    // } else {
-    //   curUser = await StaffUser.fetchUser(uid);
-    //   users = await User.fetchByBranchSem("CSE", 8);
-    // }
     res.status(200).redirect("/dashboard");
   } catch (err) {
     console.log(err.message);
     res.send({ response: 0, message: err.message });
-  }
-};
-
-export const getDashboard = async (req, res) => {
-  try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-    res.status(200).render("index", {
-      title: "dashboard",
-      claim,
-      staff: curUser,
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
   }
 };
 
