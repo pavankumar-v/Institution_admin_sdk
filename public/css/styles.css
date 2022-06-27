@@ -322,6 +322,10 @@ border-0 {
   height: 100%;
 }
 
+.m0 {
+  margin: 0 !important;
+}
+
 .m {
   margin: 14px;
 }
@@ -466,11 +470,15 @@ input[name="foo"]:checked + label {
 }
 
 .rounded-sm {
-  border-radius: 20px;
+  border-radius: 20px !important;
 }
 
 .rounded-lg {
-  border-radius: 36px;
+  border-radius: 36px !important;
+}
+
+.rounded-xl {
+  border-radius: 42px !important;
 }
 
 .more-vert {
@@ -1088,16 +1096,14 @@ button[disabled]:hover {
   font-weight: 400;
 }
 
-.modal::-webkit-scrollbar {
+.scroll-none::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.modal {
+scroll-none {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
@@ -1299,6 +1305,10 @@ select {
   border-color: #386A20;
 }
 
+#SvgjsText1120 {
+  font-weight: bold;
+}
+
 .wrapper .navbar {
   background: #fff;
   width: 100%;
@@ -1390,7 +1400,6 @@ select {
       -ms-flex-align: center;
           align-items: center;
   height: 46px;
-  padding: 0 16px;
   border-radius: 32px;
   cursor: pointer;
 }
@@ -1409,18 +1418,7 @@ select {
   font-weight: 400;
   text-transform: capitalize;
   font-weight: bold;
-  margin-left: 14px;
   color: #1A1C18;
-}
-
-.wrapper .navbar__menu .logo:hover {
-  background: #e3e3e3;
-}
-
-.wrapper .navbar__menu .logo:focus {
-  border: 2px solid #000;
-  -webkit-box-shadow: inset 0 0 0 2px #fff;
-          box-shadow: inset 0 0 0 2px #fff;
 }
 
 .wrapper .navbar__menu ul {

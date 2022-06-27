@@ -152,35 +152,58 @@
                                             <%= staff.department %>
                                         </label>
                                     </div>
-                                    <% const branch=[]; branch.push(staff.department.toLowerCase()); const
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="foo" class="checkbox-chip"
+                                            value="<%= staff.department.toLowerCase() %>teachers" id="1">
+                                        <label for="1"
+                                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                            <%= staff.department.toLowerCase() %>teachers
+                                        </label>
+                                    </div>
+                                    <% const branch=[]; branch.push(staff.department.toLowerCase());
+                                        chips0=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece"
+                                        ,"civ", "mech" ] : branch, ["teachers"]]); const
                                         chips1=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece"
                                         ,"civ", "mech" ] : branch, staff.semAssigned, ["a", "b" , "c" ]]);
                                         chips2=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece"
-                                        ,"civ", "mech" ] : branch, staff.semAssigned]); var i=1; %>
-                                        <%for(let chip of chips2){ %>
-                                            <div class="checkbox">
-                                                <input type="checkbox" class="checkbox-chip" name="foo"
-                                                    value="<%= chip %>" id="<%= i %>">
-                                                <label for="<%= i %>"
-                                                    class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
-                                                    <%= chip.toUpperCase() %>
-                                                </label>
-                                            </div>
-                                            <% i++;} %>
-                                                %>
-                                                <% for(let chip of chips1){ %>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" class="checkbox-chip" name="foo"
-                                                            value="<%= chip %>" id="<%= i %>">
-                                                        <label for="<%= i %>"
-                                                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
-                                                            <%= chip.toUpperCase() %>
-                                                        </label>
+                                        ,"civ", "mech" ] : branch, staff.semAssigned]); var i=2; %>
+                                        <% if(staff.designation=="Admin" ) { %>
 
-                                                    </div>
+                                            <%for(let chip of chips0){ %>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" class="checkbox-chip" name="foo"
+                                                        value="<%= chip %>" id="<%= i %>">
+                                                    <label for="<%= i %>"
+                                                        class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                                        <%= chip.toUpperCase() %>
+                                                    </label>
+                                                </div>
+                                                <% i++;} %>
+                                                    <% }%>
+                                                        <%for(let chip of chips2){ %>
+                                                            <div class="checkbox">
+                                                                <input type="checkbox" class="checkbox-chip" name="foo"
+                                                                    value="<%= chip %>" id="<%= i %>">
+                                                                <label for="<%= i %>"
+                                                                    class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                                                    <%= chip.toUpperCase() %>
+                                                                </label>
+                                                            </div>
+                                                            <% i++;} %>
+                                                                %>
+                                                                <% for(let chip of chips1){ %>
+                                                                    <div class="checkbox">
+                                                                        <input type="checkbox" class="checkbox-chip"
+                                                                            name="foo" value="<%= chip %>"
+                                                                            id="<%= i %>">
+                                                                        <label for="<%= i %>"
+                                                                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                                                                            <%= chip.toUpperCase() %>
+                                                                        </label>
 
-                                                    <% i++;} %>
+                                                                    </div>
 
+                                                                    <% i++;} %>
                                 </div>
                             </div>
                         </div>

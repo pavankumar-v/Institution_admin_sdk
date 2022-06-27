@@ -311,6 +311,8 @@ border-0
 .h100
     height: 100%
 
+.m0
+    margin: 0 !important
 .m
     margin: 14px
 .m2
@@ -407,9 +409,11 @@ input[name="foo"]:checked + label
     border-radius: 10px
 
 .rounded-sm
-    border-radius: 20px
+    border-radius: 20px !important
 .rounded-lg
-    border-radius: 36px
+    border-radius: 36px !important
+.rounded-xl
+    border-radius: 42px !important
 
 .more-vert
     cursor: pointer
@@ -850,13 +854,13 @@ button[disabled]
     font-style: italic
     @include caption
 
-.modal::-webkit-scrollbar
+.scroll-none::-webkit-scrollbar
     display: none
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.modal
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+scroll-none
+    -ms-overflow-style: none /* IE and Edge */
+    scrollbar-width: none /* Firefox */
 
 // INPUT STYLES
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea
@@ -1024,6 +1028,10 @@ select
 //     height: 100vh
 //     position: fixed
 //     z-index: 1
+
+#SvgjsText1120
+    font-weight: bold
+
 // WRAPPER
 // NAVBAR
 .wrapper .navbar
@@ -1070,7 +1078,7 @@ select
         .logo
             @include flex
             height: 46px
-            padding: 0 16px
+            // padding: 0 16px
             border-radius: 32px
             cursor: pointer
 
@@ -1084,13 +1092,13 @@ select
                 @include subtitle1
                 text-transform: capitalize
                 font-weight: bold
-                margin-left: 14px
+                // margin-left: 14px
                 color: $onBackground
-            &:hover
-                background: $hoverColor
-            &:focus
-                border: 2px solid #000
-                box-shadow: $insetShadow
+            // &:hover
+            //     background: $hoverColor
+            // &:focus
+            //     border: 2px solid #000
+            //     box-shadow: $insetShadow
         ul
             @include flex
     &__items

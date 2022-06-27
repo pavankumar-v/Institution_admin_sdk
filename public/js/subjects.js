@@ -338,10 +338,8 @@ $(document).ready(function () {
       }),
       success: function (res) {
         loader.hide();
-
         if (res.response == 1) {
           parent.remove();
-
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
           });

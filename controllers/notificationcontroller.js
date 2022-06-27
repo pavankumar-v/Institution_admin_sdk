@@ -23,7 +23,7 @@ export const createNotification = async (req, res) => {
     const staffData =
       staff.designation == "Admin"
         ? await Staff.fetchAdmin(staff.id)
-        : await Staff.fetchUser(staff.id);
+        : await Staff.fetchUser(staff.id, "staff");
     console.log(staffData);
     const newPost = new Notification(
       "",
@@ -40,6 +40,7 @@ export const createNotification = async (req, res) => {
       staffData.data.avatar
     );
     const createPost = await newPost.createNotification();
+    console.log(createPost);
     if (createPost.res) {
       res.send({ response: 1, message: "post created", uid: createPost.id });
     } else {
@@ -67,6 +68,7 @@ export const loadNotification = async (req, res) => {
     );
     res.send({ response: 1, message: "Updated", notifications, claim });
   } catch (err) {
+    console.log(err.message);
     res.send({ response: 0, message: err.message });
   }
 };

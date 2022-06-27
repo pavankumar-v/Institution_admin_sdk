@@ -20,11 +20,14 @@ export const staffControl = async (req, res) => {
   try {
     const claim = req.cookies.userClaim;
     const curUser = req.cookies.authUser;
-    var staffs;
+    var staffs = [];
     console.log(curUser.department);
 
     if (claim["admin"]) {
       staffs = await StaffUser.fetchAll();
+      var sjbuieif = await StaffUser.fetchAdmin(curUser.id);
+      // console.log(sjbuieif);
+      staffs.unshift(sjbuieif.data);
     } else {
       staffs = await StaffUser.fetchByBranch(curUser.department);
     }
@@ -209,7 +212,13 @@ export const sendVerificationCode = async (req, res) => {
 export const viewStaff = async (req, res) => {
   try {
     const data = req.body;
-    const staffData = await StaffUser.fetchUser(data.docId);
+    const claimFoo = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var collection =
+      claimFoo["admin"] && data.docId == curUser.id ? "admin" : "staff";
+    console.log(collection);
+    const staffData = await StaffUser.fetchUser(data.docId, collection);
+    console.log(staffData);
     if (staffData.res) {
       const claim = await AdminAuth.getUser(data.docId).then((user) => {
         const res = user.customClaims[staffData.data.designation];
@@ -220,7 +229,9 @@ export const viewStaff = async (req, res) => {
         title: "Staff",
         backPath: "/staffcontrol",
         staff: staffData.data,
+        you: curUser,
         claim,
+        claimFoo,
       });
     }
   } catch (error) {
@@ -232,7 +243,15 @@ export const viewStaff = async (req, res) => {
 export const updateName = async (req, res) => {
   try {
     const data = req.body;
-    const updateName = await StaffUser.updateName(data.docId, data.newName);
+    const claim = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var collection =
+      claim["admin"] && data.docId == curUser.id ? "admin" : "staff";
+    const updateName = await StaffUser.updateName(
+      data.docId,
+      data.newName,
+      collection
+    );
     if (updateName) {
       res.send({ response: 1, message: "Name updated" });
     } else {
@@ -247,8 +266,13 @@ export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
     const subjects = [];
+    const claim = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var collection =
+      claim["admin"] && data.docId == curUser.id ? "admin" : "staff";
     console.log(data);
-    const staffData = await StaffUser.fetchUser(data.docId);
+    console.log(collection);
+    const staffData = await StaffUser.fetchUser(data.docId, collection);
     var existingSub;
     if (staffData.res) {
       existingSub = staffData.data.subjectsAssigned;
@@ -276,10 +300,17 @@ export const loadSubjects = async (req, res) => {
 export const assignSubjects = async (req, res) => {
   try {
     const data = req.body;
+    const claim = req.cookies.userClaim;
+    const curUser = req.cookies.authUser;
+    var collection =
+      claim["admin"] && data.docId == curUser.id ? "admin" : "staff";
+
+    console.log(collection);
     const updateSubjects = await StaffUser.updateSubjects(
       data.docId,
       data.subjectsAssigned,
-      data.semAssigned
+      data.semAssigned,
+      collection
     );
 
     if (updateSubjects) {

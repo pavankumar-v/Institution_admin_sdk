@@ -103,3 +103,18 @@ export const blockUser = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const delelteUser = async (req, res) => {
+  try {
+    const data = req.body;
+    const delUser = await User.deleteStudent(data.docId);
+    console.log(delUser);
+    if (delUser) {
+      res.send({ response: 1, message: "User Deleted" });
+    } else {
+      res.send({ response: 0, message: "User Could Not be Deleted" });
+    }
+  } catch (err) {
+    res.send({ response: 0, message: err.message });
+  }
+};

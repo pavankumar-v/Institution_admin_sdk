@@ -80,13 +80,40 @@ class Notification {
       snapshot = await db
         .collection("notifications")
         .where("department", "==", branch.toUpperCase())
+        .orderBy("createdAt", "desc")
         .get();
     } else {
       snapshot = await db
         .collection("notifications")
         .where(filedName, condition, matchStr)
+        .orderBy("createdAt", "desc")
         .get();
     }
+    const notif = snapshot.docs.map((doc) => {
+      const notification = new Notification(
+        doc.id,
+        doc.data().posterId,
+        doc.data().fullName,
+        doc.data().position,
+        doc.data().department,
+        doc.data().tags,
+        doc.data().title,
+        doc.data().description,
+        doc.data().createdAt
+      );
+      return notification;
+    });
+
+    return notif;
+  }
+
+  static async fetchByTag(tag) {
+    const snapshot = await db
+      .collection("notifications")
+      .where("tags", "array-contains", tag)
+      .orderBy("createdAt", "desc")
+      .get();
+
     const notif = snapshot.docs.map((doc) => {
       const notification = new Notification(
         doc.id,

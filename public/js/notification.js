@@ -137,12 +137,12 @@ $(document).ready(function () {
             html = "<h4>Found Noting</h4>";
             $(idName).append(html);
           }
-          progress.hide();
-
-          // M.toast({
-          //   html: `<span style='color: white;'>${res.message}<span>`,
-          // });
+        } else {
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
         }
+        progress.hide();
       },
 
       error: function (res) {
@@ -196,7 +196,6 @@ $(document).ready(function () {
     for (let tag of tags) {
       var html = `
       <div class="chip bg-pri-c  inline-flex mx " style="height: 26px;">
-          
           #${tag}
       </div>
       `;

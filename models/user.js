@@ -1,5 +1,5 @@
 import { db } from "../database/firebase-admin.js";
-
+import { AdminAuth } from "../database/firebase-admin.js";
 class User {
   constructor(id, fullName, usn, branch, sem, section, avatar, isActive) {
     this.id = id;
@@ -10,6 +10,21 @@ class User {
     this.section = section;
     this.avatar = avatar;
     this.isActive = isActive;
+  }
+
+  static async getCount() {
+    const count = await db
+      .collection("users")
+      .get()
+      .then((doc) => {
+        return doc.size;
+      })
+      .catch((err) => {
+        console.log(err);
+        return 0;
+      });
+
+    return count;
   }
 
   static async fetchAll() {
@@ -128,6 +143,31 @@ class User {
       });
 
     return addUsn;
+  }
+
+  // Delete STAFF USER
+  static async deleteStudent(docId) {
+    const authDelete = await AdminAuth.deleteUser(docId)
+      .then(async () => {
+        const deleteUser = await db
+          .collection("users")
+          .doc(docId)
+          .delete()
+          .then(async () => {
+            return true;
+          })
+          .catch((err) => {
+            console.log(err.message);
+            return false;
+          });
+        return deleteUser;
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return false;
+      });
+
+    return authDelete;
   }
 }
 

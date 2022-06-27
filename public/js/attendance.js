@@ -56,6 +56,13 @@ $(document).ready(function () {
     });
   }
 
+  $(document).on("input", "input[name=searchuser]", function () {
+    var value = $(this).val().toLowerCase();
+    $("#att-table tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+
   $("#dropdown-subjects").on("change", function () {
     var branch = $("#att-branch").val();
     var sem = $("#att-sem").val();
@@ -64,6 +71,16 @@ $(document).ready(function () {
 
   // LOAD USER
   function loadUsersToTable(branch, sem) {
+    const display = $(".display-selected");
+    var date = $(".datepicker").val();
+    console.log(display);
+    console.log(date);
+    display.find(".date span").text(date);
+    var time = $(".time-stamp-checkbox").is(":checked")
+      ? $("#customTime").val()
+      : $("#timestamp").find("input:checked").val();
+
+    display.find(".time span").text(time);
     var date = $(".datepicker").val();
     var docId = $("#dropdown-subjects").val();
 
@@ -127,7 +144,7 @@ $(document).ready(function () {
                     html +
                     `
                     <div class="more-menu" id="more-menu" style=" top: 6px; left: 90px">
-                <ul>
+                               <ul>
 
                    <div class="btn-loader"></div>
                       

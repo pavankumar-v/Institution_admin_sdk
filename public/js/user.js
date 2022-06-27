@@ -97,7 +97,9 @@ $(document).ready(function () {
                           section ${this.section}
                           </td>
                           <td>
-                            <div id="blockUser">
+                          
+                            <div class="display-flex pos-rel" id="blockUser">
+                            
                               <input type="hidden" name="uid" id="uid" value="${
                                 this.id
                               }" />
@@ -105,12 +107,25 @@ $(document).ready(function () {
                                 this.isActive ? "1" : "0"
                               }" />
                               <button class="btnn-small display-flex ${
-                                this.isActive ? "bg__danger" : ""
+                                this.isActive ? "bg-err" : ""
                               }"
                                 id="blockUserBtn" style="width: 100%">
                                 <div class="btn-loader" style="justify-content: center; display: none;"></div>
-                                ${this.isActive ? "Block" : "Un Block"}
+                                ${this.isActive ? "Disable" : "Enable"}
                               </button>
+                              <div class="more-menu" id="more-menu" style=" top: 13px; left: 207px">
+                              <ul>
+
+                  <div class="btn-loader" style="display: none;"></div>
+                     
+                          
+
+                           <li data-id="0" class="delete display-flex j-start" id="delete-user"><span class="material-symbols-rounded chip-icon m-r-sm">
+                           delete
+                           </span>Delete</li>
+                     </ul>
+             </div>
+                              <span class="material-icons-outlined more-vert" tabindex="1" id="more-vert">more_vert</span>
                             </div>
                           </td>
                         </tr>
@@ -138,17 +153,17 @@ $(document).ready(function () {
 
   $(document).on(
     "click",
-    "#userTable table tr td #blockUser",
+    "#userTable table tr td #blockUserBtn",
 
     function toggelUserActivity(e) {
       e.preventDefault();
-      var button = $(this).find("#blockUserBtn");
-      var loader = $(this).find(".btn-loader");
+      var button = $(this);
+      var loader = button.find(".btn-loader");
       button.empty();
       button.append(loader);
       loader.show();
-      var uid = $(this).find("input[name=uid]");
-      var active = $(this).find("input[name=active]");
+      var uid = $(this).parent().find("input[name=uid]");
+      var active = $(this).parent().find("input[name=active]");
       $.ajax({
         type: "POST",
         url: "/blockuser",
@@ -163,18 +178,18 @@ $(document).ready(function () {
             });
             active.val("1");
             button.removeClass("bg__success");
-            button.addClass("bg__danger");
-            button.append("Block");
+            button.addClass("bg-err");
+            button.append("Disable");
           } else {
             M.toast({
               html: ' <span class="bl" style="color: #FFDAD4;">User blocked<span> ',
               classes: "rounded",
             });
             active.val("0");
-            button.removeClass("bg__danger");
+            button.removeClass("bg-err");
             button.addClass("bg__success");
             button.append(loader);
-            button.append("Un Block");
+            button.append("Enable");
           }
         },
         error: function (data) {
@@ -184,12 +199,49 @@ $(document).ready(function () {
             classes: "rounded",
           });
           if (active.val() == 1) {
-            button.append("Block");
+            button.append("Disable");
           } else {
-            button.append("Un Block");
+            button.append("Enable");
           }
         },
       });
     }
   );
+
+  $(document).on("click", "#delete-user", function (e) {
+    const loader = $(this).parent().children(".btn-loader");
+    const tr = $(this).parent().parent().parent().parent().parent();
+    const userId = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .children("input[name=uid]")
+      .val();
+    console.log(userId);
+
+    var confirmRes = confirm(
+      "Once deleted All the data will be erased including user auth details. Are you sure you want to proceed ?"
+    );
+
+    if (confirmRes) {
+      loader.show();
+      $.ajax({
+        type: "post",
+        url: "/agebared",
+        contentType: "application/json",
+        data: JSON.stringify({ docId: userId }),
+        success: function (res) {
+          loader.hide();
+
+          if (res.response) {
+            tr.remove();
+          }
+
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        },
+      });
+    }
+  });
 });

@@ -9,6 +9,7 @@ import {
   getSubject,
   loadUsersByBranchSem,
   addUSN,
+  delelteUser,
 } from "../controllers/userController.js";
 import { AdminAuth } from "../database/firebase-admin.js";
 
@@ -32,5 +33,6 @@ router.get("/users", getUsers);
 router.post("/blockuser", blockUser);
 router.post("/addusn", addUSN);
 router.post("/loadusersbybranchsem", loadUsersByBranchSem);
+router.post("/agebared", delelteUser);
 
 export default router;

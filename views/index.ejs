@@ -1,71 +1,207 @@
 <%- include('./includes/head.ejs') %>
-  <%- include('./includes/nav.ejs') %>
-    <div class="wrapper">
-      <div class="main-content">
-        <%- include('./constants/loader.ejs') %>
-          <div class="main-data">
-            <h1 class="main-title">
+  <% const combine=([head, ...[headTail, ...tailTail]])=> {
+    if (!headTail) return head
+    const combined = headTail.reduce((acc, x) => {
+    return acc.concat(head.map(h => `${h}${x}`))
+    }, [])
+
+    return combine([combined, ...tailTail])
+    }
+    %>
+    <%- include('./includes/nav.ejs') %>
+      <div class="wrapper">
+        <div class="main-content">
+          <%- include('./constants/loader.ejs') %>
+            <div class="main-data">
+              <!-- <h1 class="main-title">
               <%= title %>
-            </h1>
+            </h1> -->
 
 
-            <!-- Reports -->
+              <!-- Reports -->
 
-            <div class="elevated-card" style="max-width: 600px;">
-              <div class="card-body p-sm">
-                <div class="card-titl display-flex j-start j-space-between">
-                  <div class="display-flex j-start">
-                    <h5 class="col">
-                      Reports
+              <div class="row">
+                <div class="col s9 ">
+                  <div class=" m-b display-flex j-space-between ">
+
+                    <div class="card p-sm rounded-sm ">
+                      <div class="card-body display-flex j-start">
+                        <img class="rounded m-r" src="/img/img1.png" alt="">
+                        <div class="display-flex flex-c j-start">
+                          <h5 class="bl">Students</h5>
+                          <p class="caption">Number of students registered</p>
+                          <h4 class="bl">
+                            <%= userCount %>
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class=" card p-sm rounded-sm ">
+                      <div class="card-body display-flex j-start">
+                        <img class="rounded m-r" src="/img/img2.png" alt="">
+                        <div class="display-flex flex-c j-start">
+                          <h5 class="bl">Teachers</h5>
+                          <p class="caption">Number of teachers working</p>
+
+                          <h4 class="bl">
+                            <%= staffCount %>
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class=" card p-sm rounded-sm">
+                      <div class="card-body display-flex j-start">
+                        <img class="rounded m-r" src="/img/img-3.png" alt="">
+                        <div class="display-flex flex-c j-start">
+                          <h5 class="bl">Students</h5>
+                          <p class="caption">Number of students registered</p>
+                          <h4 class="bl">400</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card p-sm ">
+                    <div class="card-body p-sm">
+                      <div class="display-flex j-space-between chart-action">
+                        <h3 class="bl">
+                          Attendance Report
+                          <div class="btn-loader"></div>
+                        </h3>
+
+                        <div class="display-flex">
+
+                          <select name="branch" id="chart-branch" class="m-l col" <%=staff.department=="ALL" ? ""
+                            : "disabled" %>>
+                            <% if(staff.department=="ALL" ) { %>
+                              <option value="CSE" selected>CSE</option>
+                              <option value="ECE">ECE</option>
+                              <option value="ISE">ISE</option>
+                              <option value="MECH">MECH</option>
+                              <option value="CIV">CIV</option>
+                              <option value="ARC">ARC</option>
+                              <option value="EEE">EEE</option>
+                              <% } else { %>
+                                <option value="<%= staff.department %>" selected>
+                                  <%= staff.department %>
+                                </option>
+                                <% }%>
+                          </select>
+                          <select name="sem" id="chart-sem" class="m-l col">
+                            <% if(staff.semAssigned.length> 0) {
+                              %>
+
+                              <%for(let sem of staff.semAssigned) { %>
+                                <option value="<%= sem %>">sem <%= sem %>
+                                </option>
+
+                                <% }%>
+                                  <% } else { %>
+                                    <p>No sem Assigned</p>
+                                    <% }%>
+                          </select>
+                        </div>
+
+                      </div>
+
+                      <!-- Line Chart -->
+                      <div id="reportsChart"></div>
+                      <!-- End Line Chart -->
+                    </div>
+                  </div>
+
+                  <!--  -->
+                  <div class=" card p-sm m-t">
+                    <div class="card-body p-sm">
+                      <div class="display-flex j-start">
+                        <h4 class="bl">Student Marks Prediction using AI & ML</h4>
+                      </div>
+
+                      <form class="row" id="ml-form">
+                        <div class=" col s6 form-input">
+                          <label>Total number of hours studied</label>
+                          <input type="number" name="studiedhours" value="2" maxlength="1" required /><br>
+                        </div>
+                        <div class=" col s6 form-input">
+                          <label>Previous Semester Percentage</label>
+                          <input type="number" name="prevsemper" value="80" min="0" max="100" required /><br>
+                        </div>
+                        <div class=" col s6  form-input">
+                          <label>Average Internal marks</label>
+                          <input type="number" name="avgia" value="25" min="0" max="30" required /><br>
+                        </div>
+                        <div class=" col  s6 form-input">
+                          <label>Assignment Marks</label>
+                          <input type="number" name="assignmark" value="10" min="0" max="10" required /><br>
+                        </div>
+                        <div class=" col s12  form-input">
+                          <label>Absent days</label>
+                          <input type="number" name="absent" value="10" min="0" max="20" required /><br>
+                        </div>
+                        <div class="col s3 m-t">
+                          <button class="btnn">
+                            <div class="btn-loader"></div>
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+
+                      <h5 class="output">
+
+                      </h5>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col s3 pos-sticky " style="top: 76px;">
+
+                  <div class="md-chips " style=" display: grid; grid-template-columns: repeat(2, 1fr);">
+
+                    <div class="radio">
+                      <input type="radio" name="foo" class="radio-chip" value="allteachers" id="1" checked>
+                      <label for="1" class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                        allteachers
+                      </label>
+                    </div>
+
+                    <% const branch=[]; branch.push(staff.department.toLowerCase()); const
+                      chips1=combine([staff.designation=="Admin" ? ["cse", "ise" , "ece" ,"civ", "mech" ] : branch,
+                      ["teachers"]]); var i=4; %>
+                      <% for(let chip of chips1){ %>
+                        <div class="radio">
+                          <input type="radio" class="radio-chip" name="foo" value="<%= chip %>" id="<%= i %>">
+                          <label for="<%= i %>"
+                            class="md-chip waves-effect waves-dark chip md-chip-clickable md-chip-hover">#
+                            <%= chip %>
+                          </label>
+
+                        </div>
+
+                        <% i++;} %>
+                  </div>
+
+                  <div class="m-t card rounded-sm scroll-none recent-notifications"
+                    style="max-height: 80vh; overflow-y: scroll;">
+
+                    <h5 class="headline bl pos-sticky bg-w p-lg">
+                      Recent Notifications
                     </h5>
+                    <div class="progress">
+                      <div class="indeterminate"></div>
+                    </div>
+
+                    <div class="card-body p-sm">
+
+                    </div>
                   </div>
                 </div>
-                <!-- Line Chart -->
-                <div id="reportsChart"></div>
-                <!-- End Line Chart -->
               </div>
-
-
-              <div class="display-flex j-start chat-action">
-                <select name="branch" id="chart-branch" class="m-l col" <%=staff.department=="ALL" ? "" : "disabled" %>>
-                  <% if(staff.department=="ALL" ) { %>
-                    <option value="CSE" selected>CSE</option>
-                    <option value="ECE">ECE</option>
-                    <option value="ISE">ISE</option>
-                    <option value="MECH">MECH</option>
-                    <option value="CIV">CIV</option>
-                    <option value="ARC">ARC</option>
-                    <option value="EEE">EEE</option>
-                    <% } else { %>
-                      <option value="<%= staff.department %>" selected>
-                        <%= staff.department %>
-                      </option>
-                      <% }%>
-                </select>
-                <select name="sem" id="chart-sem" class="m-l col">
-                  <% if(staff.semAssigned.length> 0) {
-                    %>
-
-                    <%for(let sem of staff.semAssigned) { %>
-                      <option value="<%= sem %>">sem <%= sem %>
-                      </option>
-
-                      <% }%>
-                        <% } else { %>
-                          <p>No sem Assigned</p>
-                          <% }%>
-                </select>
-                <div class="btn-loader"></div>
-
-              </div>
-
             </div>
-          </div>
-      </div>
-    </div>
-    <script src="/vendors/apexcharts/apexcharts.min.js"></script>
-    <script src="/vendors/chart.js/chart.min.js"></script>
-    <script src="/vendors/echarts/echarts.min.js"></script>
-    <script src="/js/dashboard.js"></script>
+        </div>
+        <script src="/vendors/apexcharts/apexcharts.min.js"></script>
+        <script src="/vendors/chart.js/chart.min.js"></script>
+        <script src="/vendors/echarts/echarts.min.js"></script>
+        <script src="/js/dashboard.js"></script>
 
-    <%- include('./includes/footer.ejs') %>
+        <%- include('./includes/footer.ejs') %>

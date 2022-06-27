@@ -202,6 +202,7 @@ class Subject {
   }
 
   static async loadAssignedSubjects(docId, branch, sem, collectionName) {
+    console.log(docId, branch, sem, collectionName);
     const result = await db
       .collection(collectionName)
       .doc(docId)
@@ -223,6 +224,7 @@ class Subject {
 
   // ATTENDANCE
   static async getAttendance(path, docId, date) {
+    console.log(path, docId, date);
     const att = await db
       .collection("branch/" + path.toLowerCase())
       .doc(docId)

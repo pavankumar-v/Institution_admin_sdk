@@ -39,24 +39,28 @@
                                             <% } %>
                             </ul>
                         </div>
-                        <div class="chip <%= claim ? 'bg-pri-c ' : ' bg-err-c ' %> inline-flex mx"
-                            style="height: 26px;">
-                            <span
-                                class="material-icons-outlined chip-icon <%= claim ? 'clr-pri-c ' : 'clr-err-c' %>    m-r-sm">
-                                <%= claim ? 'done' : 'close' %>
+
+                        <% if(you.id !=staff.id) { %>
+
+                            <div class="chip <%= claim ? 'bg-pri-c ' : ' bg-err-c ' %> inline-flex mx"
+                                style="height: 26px;">
+                                <span
+                                    class="material-icons-outlined chip-icon <%= claim ? 'clr-pri-c ' : 'clr-err-c' %>    m-r-sm">
+                                    <%= claim ? 'done' : 'close' %>
+                                </span>
+                                <%= claim ? 'privileged' : 'privilege revoked' %>
+                            </div>
+
+                            <span class="material-icons-outlined more-vert" tabindex="1" id="more-vert">
+                                more_vert
                             </span>
-                            <%= claim ? 'privileged' : 'privilege revoked' %>
-                        </div>
 
-                        <span class="material-icons-outlined more-vert" tabindex="1" id="more-vert">
-                            more_vert
-                        </span>
-
-                        <button class="btnn elevation-0 bg-err display-flex m-l" id="delete-staff">
-                            <div class="btn-loader"></div>
-                            Delete
-                        </button>
-                        <!-- <button class="btnn falt-btnn elevation-0" id="save">Save</button> -->
+                            <button class="btnn elevation-0 bg-err display-flex m-l" id="delete-staff">
+                                <div class="btn-loader"></div>
+                                Delete
+                            </button>
+                            <% }%>
+                                <!-- <button class="btnn falt-btnn elevation-0" id="save">Save</button> -->
                     </div>
 
                 </div>
@@ -75,14 +79,25 @@
                     </p>
                 </div>
 
+
                 <div class="display-flex j-start m-b">
                     <div class="m-r">
                         <label for="department">Department</label>
-                        <select name="department" id="department" class="">
-                            <option selected>
-                                <%= staff.department %>
-                            </option>
-
+                        <select name="department" id="department" class=" m-l col" <%=staff.department=="ALL" ? ""
+                            : "disabled" %>>
+                            <% if(staff.department=="ALL" ) { %>
+                                <option value="CSE" selected>CSE</option>
+                                <option value="ECE">ECE</option>
+                                <option value="ISE">ISE</option>
+                                <option value="MECH">MECH</option>
+                                <option value="CIV">CIV</option>
+                                <option value="ARC">ARC</option>
+                                <option value="EEE">EEE</option>
+                                <% } else { %>
+                                    <option value="<%= staff.department %>" selected>
+                                        <%= staff.department %>
+                                    </option>
+                                    <% }%>
                         </select>
                     </div>
                     <div class="col">
@@ -196,11 +211,11 @@
                                                             </i>
 
                                                     </b>
+
                                                     <span
                                                         class="material-symbols-rounded clr-err m-l del-icon rounded-sm p"
                                                         id="subject-delete-btn">
-
-                                                        delete
+                                                        link_off
                                                     </span>
 
                                                 </p>

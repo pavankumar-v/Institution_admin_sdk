@@ -40,8 +40,9 @@ export const signInUser = async (req, res) => {
             curUser = await StaffUser.fetchAdmin(user.user.uid);
           } else {
             console.log("staff or hod");
-            curUser = await StaffUser.fetchUser(user.user.uid);
+            curUser = await StaffUser.fetchUser(user.user.uid, "staff");
           }
+
           curUser = curUser.data;
           res.cookie("authUser", curUser, options);
           user.user

@@ -61,12 +61,10 @@ $(document).ready(function () {
                           ${sub[3].toUpperCase()}
                           </i>
                         </b>
-                          <span
-                              class="material-symbols-rounded clr-err m-l del-icon rounded-sm p"
-                              id="subject-delete-btn">
-
-                              delete
-                          </span>
+                        <span class="material-symbols-rounded clr-err m-l del-icon rounded-sm p"
+                        id="subject-delete-btn">
+                            link_off
+                            </span>
 
 
 
@@ -101,8 +99,10 @@ $(document).ready(function () {
     function (param) {
       $(".progress").show();
       var sem = semSeletected();
-      const branch = $("#department").find(":selected").val();
+      const branch = $("#department").val();
       const docId = $("#staff-view").children("input[name=docId]").val();
+
+      console.log(branch);
 
       $.ajax({
         type: "POST",

@@ -20,8 +20,23 @@ class Staff {
     this.avatar = avatar;
   }
 
-  static async fetchUser(id) {
-    const snapshot = db.collection("staff").doc(id);
+  static async getCount() {
+    const count = await db
+      .collection("staff")
+      .get()
+      .then((doc) => {
+        return doc.size;
+      })
+      .catch((err) => {
+        console.log(err);
+        return 0;
+      });
+
+    return count;
+  }
+
+  static async fetchUser(id, collection) {
+    const snapshot = db.collection(collection).doc(id);
     const doc = await snapshot.get();
     if (doc.exists) {
       const staff = new Staff(
@@ -98,9 +113,9 @@ class Staff {
     return staffs;
   }
 
-  static async updateName(docId, newName) {
+  static async updateName(docId, newName, collection) {
     const nameUpdate = await db
-      .collection("staff")
+      .collection(collection)
       .doc(docId)
       .update({
         fullName: newName,
@@ -116,9 +131,9 @@ class Staff {
     return nameUpdate;
   }
 
-  static async updateSubjects(docId, assignSubjects, assignSem) {
+  static async updateSubjects(docId, assignSubjects, assignSem, collection) {
     const updateSubjects = await db
-      .collection("staff")
+      .collection(collection)
       .doc(docId)
       .update({
         semAssigned: assignSem,
@@ -136,7 +151,7 @@ class Staff {
   }
 
   // delete subject in assigned subject
-  static async deleteSubjectVal(docId, subVal) {
+  static async deleteSubjectVal(docId, subVal, collection) {
     const deleteSub = await db
       .collection("staff")
       .doc(docId)
