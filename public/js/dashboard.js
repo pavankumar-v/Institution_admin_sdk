@@ -123,7 +123,14 @@ $(document).ready(function () {
         absDays,
       }),
       success: function (res) {
-        btnLoaderToggleOff(btn, loader, "Submit");
+        btnLoaderToggleOff(
+          btn,
+          loader,
+          `<span class="material-symbols-outlined m-r-sm">
+        settings
+        </span>
+      Predict`
+        );
         if (res.response) {
           $(".output").empty();
           $(".output").append(`Predicted marks: ${res.op[0]}`);
