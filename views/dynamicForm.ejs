@@ -66,7 +66,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="display-flex j-space-between w100">
-                                                    <h6 class="file-name-exp2 display-small">
+                                                    <h6 class="file-name display-small">
                                                         <%= form.name %>
                                                     </h6>
 
@@ -75,7 +75,6 @@
                                                         more_vert
                                                     </span>
                                                 </div>
-
                                                 <div class="chip <%= form.isActive ? 'bg-pri-c ' : ' bg-err-c ' %> inline-flex mx"
                                                     style="height: 26px;">
                                                     <span
@@ -85,13 +84,18 @@
                                                     <%= form.isActive ? 'open' : 'closed' %>
                                                 </div>
 
+
+
                                                 <p class="desc-sm">
                                                     <%= form.description %>
                                                 </p>
+                                                <p class="caption">
+                                                    Sheet Name : <%= form.sheetTitle %>
+                                                </p>
 
-                                                <div class="media  display-flex m-t rounded-lg">
+                                                <!-- <div class="media  display-flex m-t rounded-lg">
                                                     <img src="/img/<%= randomImg() %>" alt="">
-                                                </div>
+                                                </div> -->
 
                                                 <br>
                                                 <div class="card-footer display-flex j-space-between w100 ">
@@ -101,14 +105,16 @@
                                                         </span>
                                                         <i class="text-sm display-flex flex-c j-start">
                                                             <%= timeSince(new Date(form.createdAt)) %> ago
-                                                                <p>
-                                                                    <%= form.sheetTitle %>
-                                                                </p>
+
                                                         </i>
+
                                                         <br>
                                                     </div>
 
-                                                    <button class="btnn btnn-rounded">View</button>
+                                                    <a href="<%= form.formUrl %>" target="_blank">
+                                                        <button class="btnn btnn-rounded">View sheet</button>
+                                                    </a>
+
                                                 </div>
 
                                             </div>

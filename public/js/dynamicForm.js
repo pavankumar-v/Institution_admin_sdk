@@ -94,7 +94,7 @@ $(document).ready(function () {
         console.log(res.response);
         if (res.response) {
           var html = `
-          <div class="card" id="formCard">  
+          <div class="card col m-r" id="formCard" style="max-width: 310px;">
               <input type="hidden" name="docId" value="${res.docId}">
               <input type="hidden" name="formState" value="${isChecked}">
               <div class="display-flex p-lg flex-c bl" id="form-state">
@@ -134,10 +134,10 @@ $(document).ready(function () {
                   <p class="desc-sm">
                       ${description}
                   </p>
+                  <p class="caption">
+                  ${sheetName}
+              </p>
 
-                  <div class="media  display-flex m-t rounded-lg">
-                      <img src="/img/bg1.jpg" alt="">
-                  </div>
 
                   <br>
                   <div class="card-footer display-flex j-space-between w100 ">
@@ -146,15 +146,15 @@ $(document).ready(function () {
                               description
                           </span>
                           <i class="text-sm display-flex flex-c j-start">
-                              ${timeSince(new Date().toISOString())} ago
-                                  <p>
-                                      ${sheetName}
-                                  </p>
+                              ${timeSince(new Date())} ago
+                                
                           </i>
                           <br>
                       </div>
 
-                      <button class="btnn btnn-rounded">View</button>
+                      <a href="${formUrl}" target="_blank">
+                      <button class="btnn btnn-rounded">View sheet</button>
+                  </a>
                   </div>
 
               </div>

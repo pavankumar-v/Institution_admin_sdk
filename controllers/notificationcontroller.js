@@ -6,10 +6,16 @@ import { auth } from "../database/firebase.js";
 export const getNotificationPage = async (req, res) => {
   try {
     const claim = req.cookies.userClaim;
-    const staff = req.cookies.authUser;
+    const curUser = req.cookies.authUser;
+    var collection = claim["admin"] ? "admin" : "staff";
+    const staff = await Staff.fetchUser(curUser.id, collection);
     res
       .status(200)
-      .render("notification", { title: "notifications", claim, staff });
+      .render("notification", {
+        title: "notifications",
+        claim,
+        staff: staff.data,
+      });
   } catch (err) {
     console.log(err.message);
     res.send({ response: 0, message: err.message });

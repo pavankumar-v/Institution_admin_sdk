@@ -24,6 +24,7 @@ export const createForm = async (req, res) => {
       data.sheetName,
       data.form,
       data.isChecked,
+      data.formUrl,
       new Date().toISOString()
     );
 
@@ -41,6 +42,7 @@ export const createForm = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.send({ response: 0, message: error.message });
   }
 };

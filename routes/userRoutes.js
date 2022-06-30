@@ -17,13 +17,18 @@ const router = express.Router();
 
 router.all("*", (req, res, next) => {
   console.log("all");
+  const claim = req.cookies.userClaim;
   const sessionCookie = req.cookies.session || "";
   AdminAuth.verifySessionCookie(sessionCookie, true)
     .then(() => {
-      next();
+      if (claim["admin"] || claim["staff"] || claim["hod"]) {
+        next();
+      } else {
+        res.redirect("/signout");
+      }
     })
     .catch((err) => {
-      res.redirect("/login");
+      res.redirect("/signout");
     });
 });
 router.get("/", getIndexPage);

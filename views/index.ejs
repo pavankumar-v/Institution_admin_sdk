@@ -121,24 +121,33 @@
                       </div>
 
                       <form class="row" id="ml-form">
+
+                        <div class=" col s6 form-input">
+                          <label>Urban(0) Or Rural(1)</label>
+                          <input type="number" name="foo" value="1" min="0" max="1" required /><br>
+                        </div>
+                        <div class=" col s6 form-input">
+                          <label>Behaviour credits (0-5)</label>
+                          <input type="number" name="foo2" value="3" min="0" max="5" required /><br>
+                        </div>
                         <div class=" col s6 form-input">
                           <label>Total number of hours studied</label>
                           <input type="number" name="studiedhours" value="2" maxlength="1" required /><br>
                         </div>
                         <div class=" col s6 form-input">
-                          <label>Previous Semester Percentage</label>
+                          <label>Previous Semester Percentage (0-100)</label>
                           <input type="number" name="prevsemper" value="80" min="0" max="100" required /><br>
                         </div>
                         <div class=" col s6  form-input">
-                          <label>Average Internal marks</label>
+                          <label>Average Internal marks (0-30)</label>
                           <input type="number" name="avgia" value="25" min="0" max="30" required /><br>
                         </div>
                         <div class=" col  s6 form-input">
-                          <label>Assignment Marks</label>
+                          <label>Assignment Marks (0-10)</label>
                           <input type="number" name="assignmark" value="10" min="0" max="10" required /><br>
                         </div>
                         <div class=" col s12  form-input">
-                          <label>Absent days</label>
+                          <label>Absent days (0-20)</label>
                           <input type="number" name="absent" value="10" min="0" max="20" required /><br>
                         </div>
                         <div class="col s3 m-t">
@@ -155,6 +164,10 @@
                       <h5 class="output">
 
                       </h5>
+
+                      <!-- Line Chart -->
+                      <div id="ml-chart"></div>
+                      <!-- End Line Chart -->
 
                     </div>
                   </div>

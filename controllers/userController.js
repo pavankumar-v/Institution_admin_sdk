@@ -25,7 +25,6 @@ export const getSubject = async (req, res) => {
   try {
     const claim = req.cookies.userClaim;
     const curUser = req.cookies.authUser;
-
     res.render("subjects", { title: "subjects", claim, staff: curUser });
   } catch (error) {
     res.send({ message: error.message });

@@ -5,7 +5,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import multer from "multer";
 
-//Routes
 import authentication from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
@@ -29,12 +28,6 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use(authentication);
-
-// app.all("*", (req, res, next) => {
-//   const token = req.csrfToken();
-//   res.cookie("XSRF-TOKEN", token);
-//   next();
-// });
 
 app.use(userRoutes);
 app.use(dashboard);

@@ -10,6 +10,7 @@ class DynamicForm {
     sheetTitle,
     form,
     isActive,
+    formUrl,
     createdAt
   ) {
     (this.id = id),
@@ -19,6 +20,7 @@ class DynamicForm {
       (this.sheetTitle = sheetTitle),
       (this.form = form),
       (this.isActive = isActive),
+      (this.formUrl = formUrl),
       (this.createdAt = createdAt);
   }
 
@@ -45,6 +47,7 @@ class DynamicForm {
             sheetName: this.sheetTitle,
             form: this.form,
             isActive: this.isActive,
+            formUrl: this.formUrl,
             createdAt: this.createdAt,
           })
           .then((data) => {
@@ -79,6 +82,7 @@ class DynamicForm {
         val.sheetName,
         val.form,
         val.isActive,
+        val.formUrl,
         val.createdAt
       );
 

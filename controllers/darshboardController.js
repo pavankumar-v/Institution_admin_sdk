@@ -30,12 +30,12 @@ export const loadAttendanceChart = async (req, res) => {
     const staff = req.cookies.authUser;
     const claim = req.cookies.userClaim;
     var collection = claim["admin"] ? "admin" : "staff";
-
     console.log(data);
-
     const assignedSub = await Subject.loadAssignedSubjects(
       staff.id,
-      staff.department == "ALL" ? data.branch.toLowerCase() : staff.department,
+      staff.designation == "Admin"
+        ? data.branch.toLowerCase()
+        : staff.department,
       data.sem,
       collection
     );
@@ -81,6 +81,7 @@ export const machineLearn = async (req, res) => {
           response: 1,
           message: "Predicted output updated",
           op: preval.dataSync(),
+          xs: service.xs,
         });
       })
       .catch((err) => {

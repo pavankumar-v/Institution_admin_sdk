@@ -2,17 +2,21 @@ import { db } from "../database/firebase-admin.js";
 import User from "../models/user.js";
 import Subject from "../models/subjects.js";
 import { auth } from "../database/firebase.js";
+import Staff from "../models/staffUser.js";
 
 export const getAttendance = async (req, res) => {
   try {
     const claim = req.cookies.userClaim;
-    const staff = req.cookies.authUser;
     const users = await User.fetchAll();
+
+    const curUser = req.cookies.authUser;
+    var collection = claim["admin"] ? "admin" : "staff";
+    const staff = await Staff.fetchUser(curUser.id, collection);
 
     res.status(200).render("attendance", {
       title: "attendance",
       users: users,
-      staff,
+      staff: staff.data,
       claim,
     });
   } catch (error) {
