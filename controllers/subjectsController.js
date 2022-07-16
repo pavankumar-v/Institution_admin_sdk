@@ -8,7 +8,6 @@ export const loadSubjects = async (req, res) => {
       data.branch != null ? data.branch : "cse",
       data.sem.toString()
     );
-    // console.log(subjects);
     res.send({ response: 1, message: "Updated", subjects: subjects });
   } catch (err) {
     res.send({ response: 0, message: err.message });
@@ -22,14 +21,12 @@ export const addNewSubject = async (req, res) => {
     const curUser = req.cookies.authUser;
     var branch;
 
-    console.log(data);
     if (claim["admin"]) {
       branch = data.branch;
     } else {
       branch = curUser.department;
     }
 
-    console.log(branch);
     const subject = new Subject(
       "",
       data.id,
@@ -40,10 +37,7 @@ export const addNewSubject = async (req, res) => {
       []
     );
 
-    console.log(subject);
-
     const addSubject = await subject.createNewSubject(branch, data.sem);
-    console.log(addSubject);
     if (addSubject.res) {
       res.send({
         response: 1,
@@ -77,7 +71,6 @@ export const deleteSubject = async (req, res) => {
 export const addModule = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     Subject.addModule(
       data.branch.toLowerCase(),
       data.sem,
@@ -126,7 +119,6 @@ export const addNotes = async (req, res) => {
       path.extname(file.originalname).toString()
     );
 
-    console.log(validate);
     if (validate == 1) {
       const url = await Subject.uploadNotes(
         data.branch,
@@ -183,7 +175,6 @@ export const deleteNotes = async (req, res) => {
 };
 
 function fileValidate(file, fileType) {
-  console.log(fileType);
   // size validation
   if (file.size > 31457280) {
     return 2;

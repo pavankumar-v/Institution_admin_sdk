@@ -9,13 +9,11 @@ export const getNotificationPage = async (req, res) => {
     const curUser = req.cookies.authUser;
     var collection = claim["admin"] ? "admin" : "staff";
     const staff = await Staff.fetchUser(curUser.id, collection);
-    res
-      .status(200)
-      .render("notification", {
-        title: "notifications",
-        claim,
-        staff: staff.data,
-      });
+    res.status(200).render("notification", {
+      title: "notifications",
+      claim,
+      staff: staff.data,
+    });
   } catch (err) {
     console.log(err.message);
     res.send({ response: 0, message: err.message });
@@ -30,7 +28,6 @@ export const createNotification = async (req, res) => {
       staff.designation == "Admin"
         ? await Staff.fetchAdmin(staff.id)
         : await Staff.fetchUser(staff.id, "staff");
-    console.log(staffData);
     const newPost = new Notification(
       "",
       staff.id,
@@ -46,7 +43,6 @@ export const createNotification = async (req, res) => {
       staffData.data.avatar
     );
     const createPost = await newPost.createNotification();
-    console.log(createPost);
     if (createPost.res) {
       res.send({ response: 1, message: "post created", uid: createPost.id });
     } else {
@@ -82,8 +78,9 @@ export const loadNotification = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
-    const del = await Notification.deletePost(data.docId);
+    const staff = req.cookies.authUser;
+    console.log(staff);
+    const del = await Notification.deletePost(data.docId, staff.department);
     if (del) {
       res.send({ response: 1, message: "post deleted" });
     } else {

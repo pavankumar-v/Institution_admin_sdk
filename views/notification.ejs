@@ -34,7 +34,8 @@
                                                     staff.department %></a></li>
                                         <li class="col s3">
                                             <div class="display-flex j-end ">
-                                                <button class="btnn waves-effect waves-light" id="full-screen-trigger">
+                                                <button class="btnn waves-effect waves-light"
+                                                    id="full-screen-create-trigger">
                                                     <div class="btn-loader"></div>
                                                     <span class="material-symbols-rounded m-r">
                                                         add_box
@@ -68,7 +69,7 @@
 
             <!-- full screen -->
 
-            <div class="full-screen-overlay" id="staff-view">
+            <div class="full-screen-overlay" id="create-view">
                 <div class="progres m0 pos-sticky">
                     <div class="indeterminate"></div>
                 </div>
@@ -78,7 +79,7 @@
                 <header class="elevation display-flex pos-sticky">
                     <div class="container display-flex j-space-between ">
                         <div class="back display-flex">
-                            <a href="#" id="overlay-screen-close">
+                            <a href="#" class="overlay-screen-close" id="overlay-screen-close">
                                 <span class="material-symbols-outlined p-sm bg-pri-c rounded-lg">
                                     arrow_back
                                 </span>
@@ -264,6 +265,6 @@
                 </main>
             </div>
             </div>
-
-            <script src="/js/notification.js"></script>
-            <%- include('./includes/footer.ejs') %>
+            <%- include('./usable/fullScreenCArd.ejs') %>
+                <script src="/js/notification.js"></script>
+                <%- include('./includes/footer.ejs') %>

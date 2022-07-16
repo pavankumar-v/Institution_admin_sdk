@@ -28,7 +28,11 @@ class Notification {
 
   async createNotification() {
     const addNotification = await db
-      .collection("notifications")
+      .collection(
+        this.department == "ALL"
+          ? "notifications"
+          : `branch/${this.department.toLowerCase()}/notifications`
+      )
       .add({
         posterId: this.posterId,
         fullName: this.fullName,
@@ -73,18 +77,18 @@ class Notification {
     }
 
     var snapshot;
-
-    if (dataId == "branch" && branch == "ALL") {
+    // "branch/" + branch.toLowerCase() + "/" + "notifications"
+    if (dataId == "all" || (branch == "ALL" && dataId == "byId")) {
       snapshot = await db.collection("notifications").get();
     } else if (dataId == "branch" && designation == "hod") {
       snapshot = await db
-        .collection("notifications")
+        .collection("branch/" + branch.toLowerCase() + "/" + "notifications")
         .where("department", "==", branch.toUpperCase())
         .orderBy("createdAt", "desc")
         .get();
     } else {
       snapshot = await db
-        .collection("notifications")
+        .collection("branch/" + branch.toLowerCase() + "/" + "notifications")
         .where(filedName, condition, matchStr)
         .orderBy("createdAt", "desc")
         .get();
@@ -132,18 +136,36 @@ class Notification {
     return notif;
   }
 
-  static async deletePost(id) {
-    return db
-      .collection("notifications")
-      .doc(id)
-      .delete()
-      .then(() => {
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        return false;
-      });
+  static async deletePost(id, department) {
+    var res;
+
+    if (department != "ALL") {
+      res = db
+        .collection(`branch/${department.toLowerCase()}/notifications`)
+        .doc(id)
+        .delete()
+        .then(() => {
+          return true;
+        })
+        .catch((err) => {
+          console.log(err);
+          return false;
+        });
+    } else {
+      res = db
+        .collection(`notifications`)
+        .doc(id)
+        .delete()
+        .then(() => {
+          return true;
+        })
+        .catch((err) => {
+          console.log(err);
+          return false;
+        });
+    }
+
+    return res;
   }
 }
 

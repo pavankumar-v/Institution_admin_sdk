@@ -21,18 +21,14 @@ export const staffControl = async (req, res) => {
     const claim = req.cookies.userClaim;
     const curUser = req.cookies.authUser;
     var staffs = [];
-    console.log(curUser.department);
 
     if (claim["admin"]) {
       staffs = await StaffUser.fetchAll();
       var sjbuieif = await StaffUser.fetchAdmin(curUser.id);
-      // console.log(sjbuieif);
       staffs.unshift(sjbuieif.data);
     } else {
       staffs = await StaffUser.fetchByBranch(curUser.department);
     }
-
-    console.log(staffs);
 
     // const subjects = await Subject.fetchByBranchSem("cse", "8");
     res.status(200).render("staffControl", {
@@ -49,9 +45,6 @@ export const staffControl = async (req, res) => {
 export const createStaffAuth = async (req, res) => {
   try {
     const data = req.body;
-
-    console.log(data);
-
     const userUid = await AdminAuth.createUser({
       email: data.email,
     })
@@ -193,7 +186,6 @@ export const sendVerificationCode = async (req, res) => {
     `,
       })
       .then((result) => {
-        console.log(result);
         res.send({
           response: 1,
           message: "Email verification code sent",
@@ -216,9 +208,7 @@ export const viewStaff = async (req, res) => {
     const curUser = req.cookies.authUser;
     var collection =
       claimFoo["admin"] && data.docId == curUser.id ? "admin" : "staff";
-    console.log(collection);
     const staffData = await StaffUser.fetchUser(data.docId, collection);
-    console.log(staffData);
     if (staffData.res) {
       const claim = await AdminAuth.getUser(data.docId).then((user) => {
         const res = user.customClaims[staffData.data.designation];
@@ -270,8 +260,6 @@ export const loadSubjects = async (req, res) => {
     const curUser = req.cookies.authUser;
     var collection =
       claim["admin"] && data.docId == curUser.id ? "admin" : "staff";
-    console.log(data);
-    console.log(collection);
     const staffData = await StaffUser.fetchUser(data.docId, collection);
     var existingSub;
     if (staffData.res) {

@@ -14,7 +14,6 @@ export const getForm = async (req, res) => {
 export const createForm = async (req, res) => {
   try {
     const data = req.body;
-    console.log(req.body);
     const spreadSheetId = data.formUrl.split("/")[5];
     const createForm = new DynamicForm(
       "",

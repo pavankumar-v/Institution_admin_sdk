@@ -76,9 +76,7 @@ export const loadAssignedSubjects = async (req, res) => {
 export const loadAttUsers = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const path = getPath(data.branch, data.sem);
-    console.log(path);
     if (data.docId != null) {
       const att = await Subject.getAttendance(path, data.docId, data.date);
       const users = await User.fetchByBranchSem(data.branch, data.sem);
@@ -101,7 +99,6 @@ export const loadAttUsers = async (req, res) => {
 export const markAttendance = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const path = getPath(data.branch, data.sem);
     const val = data.usn + "-" + data.time + "-" + data.state;
 
@@ -131,7 +128,6 @@ export const markAttendance = async (req, res) => {
 export const reMarkAtt = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const path = getPath(data.branch, data.sem);
     const addUsnStr = addVal(data.state, data.usnStr);
 

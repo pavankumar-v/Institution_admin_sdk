@@ -453,6 +453,7 @@ input[name="foo"]:checked + label {
   position: absolute;
   bottom: 0;
   right: 0;
+  z-index: 3 !important;
 }
 
 .pos-rel {
@@ -600,49 +601,68 @@ input[name="foo"]:checked + label {
 }
 
 .clr-pri {
-  color: #386A20;
+  color: #386A20 !important;
 }
 
 .clr-pri-c {
-  color: #042100;
+  color: #042100 !important;
 }
 
 .clr-sec {
-  color: #55624C;
+  color: #55624C !important;
 }
 
 .clr-sec {
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
 
 .clr-err {
-  color: #BA1B1B;
+  color: #BA1B1B !important;
 }
 
 .clr-on-err {
-  color: #BA1B1B;
+  color: #BA1B1B !important;
 }
 
 .clr-err-c {
-  color: #410001;
+  color: #410001 !important;
 }
 
 .clr-tri-c {
-  color: #386667;
+  color: #BBEBEB !important;
+}
+
+.clr-tri {
+  color: #386667 !important;
+}
+
+.bg-none {
+  background-color: transparent !important;
 }
 
 .bg-w {
+  color: #1A1C18 !important;
   background-color: #fff !important;
 }
 
 .bg-ter-c {
-  background: #BBEBEB;
-  color: #002021;
+  background: #BBEBEB !important;
+  color: #002021 !important;
 }
 
 .bg-pri-c {
-  color: #042100;
-  background-color: #B8F397;
+  color: #042100 !important;
+  background-color: #B8F397 !important;
+}
+
+.bg-pri-c-l {
+  color: #042100 !important;
+  background-color: rgba(184, 243, 151, 0.5) !important;
+}
+
+.bg-sec-c {
+  color: #131F0D !important;
+  background-color: #D9E7CB !important;
 }
 
 .bg-err {
@@ -652,6 +672,10 @@ input[name="foo"]:checked + label {
 
 .bg-err:hover {
   background-color: #BA1B1B !important;
+}
+
+.border {
+  border: 1.5px solid #74796E !important;
 }
 
 .delete:hover {
@@ -686,6 +710,24 @@ input[name="foo"]:checked + label {
 .avatar {
   width: 34px;
   height: 34px;
+  border-radius: 50px;
+  background: #B8F397;
+  color: #042100;
+  text-align: center;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.avatar-m {
+  width: 44px;
+  height: 44px;
   border-radius: 50px;
   background: #B8F397;
   color: #042100;
@@ -933,12 +975,13 @@ button[disabled]:hover {
 
 .card {
   background: white;
+  left: 0;
   border-radius: 18px;
-  border: 1.5px solid #74796E;
   -webkit-box-shadow: none;
           box-shadow: none;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  border: 1px solid #74796E;
+  -webkit-transition: all 0.3s ease-out !important;
+  transition: all 0.3s ease-out !important;
   overflow: hidden;
 }
 

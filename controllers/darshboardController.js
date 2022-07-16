@@ -30,7 +30,6 @@ export const loadAttendanceChart = async (req, res) => {
     const staff = req.cookies.authUser;
     const claim = req.cookies.userClaim;
     var collection = claim["admin"] ? "admin" : "staff";
-    console.log(data);
     const assignedSub = await Subject.loadAssignedSubjects(
       staff.id,
       staff.designation == "Admin"
@@ -40,13 +39,10 @@ export const loadAttendanceChart = async (req, res) => {
       collection
     );
 
-    console.log(assignedSub);
-
     var attendanceData = {};
 
     for (let sub of assignedSub.subAssigned) {
       const subSplit = sub.split("/");
-      console.log("break point");
       const path = getPath(subSplit[0], subSplit[1]);
       const att = await Subject.getAttendanceAll(path, subSplit[2]);
       attendanceData[subSplit[4]] = att.att;
@@ -60,11 +56,9 @@ export const loadAttendanceChart = async (req, res) => {
 export const machineLearn = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     service.model
       .fit(service.xs, service.ys, { epochs: 50 })
       .then(() => {
-        console.log("trained data");
         const preval = service.model.predict(
           service.tf.tensor(
             [
@@ -96,7 +90,6 @@ export const machineLearn = async (req, res) => {
 export const loadNotificationByTags = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const notifications = await Notification.fetchByTag(data.tag);
     res.send({ response: 1, message: "notifcation updated", notifications });
   } catch (err) {

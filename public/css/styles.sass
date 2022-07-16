@@ -396,6 +396,7 @@ input[name="foo"]:checked + label
     position: absolute
     bottom: 0
     right: 0
+    z-index: 3 !important
 
 .pos-rel
     position: relative
@@ -511,43 +512,58 @@ input[name="foo"]:checked + label
 
 // colors
 .clr-pri
-    color: $primary
+    color: $primary !important
 .clr-pri-c
-    color: $onPrimaryContainer
+    color: $onPrimaryContainer !important
 
 .clr-sec
-    color: $secondary
+    color: $secondary !important
 
 .clr-sec
-    color: $onTernary
+    color: $onTernary !important
 
 .clr-err
-    color: $error
+    color: $error !important
 
 .clr-on-err
-    color: $error
+    color: $error !important
 .clr-err-c
-    color: $onErrorContainer
+    color: $onErrorContainer !important
 
 .clr-tri-c
-    color: $ternary
+    color: $ternaryContainer !important
+.clr-tri
+    color: $ternary !important
 
+.bg-none
+    background-color: transparent !important
 .bg-w
+    color: $onBackground !important
     background-color: $background !important
 
 .bg-ter-c
-    background: $ternaryContainer
-    color: $onTernaryContainer
+    background: $ternaryContainer !important
+    color: $onTernaryContainer !important
 
 .bg-pri-c
-    color: $onPrimaryContainer
-    background-color: $primaryContainer
+    color: $onPrimaryContainer !important
+    background-color: $primaryContainer !important
+.bg-pri-c-l
+    color: $onPrimaryContainer !important
+    background-color: rgba($primaryContainer, 0.5) !important
+
+.bg-sec-c
+    color: $onSecondaryContainer !important
+    background-color: $secondaryContainer !important
 
 .bg-err
     color: $onError !important
     background-color: $error !important
     &:hover
         background-color: $error !important
+
+.border
+    border: 1.5px solid $outline !important
 
 .delete
     &:hover
@@ -575,6 +591,17 @@ input[name="foo"]:checked + label
 .avatar
     width: 34px
     height: 34px
+    border-radius: 50px
+    background: $primaryContainer
+    color: $onPrimaryContainer
+    text-align: center
+    display: inline-flex
+    justify-content: center
+    align-items: center
+
+.avatar-m
+    width: 44px
+    height: 44px
     border-radius: 50px
     background: $primaryContainer
     color: $onPrimaryContainer
@@ -736,10 +763,11 @@ button[disabled]
 
 .card
     background: white
+    left: 0
     border-radius: 18px
-    border: 1.5px solid $outline
     box-shadow: none
-    transition: $transition
+    border: 1px solid $outline
+    transition: all 0.3s ease-out !important
     overflow: hidden
 
     &.card-list

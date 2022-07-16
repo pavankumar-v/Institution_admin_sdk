@@ -147,7 +147,6 @@ $(document).ready(function () {
                           </span>
                           <i class="text-sm display-flex flex-c j-start">
                               ${timeSince(new Date())} ago
-                                
                           </i>
                           <br>
                       </div>

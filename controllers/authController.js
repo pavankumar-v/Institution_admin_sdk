@@ -20,7 +20,7 @@ export const signInPage = (req, res) => {
 export const signInUser = async (req, res) => {
   try {
     const data = req.body;
-    const expiresIn = 60 * 60 * 24 * 1 * 1000;
+    const expiresIn = 60 * 60 * 15 * 1 * 1000;
     const options = { maxAge: expiresIn, httpOnly: true };
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (user) => {
@@ -36,10 +36,8 @@ export const signInUser = async (req, res) => {
           var curUser;
 
           if (claims.claims["admin"]) {
-            console.log("admin");
             curUser = await StaffUser.fetchAdmin(user.user.uid);
           } else {
-            console.log("staff or hod");
             curUser = await StaffUser.fetchUser(user.user.uid, "staff");
           }
 

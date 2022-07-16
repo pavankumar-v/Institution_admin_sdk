@@ -16,11 +16,11 @@ $(document).ready(function () {
     loadNotification(dataId);
   });
 
-  $("#full-screen-trigger").on("click", function () {
-    $(".full-screen-overlay").css("top", "0");
+  $("#full-screen-create-trigger").on("click", function () {
+    $("#create-view").css("top", "0");
   });
 
-  $("#overlay-screen-close").on("click", function () {
+  $(".overlay-screen-close").on("click", function () {
     $(".full-screen-overlay").css("top", "100%");
   });
 
@@ -38,9 +38,8 @@ $(document).ready(function () {
           $(idName).empty();
           if (res.notifications.length > 0) {
             $.each(res.notifications, function () {
-              console.log(this);
               html = `
-              <div class="card p0 col m-r" style="max-width: 350px;" >
+              <div class="card p0 col m-r border" style="max-width: 350px;" >
                                         <div class="card-centents p-lg ">
                                             <input type="hidden" name="docId" value="${
                                               this.id
@@ -48,17 +47,27 @@ $(document).ready(function () {
                                             <div class="more-menu" id="more-menu">
                                                 <ul>
                                                     <div class="btn-loader" style="display: none;"></div>
+                                                        <li class="" id="edit-post-btn">Edit</li>
                                                         <li class="delete" id="delete-post-btn">Delete</li>
                                                 </ul>
                                             </div>
                                             <div class="display-flex j-space-between">
                                                 <div class="display-flex">
-                                                    <div class="avatar m-r-sm">${
+                                                    <div class="avatar m-r-sm bg-ter-c">${
                                                       this.fullName[0]
                                                     }</div>
-                                                    <p class="captize">${
+                                                    <div class="display-flex flex-c j-start">
+                                                    <p class="captize" id="full-name">${
                                                       this.fullName
                                                     }</p>
+                                                      <input type="hidden" name="createdAt" value="${
+                                                        this.createdAt
+                                                      } ">
+                                                    
+                                                    <div class="caption " id="created-at">${timeSince(
+                                                      new Date(this.createdAt)
+                                                    )} ago</div>
+                                                    </div>
                                                 </div>
 
                                                 ${
@@ -72,7 +81,7 @@ $(document).ready(function () {
                                                 
                                             </div>
                                             <div class="display-flex j-start hint m-t">
-                                                <p>${
+                                                <p id="department-designation">${
                                                   this.department == "ALL"
                                                     ? ""
                                                     : this.department
@@ -85,21 +94,19 @@ $(document).ready(function () {
                   ? "principle"
                   : "ananymous"
               }</p>
-                                                <div class="hint m-l">${timeSince(
-                                                  new Date(this.createdAt)
-                                                )}</div>
+                                                
                                             </div>
     
     
     
-                                            <div class="title header m-b">${
+                                            <div class="title header m-b" id="title">${
                                               this.title
                                             }</div>
-                                            <div class="desc">
+                                            <div class="desc" id="description">
                                               ${urlify(this.description)}
                                             </div>
     
-                                            <div class="row j-start m-t">
+                                            <div class="row j-start" id="tags">
 
                                             `;
 
@@ -107,10 +114,10 @@ $(document).ready(function () {
                 html =
                   html +
                   `
-                                                  <div class="chip bg-pri-c  inline-flex mx" style="height: 26px;">
+                                                  <p class="caption col " style="height: 26px; color: blue;" >
                                                       
                                                       #${tag}
-                                                  </div>`;
+                                                  </p>`;
               }
 
               html =
@@ -120,10 +127,9 @@ $(document).ready(function () {
                                                 
                                             </div>
     
-                                            <hr>
     
-                                            <div class="display-flex j-end">
-                                                <button class="btnn btnn-rounded">Edit</button>
+                                            <div class="display-flex j-start">
+                                                <button class="btnn btnn-rounded bg-none border clr-pri" id="full-screen-view-trigger">View</button>
                                             </div>
     
                                         </div>
@@ -153,6 +159,55 @@ $(document).ready(function () {
     });
   }
 
+  function isoFormatDMY(d) {
+    function pad(n) {
+      return (n < 10 ? "0" : "") + n;
+    }
+    return (
+      pad(d.getUTCDate()) +
+      "/" +
+      pad(d.getUTCMonth() + 1) +
+      "/" +
+      d.getUTCFullYear()
+    );
+  }
+
+  function parseISOString(s) {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+  }
+
+  // View Post
+  $(document).on("click", "#full-screen-view-trigger", function () {
+    // CARD CONTENT
+    const parentCard = $(this).parentsUntil(".card");
+    const name = parentCard.children().find("#full-name");
+    const created_at = parseISOString(
+      parentCard.find("input[name=createdAt]").val()
+    );
+    const department_designation = parentCard.find("#department-designation");
+    const title = parentCard.find("#title");
+    const description = parentCard.find("#description");
+    const tags = parentCard.find("#tags");
+
+    console.log(tags.html());
+
+    // VIEW CONTENT
+    const viewPage = $("#post-view main div #post-data").children();
+    viewPage.find("#placeholder-avatar").text(`${name.text()[0]}`);
+    viewPage.find("#placeholder-name").text(name.text());
+    viewPage
+      .find("#placeholder-d-d")
+
+      .text(department_designation.text());
+    viewPage.find("#placeholder-date").text(isoFormatDMY(created_at));
+    viewPage.find("#placeholder-title").text(title.text());
+    viewPage.find("#placeholder-desc").empty().append(description.html());
+    viewPage.find("#placeholder-tags").empty().append(tags.html());
+
+    $("#post-view").css("top", "0");
+  });
+
   $(document).on("click", "#delete-post-btn", function () {
     const ul = $(this).parent();
     const cardContent = ul.parent().parent();
@@ -171,7 +226,6 @@ $(document).ready(function () {
         if (res.response) {
           cardContent.parent().remove();
         }
-
         M.toast({
           html: `<span style='color: white;'>${res.message}<span>`,
         });
@@ -258,4 +312,6 @@ $(document).ready(function () {
       },
     });
   });
+
+  // view post
 });

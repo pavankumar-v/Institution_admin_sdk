@@ -50,7 +50,6 @@ export const getUsers = async (req, res) => {
 export const addUSN = async (req, res) => {
   try {
     const usn = req.body.usn;
-    console.log(usn);
     const task = await User.addUsn(usn);
     if (task) {
       res.send({ response: 1, message: "USN Added" });
@@ -107,7 +106,6 @@ export const delelteUser = async (req, res) => {
   try {
     const data = req.body;
     const delUser = await User.deleteStudent(data.docId);
-    console.log(delUser);
     if (delUser) {
       res.send({ response: 1, message: "User Deleted" });
     } else {

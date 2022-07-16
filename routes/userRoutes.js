@@ -1,5 +1,4 @@
 import express from "express";
-import { onAuthStateChanged } from "firebase/auth";
 
 import {
   getIndexPage,
@@ -17,15 +16,24 @@ const router = express.Router();
 
 router.all("*", (req, res, next) => {
   console.log("all");
-  const claim = req.cookies.userClaim;
   const sessionCookie = req.cookies.session || "";
   AdminAuth.verifySessionCookie(sessionCookie, true)
-    .then(() => {
-      if (claim["admin"] || claim["staff"] || claim["hod"]) {
-        next();
-      } else {
-        res.redirect("/signout");
-      }
+    .then((data) => {
+      AdminAuth.getUser(data.uid)
+        .then((userRecord) => {
+          if (
+            userRecord.customClaims["hod"] ||
+            userRecord.customClaims["staff"] ||
+            userRecord.customClaims["admin"]
+          ) {
+            next();
+          } else {
+            res.redirect("/signout");
+          }
+        })
+        .catch((err) => {
+          res.redirect("/signout");
+        });
     })
     .catch((err) => {
       res.redirect("/signout");
