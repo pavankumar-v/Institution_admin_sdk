@@ -39,7 +39,7 @@ class DynamicForm {
 
       if (task) {
         const addForm = await db
-          .collection("global")
+          .collection("forms")
           .add({
             name: this.name,
             description: this.description,
@@ -69,7 +69,7 @@ class DynamicForm {
 
   static async getAllForms() {
     const snapshot = await db
-      .collection("global")
+      .collection("forms")
       .orderBy("createdAt", "desc")
       .get();
     const forms = snapshot.docs.map((doc) => {
@@ -94,7 +94,7 @@ class DynamicForm {
 
   static async formStateToggle(docId, formState) {
     const setState = db
-      .collection("global")
+      .collection("forms")
       .doc(docId)
       .update({
         isActive: formState ? false : true,
@@ -111,7 +111,7 @@ class DynamicForm {
 
   static async deleteFormById(docId) {
     const del = db
-      .collection("global")
+      .collection("forms")
       .doc(docId)
       .delete()
       .then(() => {

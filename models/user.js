@@ -125,13 +125,13 @@ class User {
     return res;
   }
 
-  static async addUsn(usn) {
+  static async addUsn(usn, branch) {
     const addUsn = db
-      .collection("usncollection")
-      .doc("mq6CKVtsEqBoCJvMyeQQ")
+      .collection(`branch/${branch}/others`)
+      .doc("usncollection")
       .set(
         {
-          [usn.toLowerCase()]: false,
+          [usn.toLowerCase()]: true,
         },
         { merge: true }
       )

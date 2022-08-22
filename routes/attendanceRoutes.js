@@ -6,6 +6,7 @@ import {
   loadAssignedSubjects,
   loadAttUsers,
   markAttendance,
+  markAttendanceTest,
   reMarkAtt,
 } from "../controllers/attendanceController.js";
 

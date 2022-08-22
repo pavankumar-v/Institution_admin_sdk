@@ -50,15 +50,16 @@
         <span class="sidebar__title">Classes</span>
       </li> -->
 
-      <li class="sidebar__item <%= title === 'attendance' ? 'active' : '' %> waves-effect waves-dark " id="attendance"
-        onclick="location.href='/attendance'">
-        <span class="material-symbols-rounded"> event_available </span>
-        <span class="sidebar__title">Attendance</span>
-      </li>
+
       <li class="sidebar__item <%= title === 'notifications' ? 'active' : '' %> waves-effect waves-dark "
         id="notifications" onclick="location.href='/notifications'">
         <span class="material-symbols-rounded"> mark_unread_chat_alt </span>
         <span class="sidebar__title">Notifications</span>
+      </li>
+      <li class="sidebar__item <%= title === 'attendance' ? 'active' : '' %> waves-effect waves-dark " id="attendance"
+        onclick="location.href='/attendance'">
+        <span class="material-symbols-rounded"> event_available </span>
+        <span class="sidebar__title">Attendance</span>
       </li>
       <li class="sidebar__item <%= title === 'subjects' ? 'active' : '' %> waves-effect waves-dark " id="subjects"
         onclick="location.href='/subjects'">
@@ -81,6 +82,11 @@
             id="dynamicform" onclick="location.href='/dynamicform'">
             <span class="material-symbols-rounded"> description </span>
             <span class="sidebar__title">create forms</span>
+          </li>
+          <li class="sidebar__item <%= title === 'event' ? 'active' : '' %> waves-effect waves-dark " id="dynamicform"
+            onclick="location.href='/events'">
+            <span class="material-symbols-rounded"> celebration </span>
+            <span class="sidebar__title">events</span>
           </li>
     </ul>
   </div>

@@ -124,6 +124,29 @@ export const markAttendance = async (req, res) => {
     res.send({ response: 0, message: err.message });
   }
 };
+export const markAttendanceTest = async (req, res) => {
+  try {
+    const data = req.body;
+    const path = getPath(data.branch, data.sem);
+    const val = data.usn + "-" + data.time + "-" + data.state;
+
+    await Subject.markAttendanceTest();
+
+    if (1) {
+      res.send({
+        response: 1,
+        message: "marked attendance",
+        usnStr: val,
+        time: data.time,
+      });
+    } else {
+      res.send({ response: 0, message: "could not mark attendance" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.send({ response: 0, message: err.message });
+  }
+};
 
 export const reMarkAtt = async (req, res) => {
   try {

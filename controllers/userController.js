@@ -50,7 +50,8 @@ export const getUsers = async (req, res) => {
 export const addUSN = async (req, res) => {
   try {
     const usn = req.body.usn;
-    const task = await User.addUsn(usn);
+    const curUser = req.cookies.authUser;
+    const task = await User.addUsn(usn, curUser.department.toLowerCase());
     if (task) {
       res.send({ response: 1, message: "USN Added" });
     } else {
