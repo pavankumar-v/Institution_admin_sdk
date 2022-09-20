@@ -81,7 +81,7 @@ export const createStaffAuth = async (req, res) => {
           hod: data.designation === "hod" ? true : false,
           admin: false,
         })
-          .then((claim) => {
+          .then(() => {
             return true;
           })
           .catch((err) => {

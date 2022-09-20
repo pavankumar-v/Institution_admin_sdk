@@ -256,6 +256,7 @@ $(document).ready(function () {
       ? $("#customTime").val()
       : $("#timestamp").find("input:checked").val();
     const btn = $(this);
+    const btnText = btn.text();
     const loader = btn.children(".btn-loader");
     btnLoaderToggleOn(btn, loader);
 
@@ -321,10 +322,18 @@ $(document).ready(function () {
                                             more_vert
                                             </span>`);
         } else {
+          btnLoaderToggleOff(btn, loader, btnText);
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
           });
         }
+      },
+
+      error: function (res) {
+        btnLoaderToggleOff(btn, loader, btnText);
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
       },
     });
   });

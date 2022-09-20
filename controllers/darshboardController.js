@@ -11,7 +11,6 @@ export const getDashboard = async (req, res) => {
     const userCount = await User.getCount();
     const staffCount = await Staff.getCount();
 
-    console.log(userCount);
     res.status(200).render("index", {
       title: "dashboard",
       claim,

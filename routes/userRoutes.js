@@ -15,7 +15,7 @@ import { AdminAuth } from "../database/firebase-admin.js";
 const router = express.Router();
 
 router.all("*", (req, res, next) => {
-  console.log("all");
+  // console.log("all");
   const sessionCookie = req.cookies.session || "";
   AdminAuth.verifySessionCookie(sessionCookie, true)
     .then((data) => {

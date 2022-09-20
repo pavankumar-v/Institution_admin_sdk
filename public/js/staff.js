@@ -341,7 +341,6 @@ $(document).ready(function () {
 
   // filter user
   $("#filter").on("input", function (e) {
-    console.log("invok");
     // Retrieve the input field text and reset the count to zero
     var filter = $(this).val(),
       count = 0;
@@ -362,7 +361,6 @@ $(document).ready(function () {
 
   // enable loader
   $("#view-staff").on("click", function () {
-    console.log("dhgth");
     $("#preloader-wrapper").addClass(" active");
   });
 

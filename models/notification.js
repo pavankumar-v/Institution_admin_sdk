@@ -45,7 +45,6 @@ class Notification {
         avatar: this.avatar,
       })
       .then((data) => {
-        console.log(data.id);
         return { res: 1, id: data.id };
       })
       .catch((err) => {

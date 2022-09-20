@@ -79,7 +79,6 @@ export const deletePost = async (req, res) => {
   try {
     const data = req.body;
     const staff = req.cookies.authUser;
-    console.log(staff);
     const del = await Notification.deletePost(data.docId, staff.department);
     if (del) {
       res.send({ response: 1, message: "post deleted" });

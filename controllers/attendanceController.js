@@ -109,6 +109,8 @@ export const markAttendance = async (req, res) => {
       data.date
     );
 
+    console.log(markAtt);
+
     if (markAtt) {
       res.send({
         response: 1,
