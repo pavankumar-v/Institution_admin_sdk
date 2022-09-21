@@ -1,9 +1,6 @@
-import { db } from "../database/firebase-admin.js";
 import User from "../models/user.js";
-import StaffUser from "../models/staffUser.js";
-import Subject from "../models/subjects.js";
-import { auth } from "../database/firebase.js";
 
+// @GET gets dashboard page
 export const getIndexPage = async (req, res) => {
   try {
     res.status(200).redirect("/dashboard");
@@ -13,33 +10,13 @@ export const getIndexPage = async (req, res) => {
   }
 };
 
-export const getClass = async (req, res) => {
-  try {
-    res.status(200).render("class", { title: "classes" });
-  } catch (error) {
-    res.status(400).render("class", { title: "ERROR IN DASHBOARD", users: [] });
-  }
-};
-
-export const getSubject = async (req, res) => {
-  try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-    res.render("subjects", { title: "subjects", claim, staff: curUser });
-  } catch (error) {
-    res.send({ message: error.message });
-  }
-};
-
+// @GET gets user page
 export const getUsers = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-
     res.status(200).render("users", {
       title: "users",
-      claim,
-      staff: curUser,
+      claim: req.claim,
+      staff: req.curUser,
       csrfToken: "",
     });
   } catch (error) {
@@ -47,6 +24,7 @@ export const getUsers = async (req, res) => {
   }
 };
 
+// @POST adds usn to databse
 export const addUSN = async (req, res) => {
   try {
     const usn = req.body.usn;
@@ -62,19 +40,19 @@ export const addUSN = async (req, res) => {
   }
 };
 
+// @GET gets users by branch and sem
 export const loadUsersByBranchSem = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-    const data = req.body;
+    const data = req.params;
+    console.log(data.branch, data.sem);
     var students;
 
     // // security check
-    if (claim["admin"]) {
+    if (req.claim["admin"]) {
       students = await User.fetchByBranchSem(data.branch, data.sem);
     } else {
       students = await User.fetchByBranchSem(
-        curUser.department.toUpperCase(),
+        req.curUser.department.toUpperCase(),
         data.sem
       );
     }
@@ -93,6 +71,7 @@ export const loadUsersByBranchSem = async (req, res) => {
   }
 };
 
+// @POST disables user from accessing the app
 export const blockUser = async (req, res) => {
   try {
     const data = req.body;
@@ -103,6 +82,7 @@ export const blockUser = async (req, res) => {
   }
 };
 
+// @Delete deletes user
 export const delelteUser = async (req, res) => {
   try {
     const data = req.body;
@@ -114,5 +94,58 @@ export const delelteUser = async (req, res) => {
     }
   } catch (err) {
     res.send({ response: 0, message: err.message });
+  }
+};
+
+// @GET get usn list
+export const getUsnList = async (req, res) => {
+  try {
+    const data = req.params;
+    const usnList = await User.getUsnList(data.branch.toLowerCase());
+    if (usnList != false) {
+      res.send({ response: 1, message: "List Updated", usnList });
+    } else {
+      res.send({ response: 0, message: "error in accessing" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send({ response: 0, message: "Error Try again" });
+  }
+};
+
+// @POST allow student to register again
+export const allowToRegister = async (req, res) => {
+  try {
+    const data = req.params;
+    const update = await User.updateUsn(data.branch.toLowerCase(), data.usn);
+    if (update) {
+      res.send({ response: 1, message: "usn updated", update });
+    } else {
+      res.send({ response: 0, message: "could not update" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send({ response: 0, message: "Error Try again" });
+  }
+};
+
+// @DElete delete usn from db
+
+export const deleteUsn = async (req, res) => {
+  try {
+    const data = req.params;
+    const deleteUsn = await User.deleteUsn(
+      data.branch.toLowerCase(),
+      data.usn.toLowerCase()
+    );
+
+    if (delelteUser) {
+      res.send({ response: 1, message: "Usn deleted", deleteUsn });
+    } else {
+      res.send({ response: 0, message: "Usn could not be deleted" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send({ response: 0, message: "Error Try again" });
   }
 };

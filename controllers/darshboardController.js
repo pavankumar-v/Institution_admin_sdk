@@ -6,19 +6,17 @@ import Notification from "../models/notification.js";
 
 export const getDashboard = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
     const userCount = await User.getCount();
     const staffCount = await Staff.getCount();
-
     res.status(200).render("index", {
       title: "dashboard",
-      claim,
       userCount,
       staffCount,
-      staff: curUser,
+      claim: req.claim,
+      staff: req.curUser,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };

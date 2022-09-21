@@ -1,34 +1,19 @@
-import { db } from "../database/firebase-admin.js";
 import User from "../models/user.js";
 import Subject from "../models/subjects.js";
-import { auth } from "../database/firebase.js";
 import Staff from "../models/staffUser.js";
 
 export const getAttendance = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
     const users = await User.fetchAll();
-
-    const curUser = req.cookies.authUser;
-    var collection = claim["admin"] ? "admin" : "staff";
-    const staff = await Staff.fetchUser(curUser.id, collection);
+    var collectionName = req.claim["admin"] ? "admin" : "staff";
+    const staff = await Staff.fetchUser(req.curUser.id, collectionName);
 
     res.status(200).render("attendance", {
       title: "attendance",
       users: users,
       staff: staff.data,
-      claim,
+      claim: req.claim,
     });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-export const getAttendanceDate = async (req, res) => {
-  try {
-    const users = new User("", "", "", "CSE", 6, "A", "");
-    const data = await users.fetchSpecific();
-    res.render("attendance", { title: "attendance", users: data });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -38,21 +23,20 @@ export const getAttendanceDate = async (req, res) => {
 export const loadAssignedSubjects = async (req, res) => {
   try {
     const data = req.body;
-    const claim = req.cookies.userClaim;
-    const staff = req.cookies.authUser;
+
     var assignedSub;
 
-    if (claim["admin"]) {
+    if (req.claim["admin"]) {
       assignedSub = await Subject.loadAssignedSubjects(
-        staff.id,
+        req.curUser.id,
         data.branch,
         data.sem,
         "admin"
       );
     } else {
       assignedSub = await Subject.loadAssignedSubjects(
-        staff.id,
-        staff.department,
+        req.curUser.id,
+        req.curUser.department,
         data.sem,
         "staff"
       );
@@ -100,45 +84,20 @@ export const markAttendance = async (req, res) => {
   try {
     const data = req.body;
     const path = getPath(data.branch, data.sem);
-    const val = data.usn + "-" + data.time + "-" + data.state;
+    const usnStr = data.usn + "-" + data.time + "-" + data.state;
 
     const markAtt = await Subject.markAttendance(
       path,
       data.subId,
-      val,
+      usnStr,
       data.date
     );
-
-    console.log(markAtt);
 
     if (markAtt) {
       res.send({
         response: 1,
         message: "marked attendance",
-        usnStr: val,
-        time: data.time,
-      });
-    } else {
-      res.send({ response: 0, message: "could not mark attendance" });
-    }
-  } catch (err) {
-    console.log(err.message);
-    res.send({ response: 0, message: err.message });
-  }
-};
-export const markAttendanceTest = async (req, res) => {
-  try {
-    const data = req.body;
-    const path = getPath(data.branch, data.sem);
-    const val = data.usn + "-" + data.time + "-" + data.state;
-
-    await Subject.markAttendanceTest();
-
-    if (1) {
-      res.send({
-        response: 1,
-        message: "marked attendance",
-        usnStr: val,
+        usnStr,
         time: data.time,
       });
     } else {
@@ -153,19 +112,22 @@ export const markAttendanceTest = async (req, res) => {
 export const reMarkAtt = async (req, res) => {
   try {
     const data = req.body;
+    console.log(data);
     const path = getPath(data.branch, data.sem);
-    const addUsnStr = addVal(data.state, data.usnStr);
+    const newUsnStr = toggleUsnStr(data.state, data.usnStr);
 
     const reMark = await Subject.alterAttendance(
       path,
       data.subId,
       data.usnStr,
-      addUsnStr,
+      newUsnStr,
       data.date
     );
 
+    console.log(reMark);
+
     if (reMark) {
-      res.send({ response: 1, message: "attendance updated", addUsnStr });
+      res.send({ response: 1, message: "attendance updated", newUsnStr });
     }
   } catch (err) {
     console.log(err.message);
@@ -178,7 +140,7 @@ function getPath(branch, sem) {
   return path.toLowerCase();
 }
 
-function addVal(state, remVal) {
+function toggleUsnStr(state, remVal) {
   var n = remVal.length - 1;
   String.prototype.replaceAt = function (index, replacement) {
     return (

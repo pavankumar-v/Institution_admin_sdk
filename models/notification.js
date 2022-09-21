@@ -56,7 +56,6 @@ class Notification {
   }
 
   static async featchNotification(dataId, docId, branch, designation) {
-    console.log("data ID", dataId);
     var filedName;
     var matchStr;
     var condition;

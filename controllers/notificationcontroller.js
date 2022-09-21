@@ -1,17 +1,13 @@
-import { db } from "../database/firebase-admin.js";
 import Notification from "../models/notification.js";
 import Staff from "../models/staffUser.js";
-import { auth } from "../database/firebase.js";
 
 export const getNotificationPage = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-    var collection = claim["admin"] ? "admin" : "staff";
-    const staff = await Staff.fetchUser(curUser.id, collection);
+    var collection = req.claim["admin"] ? "admin" : "staff";
+    const staff = await Staff.fetchUser(req.curUser.id, collection);
     res.status(200).render("notification", {
       title: "notifications",
-      claim,
+      claim: req.claim,
       staff: staff.data,
     });
   } catch (err) {
@@ -23,26 +19,24 @@ export const getNotificationPage = async (req, res) => {
 export const createNotification = async (req, res) => {
   try {
     const data = req.body;
-    const staff = req.cookies.authUser;
-    const staffData =
-      staff.designation == "Admin"
-        ? await Staff.fetchAdmin(staff.id)
-        : await Staff.fetchUser(staff.id, "staff");
-    const newPost = new Notification(
+    const staff = req.curUser;
+    const staffData = req.claim["admin"]
+      ? await Staff.fetchAdmin(staff.id)
+      : await Staff.fetchUser(staff.id, "staff");
+    const notificationPost = new Notification(
       "",
       staff.id,
       staffData.data.fullName,
-      staffData.data.designation == "ALL"
-        ? "Principle"
-        : staffData.data.designation,
-      staffData.data.department == "Admin" ? "" : staffData.data.department,
+      req.claim["admin"] ? "Principle" : staffData.data.designation,
+      req.claim["amdin"] ? "" : staffData.data.department,
       data.tags,
       data.title,
       data.desc,
       new Date().toISOString(),
       staffData.data.avatar
     );
-    const createPost = await newPost.createNotification();
+    const createPost = await notificationPost.createNotification();
+
     if (createPost.res) {
       res.send({ response: 1, message: "post created", uid: createPost.id });
     } else {
@@ -59,16 +53,20 @@ export const createNotification = async (req, res) => {
 
 export const loadNotification = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const staff = req.cookies.authUser;
     const data = req.body;
     const notifications = await Notification.featchNotification(
       data.dataId,
-      staff.id,
-      staff.department,
-      staff.designation
+      req.curUser.id,
+      req.curUser.department,
+      req.curUser.designation
     );
-    res.send({ response: 1, message: "Updated", notifications, claim });
+    res.send({
+      response: 1,
+      message: "Updated",
+      notifications,
+      claim: req.claim,
+      staff: req.curUser,
+    });
   } catch (err) {
     console.log(err.message);
     res.send({ response: 0, message: err.message });
@@ -78,9 +76,11 @@ export const loadNotification = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const data = req.body;
-    const staff = req.cookies.authUser;
-    const del = await Notification.deletePost(data.docId, staff.department);
-    if (del) {
+    const deletePost = await Notification.deletePost(
+      data.docId,
+      req.curUser.department
+    );
+    if (deletePost) {
       res.send({ response: 1, message: "post deleted" });
     } else {
       res.send({ response: 0, message: "post could not be deleted" });

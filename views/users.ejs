@@ -32,7 +32,7 @@
             </div>
 
 
-            <div class="tab2" id="tab2">
+            <div>
               <div class="display-flex j-start">
                 <div>
                   <select name="branch" id="user-branch" class="" <%=staff.department=="ALL" ? "" : "disabled" %>>
@@ -79,8 +79,21 @@
                 </form>
 
               </div>
-              <div class="card p14 br1">
-                <h6>Users List</h6>
+              <div class="tabs pos-sticky" style="top: 40px;">
+                <button class="tab-btn active" id="tab2-btn">
+                  <span class="material-icons-outlined">person_pin</span> Students
+                </button>
+
+                <button class="tab-btn" id="tab1-btn">
+                  <span class="material-icons-outlined">
+                    ballot
+                  </span> USN List
+                </button>
+              </div>
+
+              <!-- @STUDENTS TABLE TAB1-->
+              <div class="card p14 br1" id="tab2">
+                <h6>Studnets List</h6>
                 <div class="table" id="userTable">
                   <div class="progress">
                     <div class="indeterminate"></div>
@@ -91,11 +104,24 @@
                   </table>
                 </div>
               </div>
+
+              <!-- USN TABLE TAB2 -->
+              <div class="tab1 p-lg br1 rounded card" id="tab1"
+                style="display: none; max-width: 560px; margin: 0 auto;">
+                <h3>USN Table</h3>
+                <div class="table" id="usnTable">
+                  <div class="progress">
+                    <div class="indeterminate"></div>
+                  </div>
+                  <!-- TABLE -->
+                  <table id="usn-table">
+
+                  </table>
+                </div>
+              </div>
             </div>
 
-            <div class="tab1" id="tab1" style="display: none;">
 
-            </div>
           </div>
       </div>
       <script src="/js/user.js"></script>

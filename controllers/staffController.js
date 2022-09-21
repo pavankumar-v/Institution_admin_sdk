@@ -18,24 +18,22 @@ var transporter = nodemailer.createTransport({
 
 export const staffControl = async (req, res) => {
   try {
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
     var staffs = [];
 
-    if (claim["admin"]) {
+    if (req.claim["admin"]) {
       staffs = await StaffUser.fetchAll();
-      var sjbuieif = await StaffUser.fetchAdmin(curUser.id);
-      staffs.unshift(sjbuieif.data);
+      var adminDoc = await StaffUser.fetchAdmin(req.curUser.id);
+      staffs.unshift(adminDoc.data);
     } else {
-      staffs = await StaffUser.fetchByBranch(curUser.department);
+      staffs = await StaffUser.fetchByBranch(req.curUser.department);
     }
 
     // const subjects = await Subject.fetchByBranchSem("cse", "8");
     res.status(200).render("staffControl", {
       title: "staff control",
-      claim,
-      staff: curUser,
-      staffs: staffs,
+      claim: req.claim,
+      staff: req.curUser,
+      staffs,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -202,26 +200,25 @@ export const sendVerificationCode = async (req, res) => {
 };
 
 export const viewStaff = async (req, res) => {
+  console.log(req.params.id);
   try {
-    const data = req.body;
-    const claimFoo = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
-    var collection =
-      claimFoo["admin"] && data.docId == curUser.id ? "admin" : "staff";
-    const staffData = await StaffUser.fetchUser(data.docId, collection);
+    const data = req.params;
+
+    var collectionName =
+      req.claim["admin"] && data.id == req.curUser.id ? "admin" : "staff";
+    const staffData = await StaffUser.fetchUser(data.id, collectionName);
     if (staffData.res) {
-      const claim = await AdminAuth.getUser(data.docId).then((user) => {
+      const claim = await AdminAuth.getUser(data.id).then((user) => {
         const res = user.customClaims[staffData.data.designation];
         return res;
       });
 
-      res.render("usable/staffCard", {
+      res.render("pages/staffView", {
         title: "Staff",
         backPath: "/staffcontrol",
         staff: staffData.data,
-        you: curUser,
+        you: req.curUser,
         claim,
-        claimFoo,
       });
     }
   } catch (error) {

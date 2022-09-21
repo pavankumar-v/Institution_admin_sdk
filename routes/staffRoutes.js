@@ -13,12 +13,12 @@ import {
   deleteStaffUser,
   claimToggle,
 } from "../controllers/staffController.js";
+import curAuth from "../middleware/curAuth.js";
 
-router.get("/staffcontrol", staffControl);
-// router.post("/loadsubjects", loadSubjects);
+router.get("/staffcontrol", curAuth, staffControl);
 router.post("/sendverificationcode", sendVerificationCode);
 router.post("/createStaffAuth", createStaffAuth);
-router.post("/viewStaff", viewStaff);
+router.post("/viewStaff/:id", curAuth, viewStaff);
 router.post("/renderSubjects", loadSubjects);
 router.post("/assignSubjects", assignSubjects);
 router.post("/unassignsub", deleteSubjectVal);

@@ -1,5 +1,6 @@
 import { db } from "../database/firebase-admin.js";
-import { AdminAuth } from "../database/firebase-admin.js";
+import { AdminAuth, adminFirestore } from "../database/firebase-admin.js";
+
 class User {
   constructor(id, fullName, usn, branch, sem, section, avatar, isActive) {
     this.id = id;
@@ -56,6 +57,7 @@ class User {
     });
     return users;
   }
+
   static async fetchByBranchSem(branch, sem) {
     const loadUsers = await db
       .collection("users")
@@ -82,20 +84,6 @@ class User {
         console.log(err.message);
         return { res: 0, users: [] };
       });
-
-    // const users = snapshot.docs.map((doc) => {
-    //   const user = new User(
-    //     doc.id,
-    //     doc.data().fullName,
-    //     doc.data().usn,
-    //     doc.data().branch,
-    //     doc.data().sem,
-    //     doc.data().section,
-    //     doc.data().avatar,
-    //     doc.data().isActive
-    //   );
-    //   return user;
-    // });
     return loadUsers;
   }
 
@@ -125,6 +113,7 @@ class User {
     return res;
   }
 
+  // Add usn to db
   static async addUsn(usn, branch) {
     const addUsn = db
       .collection(`branch/${branch}/others`)
@@ -143,6 +132,60 @@ class User {
       });
 
     return addUsn;
+  }
+
+  // get usns from db
+  static async getUsnList(branch) {
+    const docRef = db
+      .collection(`branch/${branch}/others/`)
+      .doc("usncollection");
+    const doc = await docRef.get();
+
+    if (doc.exists) {
+      return doc.data();
+    } else {
+      return false;
+    }
+  }
+
+  // update usn in db
+  static async updateUsn(branch, usn) {
+    const usnList = await this.getUsnList(branch);
+
+    if (usnList.hasOwnProperty(usn.toLowerCase())) {
+      const docRef = db
+        .collection(`branch/${branch}/others/`)
+        .doc("usncollection");
+
+      return await docRef
+        .update(
+          {
+            [usn]: true,
+          },
+          { merge: false }
+        )
+        .then(() => true)
+        .catch((err) => false);
+    } else {
+      return false;
+    }
+  }
+
+  // Delete Usn
+  static async deleteUsn(branch, usn) {
+    const docRef = db
+      .collection(`branch/${branch}/others/`)
+      .doc("usncollection");
+
+    return await docRef
+      .update(
+        {
+          [usn]: adminFirestore.FieldValue.delete(),
+        },
+        { merge: false }
+      )
+      .then(() => true)
+      .catch((err) => false);
   }
 
   // Delete STAFF USER

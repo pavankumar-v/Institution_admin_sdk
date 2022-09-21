@@ -131,7 +131,7 @@
 
                         </div>
                         <div class="display-flex j-end">
-                          <form action="/viewStaff" method="POST">
+                          <form action="/viewStaff/<%= teacher.id%>" method="POST">
                             <input type="hidden" name="docId" value="<%= teacher.id%>">
                             <button class="btnn btnn-rounded-lg" id="view-staff">View More</button>
                           </form>

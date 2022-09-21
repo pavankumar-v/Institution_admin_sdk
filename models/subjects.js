@@ -20,13 +20,13 @@ class Subject {
     this.attendance = attendance;
   }
 
-  async createNewSubject(branch, sem) {
+  static async createNewSubject(name, subId, description, branch, sem) {
     const addSubject = await db
       .collection("branch/" + branch.toLowerCase() + "/" + sem)
       .add({
-        name: this.name,
-        id: this.subId,
-        description: this.description,
+        name: name,
+        id: subId,
+        description: description,
         modules: [],
         notes: [],
         attendance: {},
@@ -263,8 +263,6 @@ class Subject {
 
   // MARK ATTENDANCE
   static async markAttendance(path, subId, val, date) {
-    // console.log(path);
-    // console.log(subId);
     const docRef = db.collection("branch/" + path).doc(subId);
 
     const markAttendance = docRef.get().then(async (doc) => {
@@ -290,13 +288,11 @@ class Subject {
       }
     });
 
-    console.log(markAttendance);
-
     return markAttendance;
   }
 
   // ALTERT ATTENDANCE
-  static async alterAttendance(path, subId, remVal, addVal, date) {
+  static async alterAttendance(path, subId, remVal, newUsnStr, date) {
     const ref = db.collection("branch/" + path).doc(subId);
     const mark = await ref
       .set(
@@ -312,7 +308,7 @@ class Subject {
           .set(
             {
               attendance: {
-                [date]: adminFirestore.FieldValue.arrayUnion(addVal),
+                [date]: adminFirestore.FieldValue.arrayUnion(newUsnStr),
               },
             },
             { merge: true }

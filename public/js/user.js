@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  // Add USN to database
+  // takes usn str and adds to branch collection in particular document
   $("#add-usn").on("submit", function (e) {
     e.preventDefault();
     const btn = $(this).find("button");
@@ -13,6 +15,7 @@ $(document).ready(function () {
         data: JSON.stringify({ usn }),
         contentType: "application/json",
         success: function (res) {
+          loadUsnList($("#user-branch").val());
           $("#add-usn")[0].reset();
           btnLoaderToggleOff(btn, loader, "Add");
           M.toast({
@@ -34,6 +37,7 @@ $(document).ready(function () {
     }
   });
 
+  // Search users in user table
   $("input[name=searchuser]").on("input", function () {
     var value = $(this).val().toLowerCase();
     $("#user-table tr").filter(function () {
@@ -41,26 +45,44 @@ $(document).ready(function () {
     });
   });
 
-  $("#user-branch").on("change", loadUser);
-  $("#user-sem").on("change", loadUser);
-  loadUser();
+  // Whenever change in branch or dropdown menu
+  // loadUser is invoked and users are loaded
+  var branch = $("#user-branch").val();
+  var sem = $("#user-sem").val();
+  $("#user-branch").on("change", () => {
+    branch = $("#user-branch").val();
+    sem = $("#user-sem").val();
+    loadUser(branch, sem);
+    loadUsnList(branch, sem);
+  });
+  $("#user-sem").on("change", () => {
+    branch = $("#user-branch").val();
+    sem = $("#user-sem").val();
+    loadUser(branch, sem);
+    loadUsnList(branch);
+  });
 
-  function loadUser() {
+  // load whenever user enters page
+  loadUser(branch, sem);
+  loadUsnList(branch);
+
+  // Load user function
+  // takes branch and sem and retrives setudents
+  function loadUser(branch, sem) {
+    console.log(branch, sem);
     $(".table .progress").toggle();
-    var branch = $("#user-branch").val();
-    var sem = $("#user-sem").val();
 
     $.ajax({
-      type: "POST",
-      url: "/loadusersbybranchsem",
+      type: "get",
+      url: `/loadusersbybranchsem/${branch}/${sem}`,
       contentType: "application/json",
-      data: JSON.stringify({ branch, sem }),
+      // data: JSON.stringify({ branch, sem }),
       success: function (res) {
+        console.log(res);
         $(".table .progress").hide();
 
         if (res.response) {
           $("#user-table").empty();
-
           var rows = `
           <tr>
             <th>USN</th>
@@ -130,7 +152,6 @@ $(document).ready(function () {
                           </td>
                         </tr>
               `;
-
               $("#user-table").append(html);
             });
           } else {
@@ -151,10 +172,10 @@ $(document).ready(function () {
     });
   }
 
+  // BLock User
   $(document).on(
     "click",
     "#userTable table tr td #blockUserBtn",
-
     function toggelUserActivity(e) {
       e.preventDefault();
       var button = $(this);
@@ -208,6 +229,7 @@ $(document).ready(function () {
     }
   );
 
+  // @Delete User
   $(document).on("click", "#delete-user", function (e) {
     const loader = $(this).parent().children(".btn-loader");
     const tr = $(this).parent().parent().parent().parent().parent();
@@ -226,22 +248,147 @@ $(document).ready(function () {
     if (confirmRes) {
       loader.show();
       $.ajax({
-        type: "post",
-        url: "/agebared",
+        type: "delete",
+        url: "/deleteUser",
         contentType: "application/json",
         data: JSON.stringify({ docId: userId }),
         success: function (res) {
           loader.hide();
-
           if (res.response) {
             tr.remove();
           }
-
           M.toast({
             html: `<span style='color: white;'>${res.message}<span>`,
           });
         },
       });
     }
+  });
+
+  // Load usn list
+  function loadUsnList(branch) {
+    $.ajax({
+      type: "GET",
+      url: `/usnList/${branch}`,
+      data: JSON.stringify({ branch }),
+      contentType: "application/json",
+      success: function (res) {
+        if (res.response) {
+          // checking if the list is greater than 0
+          if (Object.keys(res.usnList).length > 0) {
+            // empty the table
+            $("#usn-table").empty();
+
+            // add table row
+            var rows = `
+          <tr>
+            <th>USN</th>
+            <th>status</th>
+            <th>Action</th>
+          </tr>
+          `;
+            $("#usn-table").append(rows);
+            $.each(res.usnList, function (key, value) {
+              // if key value is TRUE it is NOT REGISTERED
+              // if key value is FALSE it is REGISTERED
+              var html = `
+              <tr>
+                          <td class="bl">
+                          ${key.toUpperCase()}
+                          </td>
+
+                          <td class=${value ? "bg-pri-c" : "bg-err"}>
+                          ${value ? "Not Registered" : "Registered"}
+                          </td>
+                        <td>
+                            <div class="display-flex pos-rel" id="usn-action">
+                              <input type="hidden" name="usn" id="usn" value="${key}" />
+                              ${
+                                value
+                                  ? ""
+                                  : `
+                              <button class="btnn-small display-flex"
+                                id="allow-register" style="width: 100%;">
+                                <div class="btn-loader" style="justify-content: center; display: none;"></div>
+                                Allow registration
+                              </button>
+                              `
+                              }
+
+                              <span class="material-symbols-rounded" id="delete-usn"> delete </span>
+                          </td>
+                        </tr>
+              `;
+              $("#usn-table").append(html);
+            });
+          } else {
+            $("#usn-table").empty();
+            $("#usn-table").append(`<tr><td><h5>Empty</h5></td></tr>`);
+          }
+        }
+      },
+    });
+  }
+
+  // update usn list in db
+  $(document).on("click", "#allow-register", function () {
+    const usn = $(this).parent().children("input[name=usn]").val();
+    branch = $("#user-branch").val();
+    const btn = $(this);
+    const loader = btn.children(".btn-loader");
+
+    var isOK = confirm(
+      "Are you sure you want allow this? Allowing would lead to multiple registrations"
+    );
+    if (isOK) {
+      btnLoaderToggleOn(btn, loader);
+      $.ajax({
+        type: "put",
+        url: `/updateUsn/${branch}/${usn}`,
+        contentType: "application/json",
+        success: function (res) {
+          btnLoaderToggleOff(btn, loader, "Allow to Register");
+          if (res.response) {
+            loadUsnList(branch);
+            M.toast({
+              html: `<span style='color: white;'>${res.message}<span>`,
+            });
+          }
+        },
+        error: function (res) {
+          btnLoaderToggleOff(btn, loader, "Allow to Register");
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        },
+      });
+    }
+  });
+
+  //delete usn
+  $(document).on("click", "#delete-usn", function () {
+    const usn = $(this).parent().children("input[name=usn]").val();
+    branch = $("#user-branch").val();
+
+    $.ajax({
+      type: "delete",
+      url: `/deleteusn/${branch}/${usn}`,
+      contentType: "application/json",
+      success: function (res) {
+        if (res.response) {
+          loadUsnList(branch);
+          M.toast({
+            html: `<span style='color: white;'>${res.message}<span>`,
+          });
+        }
+      },
+
+      error: function (res) {
+        btnLoaderToggleOff(btn, loader, "Allow to Register");
+        M.toast({
+          html: `<span style='color: white;'>${res.message}<span>`,
+        });
+      },
+    });
   });
 });

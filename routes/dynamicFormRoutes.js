@@ -8,7 +8,9 @@ import {
   deleteForm,
 } from "../controllers/formController.js";
 
-router.get("/dynamicform", getForm);
+import curAuth from "../middleware/curAuth.js";
+
+router.get("/dynamicform", curAuth, getForm);
 router.post("/createform", createForm);
 router.post("/formStateToggle", formStateToggle);
 router.post("/deleteform", deleteForm);

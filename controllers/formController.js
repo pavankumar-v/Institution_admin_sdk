@@ -3,9 +3,13 @@ import DynamicForm from "../models/dynamicForm.js";
 export const getForm = async (req, res) => {
   try {
     const forms = await DynamicForm.getAllForms();
-    const claim = req.cookies.userClaim;
-    const staff = req.cookies.authUser;
-    res.render("dynamicForm", { title: "create form", forms, claim, staff });
+
+    res.render("dynamicForm", {
+      title: "create form",
+      forms,
+      claim: req.claim,
+      staff: req.curUser,
+    });
   } catch (err) {
     res.send({ response: 0, message: err.message });
   }

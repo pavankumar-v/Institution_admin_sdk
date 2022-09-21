@@ -1,6 +1,18 @@
 import Subject from "../models/subjects.js";
 import path from "path";
 
+export const getSubject = async (req, res) => {
+  try {
+    res.render("subjects", {
+      title: "subjects",
+      claim: req.claim,
+      staff: req.curUser,
+    });
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};
+
 export const loadSubjects = async (req, res) => {
   try {
     const data = req.body;
@@ -17,27 +29,21 @@ export const loadSubjects = async (req, res) => {
 export const addNewSubject = async (req, res) => {
   try {
     const data = req.body;
-    const claim = req.cookies.userClaim;
-    const curUser = req.cookies.authUser;
     var branch;
 
-    if (claim["admin"]) {
+    if (req.claim["admin"]) {
       branch = data.branch;
     } else {
-      branch = curUser.department;
+      branch = req.curUser.department;
     }
 
-    const subject = new Subject(
-      "",
-      data.id,
+    const addSubject = await Subject.createNewSubject(
       data.name,
+      data.subId,
       data.description,
-      [],
-      [],
-      []
+      branch,
+      data.sem
     );
-
-    const addSubject = await subject.createNewSubject(branch, data.sem);
     if (addSubject.res) {
       res.send({
         response: 1,

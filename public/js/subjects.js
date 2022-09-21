@@ -12,7 +12,7 @@ $(document).ready(function () {
     const loader = btn.find(".btn-loader");
     btnLoaderToggleOn(btn, loader);
     const name = $(this).find("input[name=subjectName]").val();
-    const id = $(this).find("input[name=subId]").val();
+    const subId = $(this).find("input[name=subId]").val();
     const description = $(this).find("textarea").val();
     const modal = document.querySelector("#modal1");
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/addnewsubject",
       contentType: "application/json",
-      data: JSON.stringify({ name, id, description, branch, sem }),
+      data: JSON.stringify({ name, subId, description, branch, sem }),
       success: function (res) {
         if (res.response) {
           getSubjects();

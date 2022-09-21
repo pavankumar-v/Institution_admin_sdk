@@ -40,9 +40,9 @@ export const signInUser = async (req, res) => {
           } else {
             curUser = await StaffUser.fetchUser(user.user.uid, "staff");
           }
-
-          curUser = curUser.data;
-          res.cookie("authUser", curUser, options);
+          var session = req.session;
+          session.user = curUser.data;
+          res.cookie("authUser", curUser.data, options);
           user.user
             .getIdToken()
             .then((idToken) => {
@@ -52,7 +52,7 @@ export const signInUser = async (req, res) => {
                 .then(async (sessionCookie) => {
                   res.cookie("session", sessionCookie, options);
                   res.cookie("user", user, options);
-
+                  session.claims = claims.claims;
                   res.cookie("userClaim", claims.claims, options);
                   res.send({ response: 1, message: "login success" });
                 })

@@ -154,9 +154,9 @@ $(document).ready(function () {
           btn,
           loader,
           `<span class="material-symbols-outlined m-r-sm">
-          settings
-          </span>
-        Predict`
+  settings
+</span>
+Predict`
         );
         if (res.response) {
           var options = {
@@ -274,34 +274,26 @@ $(document).ready(function () {
         if (res.response && res.notifications.length > 0) {
           $.each(res.notifications, function (indexInArray, valueOfElement) {
             html = `
-            <div class="card" style="max-width: 350px;" >
-                                      <div class="card-centents p-lg ">
-                                          
-                                          <div class="more-menu" id="more-menu">
-                                              <ul>
-                                                  <div class="btn-loader" style="display: none;"></div>
-                                                      <li class="delete" id="delete-post-btn">Delete</li>
-                                              </ul>
-                                          </div>
-                                          <div class="display-flex j-space-between">
-                                              <div class="display-flex">
-                                                  <div class="avatar m-r-sm">${
-                                                    this.fullName[0]
-                                                  }</div>
-                                                  <p class="captize">${
-                                                    this.fullName
-                                                  }</p>
-                                              </div>
+    <div class="card" style="max-width: 350px;">
+      <div class="card-centents p-lg ">
 
-                                              
-                                              
-                                          </div>
-                                          <div class="display-flex j-start hint m-t">
-                                              <p>${
-                                                this.department == "ALL"
-                                                  ? ""
-                                                  : this.department
-                                              } ${
+        <div class="more-menu" id="more-menu">
+          <ul>
+            <div class="btn-loader" style="display: none;"></div>
+            <li class="delete" id="delete-post-btn">Delete</li>
+          </ul>
+        </div>
+        <div class="display-flex j-space-between">
+          <div class="display-flex">
+            <div class="avatar m-r-sm">${this.fullName[0]}</div>
+            <p class="captize">${this.fullName}</p>
+          </div>
+
+
+
+        </div>
+        <div class="display-flex j-start hint m-t">
+          <p>${this.department == "ALL" ? "" : this.department} ${
               this.designation.trim() == "staff"
                 ? "professor"
                 : this.designation.trim() == "hod"
@@ -310,47 +302,35 @@ $(document).ready(function () {
                 ? "principle"
                 : "ananymous"
             }</p>
-                                              <div class="hint m-l">${timeSince(
-                                                new Date(this.createdAt)
-                                              )}</div>
-                                          </div>
-  
-  
-  
-                                          <div class="title header m-b">${
-                                            this.title
-                                          }</div>
-                                          <div class="desc">
-                                            ${urlify(this.description)}
-                                          </div>
-  
-                                          <div class="row j-start m-t">
+          <div class="hint m-l">${timeSince(new Date(this.createdAt))}</div>
+        </div>
 
-                                          `;
+
+
+        <div class="title header m-b">${this.title}</div>
+        <div class="desc">
+          ${urlify(this.description)}
+        </div>
+
+        <div class="row j-start m-t">
+
+          `;
 
             for (let tag of this.tags) {
               html =
                 html +
-                `
-                                                <div class="chip bg-pri-c  inline-flex mx" style="height: 26px;">
-                                                    
-                                                    #${tag}
-                                                </div>`;
+                `<div class="chip bg-pri-c  inline-flex mx" style="height: 26px;">
+                    #${tag}
+                  </div>`;
             }
 
             html =
               html +
               `
-
-                                              
-                                          </div>
-  
-                                          
-  
-                                      </div>
-  
-                                  </div>
-            `;
+        </div>
+      </div>
+    </div>
+    `;
 
             $(".recent-notifications").find(".card-body").append(html);
           });

@@ -6,6 +6,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
 
 import {
+  getSubject,
   loadSubjects,
   addModule,
   deleteModule,
@@ -14,13 +15,15 @@ import {
   addNewSubject,
   deleteSubject,
 } from "../controllers/subjectsController.js";
+import curAuth from "../middleware/curAuth.js";
 
-router.post("/loadSubjects", loadSubjects);
-router.post("/addnewsubject", addNewSubject);
+router.get("/subjects", curAuth, getSubject);
+router.post("/loadSubjects", curAuth, loadSubjects);
+router.post("/addnewsubject", curAuth, addNewSubject);
 router.post("/addModule", addModule);
 router.post("/deletesubject", deleteSubject);
+router.post("/addNotes", upload.single("file"), addNotes);
 router.post("/deleteModule", deleteModule);
 router.post("/deletenotes", deleteNotes);
-router.post("/addNotes", upload.single("file"), addNotes);
 
 export default router;

@@ -420,7 +420,7 @@ $(document).ready(function () {
     const loader = li.parent().children(".icon-loader");
     loader.show();
     const state = parseInt($(this).attr("data-id"));
-    const parentFoo = $(this).parent().parent().parent();
+    const parentDiv = $(this).parent().parent().parent();
     const ul = $(this).parent().parent();
     const usnStr = $(this)
       .parent()
@@ -442,8 +442,8 @@ $(document).ready(function () {
       success: function (res) {
         loader.hide();
         if (res.response) {
-          const tim = res.addUsnStr.split("-");
-          const chip = parentFoo.children(".chip");
+          const usnStrSplit = res.newUsnStr.split("-");
+          const chip = parentDiv.children(".chip");
           chip.removeClass(state ? "bg-err-c" : "bg-pri-c");
           chip.addClass(state ? "bg-pri-c" : "bg-err-c");
           chip
@@ -453,10 +453,12 @@ $(document).ready(function () {
           chip
             .children("span")
             .eq(1)
-            .text(state ? "present " + tim[1] : "absent " + tim[1]);
+            .text(
+              state ? "present " + usnStrSplit[1] : "absent " + usnStrSplit[1]
+            );
           li.text(state ? "mark this absent" : "mark this present");
           li.attr("data-id", state ? "0" : "1");
-          ul.children("input[name=usnStr]").val(res.addUsnStr);
+          ul.children("input[name=usnStr]").val(res.newUsnStr);
           ul.hide();
         }
 
