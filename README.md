@@ -9,4 +9,22 @@
 
 Flutter Student Application, with Firebase Serverless Backend [repo](https://github.com/pavankumar-v/Student_app/) 
 
-# screenshots
+# Screenshots
+
+Staff Dashboard
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/dashboard.png">
+
+Staff Login
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/login.png">
+
+Student Attendence
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/attendance.png">
+
+College Notifications
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/notifications.png">
+
+Staff Control
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/staff%20control.png">
+
+Student Management
+<img src="https://45749842.fs1.hubspotusercontent-na1.net/hubfs/45749842/users.png">
